@@ -13,6 +13,9 @@
         android:theme="@style/Theme.UniversityJava"
         tools:targetApi="31">
         <activity
+            android:name=".RandomActivity"
+            android:exported="false" />
+        <activity
             android:name=".SecondWindow"
             android:exported="false" />
         <activity

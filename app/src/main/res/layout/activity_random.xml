@@ -6,4 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".RandomActivity">
 
+    <Button
+        android:id="@+id/rnd_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Generate Random Number"
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="341dp" />
+
+    <Button
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        tools:layout_editor_absoluteX="96dp"
+        tools:layout_editor_absoluteY="595dp" />
+
+    <EditText
+        android:id="@+id/editTextNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:maxLength="5"
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="415dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
