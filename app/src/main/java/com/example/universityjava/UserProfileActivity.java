@@ -12,7 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class UserProfileActivity extends AppCompatActivity {
+public class UserProfileActivity extends NavigationActivity {
 
     AppDatabase db;
     TextView _textViewProfileUsername;
@@ -31,6 +31,8 @@ public class UserProfileActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        setupNavigation(3);
 
         db = AppActivity.getDatabase();
         userID = getIntent().getLongExtra("UserID", -1);
@@ -63,6 +65,8 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
         _buttonLogOut = (Button) findViewById(R.id.buttonLogOut);
+        _buttonLogOut.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.baseline_favorite_border_24, 0,0,0);
+
         _buttonLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

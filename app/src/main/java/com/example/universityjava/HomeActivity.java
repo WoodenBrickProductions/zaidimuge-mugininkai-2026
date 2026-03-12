@@ -11,7 +11,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class HomeActivity extends AppCompatActivity {
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+public class HomeActivity extends NavigationActivity {
 
     Button _buttonCreateListing;
     Button _buttonPopular;
@@ -28,6 +30,8 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        setupNavigation(0);
 
         _buttonCreateListing = (Button) findViewById(R.id.buttonCreateListing);
         _buttonCreateListing.setOnClickListener(new View.OnClickListener() {
@@ -68,4 +72,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
