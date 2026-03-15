@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CartFragment">
+
+
+    <include layout="@layout/header_component" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        tools:listitem="@layout/listing_item">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/buyPanel"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/creamgrey"
+        android:orientation="horizontal"
+        android:padding="9dp">
+
+        <TextView
+            android:id="@+id/priceAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textSize="@dimen/extra_large" />
+
+        <Button
+            android:id="@+id/buyCartButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/buyCartButton"
+            android:textSize="@dimen/medium_large" />
+    </LinearLayout>
+
+</LinearLayout>
