@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                         return;
                     }
                     Toast.makeText(getApplicationContext(), "Welcome, " + name, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getBaseContext(), HomeActivity.class);
+                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
                     intent.putExtra("UserID", user.getId());
                     startActivity(intent);
                 }

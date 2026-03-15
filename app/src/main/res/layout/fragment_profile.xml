@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background"
+    tools:context=".ProfileFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewProfileUsername"
+            style="@style/MyBanner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/val_128"
+            android:text="Profilis" />
+
+        <LinearLayout
+            android:layout_width="311dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/buttonMyListings"
+                style="@style/MyButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_my_listings" />
+
+            <Button
+                android:id="@+id/buttonMyHistory"
+                style="@style/MyButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mano istorija" />
+
+            <Button
+                android:id="@+id/buttonLogOut"
+                style="@style/MyButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Atsijungti" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>
