@@ -4,10 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CartFragment">
+    tools:context=".CartFragment"
+    android:background="@color/main_background">
 
 
-    <include layout="@layout/header_component" />
+    <TextView
+        android:id="@+id/banner_cart"
+        style="@style/MyBanner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/val_128"
+        android:text="@string/banner_cart" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="wrap_content"
@@ -22,7 +28,7 @@
         android:id="@+id/buyPanel"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/creamgrey"
+        android:background="@color/secondary_background"
         android:orientation="horizontal"
         android:padding="9dp">
 
@@ -32,15 +38,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="TextView"
-            android:textSize="@dimen/extra_large" />
+            android:textSize="@dimen/text_32" />
 
         <Button
             android:id="@+id/buyCartButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/buyCartButton"
-            android:textSize="@dimen/medium_large" />
+            android:text="@string/buy_cart_button"
+            android:textSize="@dimen/text_24" />
     </LinearLayout>
 
 </LinearLayout>

@@ -2,7 +2,7 @@
     <string name="app_name">University Java</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="buyCartButton">Pirkti</string>
+    <string name="buy_cart_button">Pirkti</string>
     <string name="listings_from">Skelbimai nuo</string>
-    <string name="shipping">Pristatymas</string>
+    <string name="banner_cart">Krepšelis</string>
 </resources>

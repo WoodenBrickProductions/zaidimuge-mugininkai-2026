@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_background">@color/cream_gray</color>
+    <color name="secondary_background">@color/light_cream</color>
+    <color name="outline_color">@color/medium_dark_orange</color>
+    <color name="button_base">@color/orange</color>
+    <color name="button_selected">@color/medium_dark_orange</color>
+    <color name="button_inactive">@color/dark_orange</color>
+    <color name="button2_base">@color/white</color>
+    <color name="button2_inactive">@color/light_gray</color>
+    <color name="banner_background">@color/white</color>
+    <color name="navigation_backround">@color/orange</color>
+
+    <dimen name="radius_small">@dimen/val_8</dimen>
+    <dimen name="radius_medium">@dimen/val_16</dimen>
+
+    <dimen name="spacing_small">@dimen/val_8</dimen>
+    <dimen name="spacing_medium">@dimen/val_16</dimen>
+    <dimen name="spacing_large">@dimen/val_32</dimen>
+    <dimen name="spacing_xlarge">@dimen/val_64</dimen>
+</resources>

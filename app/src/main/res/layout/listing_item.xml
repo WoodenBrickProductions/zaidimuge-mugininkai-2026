@@ -5,8 +5,8 @@
     android:layout_width="365dp"
     android:layout_height="165dp"
     android:padding="12dp"
-    android:background="@color/creamlight"
-    android:layout_marginTop="16dp">
+    android:background="@color/secondary_background"
+    android:layout_marginBottom="16dp">
 
     <ImageView
         android:id="@+id/listing_image"
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/listings_from"
-            android:textSize="@dimen/small"
+            android:textSize="@dimen/text_16"
             app:layout_constraintBottom_toTopOf="@+id/listing_price"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -39,29 +39,11 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="Pavadinimas lorem ipsum lalalalal"
-            android:textSize="@dimen/medium"
+            android:textSize="@dimen/text_16"
             app:layout_constraintBottom_toTopOf="@+id/listings_from"
             app:layout_constraintEnd_toStartOf="@+id/wishlist_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/shipping"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/shipping"
-            android:textSize="@dimen/small"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/listing_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Eurai time"
-            android:textSize="@dimen/medium_large"
-            app:layout_constraintBottom_toTopOf="@+id/shipping"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/wishlist_button"
@@ -76,18 +58,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Krepselis"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/listing_price"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/listing_price" />
 
         <TextView
-            android:id="@+id/shipping_price"
+            android:id="@+id/listing_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="1 eur"
-            android:textSize="@dimen/small"
+            android:layout_marginBottom="8dp"
+            android:text="Eurai time"
+            android:textSize="@dimen/text_24"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/shipping" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
