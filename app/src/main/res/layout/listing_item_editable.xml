@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="365dp"
+    android:layout_height="165dp"
+    android:padding="12dp"
+    android:background="@color/secondary_background"
+    android:layout_marginBottom="16dp">
+
+    <ImageView
+        android:id="@+id/listing_image"
+        android:layout_width="112dp"
+        android:layout_height="140dp"
+        tools:srcCompat="@tools:sample/avatars"/>
+
+    <Space
+        android:layout_width="8dp"
+        android:layout_height="wrap_content" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/listings_from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/listings_from"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintBottom_toTopOf="@+id/listing_price"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/listing_name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Pavadinimas lorem ipsum lalalalal"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintBottom_toTopOf="@+id/listings_from"
+            app:layout_constraintEnd_toStartOf="@+id/wishlist_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/wishlist_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Koreguoti"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/cart_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trinti"
+            app:layout_constraintBottom_toBottomOf="@+id/listing_price"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/listing_price" />
+
+        <TextView
+            android:id="@+id/listing_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Eurai time"
+            android:textSize="@dimen/text_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

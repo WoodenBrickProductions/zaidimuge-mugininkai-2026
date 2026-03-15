@@ -5,4 +5,7 @@
     <string name="buy_cart_button">Pirkti</string>
     <string name="listings_from">Skelbimai nuo</string>
     <string name="banner_cart">Krepšelis</string>
+    <string name="banner_wishlist">Norų sąrašas</string>
+    <string name="button_categories">Kategorijos</string>
+    <string name="button_listings">Skelbimai</string>
 </resources>
