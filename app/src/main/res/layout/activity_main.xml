@@ -27,12 +27,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation_menu"/>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Open Second Activity"
-        tools:layout_editor_absoluteX="113dp"
-        tools:layout_editor_absoluteY="216dp" />
+<!--    <Button-->
+<!--        android:id="@+id/button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Open Second Activity"-->
+<!--        tools:layout_editor_absoluteX="113dp"-->
+<!--        tools:layout_editor_absoluteY="216dp" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,8 +24,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        replaceFragment(new HomeFragment());
 
-        _button = (Button) findViewById(R.id.button);
+//        _button = (Button) findViewById(R.id.button);
 
         _bottomNavigationView = findViewById(R.id.bottomNavigationView);
         _bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -59,18 +60,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        _button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("OnClick");
-                Intent intent = new Intent(getBaseContext(), SecondWindow.class);
-                intent.putExtra("Data", "Hello World");
-                startActivity(intent);
-            }
-        });
+//        _button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println("OnClick");
+//                Intent intent = new Intent(getBaseContext(), SecondWindow.class);
+//                intent.putExtra("Data", "Hello World");
+//                startActivity(intent);
+//            }
+//        });
     }
 
-    private void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayoutMain, fragment);
