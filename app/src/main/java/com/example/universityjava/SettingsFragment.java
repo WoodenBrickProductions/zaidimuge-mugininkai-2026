@@ -1,57 +1,33 @@
 package com.example.universityjava;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.LocaleListCompat;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SettingsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SettingsFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public SettingsFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SettingsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SettingsFragment newInstance(String param1, String param2) {
-        SettingsFragment fragment = new SettingsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -59,6 +35,61 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        SharedPreferences prefs = requireContext().getSharedPreferences("settings", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        Spinner languageSpinner = view.findViewById(R.id.spinnerLanguage);
+        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (TextUtils.equals(adapterView.getItemAtPosition(i).toString(), "Lietuvių")
+                    && !TextUtils.equals(prefs.getString("app_lang", "en-US"), "lt-LT")) {
+                    editor.putString("app_lang", "lt-LT");
+                    editor.apply();
+                    LocaleListCompat appLocale = LocaleListCompat.forLanguageTags("lt-LT");
+                    AppCompatDelegate.setApplicationLocales(appLocale);
+                }
+                else if (TextUtils.equals(adapterView.getItemAtPosition(i).toString(), "English")
+                         && !TextUtils.equals(prefs.getString("app_lang", "en-US"), "en-US")) {
+                    editor.putString("app_lang", "en-US");
+                    editor.apply();
+                    LocaleListCompat appLocale = LocaleListCompat.forLanguageTags("en-US");
+                    AppCompatDelegate.setApplicationLocales(appLocale);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        ArrayAdapter<CharSequence> languageAdapter = ArrayAdapter.createFromResource(view.getContext(), R.array.languages_array, android.R.layout.simple_spinner_item);
+        languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        languageSpinner.setAdapter(languageAdapter);
+
+        String selection = "";
+
+        switch (prefs.getString("app_lang", "en-US")) {
+            case "lt-LT":
+                selection = "Lietuvių";
+                break;
+            case "en-US":
+                selection = "English";
+                break;
+            default:
+                selection = "Lietuvių";
+        }
+        int spinnerPosition = languageAdapter.getPosition(selection);
+        languageSpinner.setSelection(spinnerPosition);
+
+
+        Spinner themeSpinner = view.findViewById(R.id.spinnerTheme);
+        ArrayAdapter<CharSequence> themeAdapter = ArrayAdapter.createFromResource(view.getContext(), R.array.themes_array, android.R.layout.simple_spinner_item);
+        themeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        themeSpinner.setAdapter(themeAdapter);
+
+        return view;
     }
 }

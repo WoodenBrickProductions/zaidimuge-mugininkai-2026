@@ -48,7 +48,7 @@
                         android:layout_width="292dp"
                         android:layout_height="match_parent"
                         android:gravity="left|center_vertical"
-                        android:text="Norite įkelti skelbimą? Spauskite simbolį:" />
+                        android:text="@string/add_listing_text" />
 
                     <Button
                         android:id="@+id/buttonCreateListing"
@@ -67,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="48dp"
-                    android:text="Populiariausios prekės" />
+                    android:text="@string/popular_items" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/listPopular"
@@ -80,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="48dp"
-                    android:text="Naujausios prekės" />
+                    android:text="@string/newest_items" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/listNewest"
@@ -93,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="48dp"
-                    android:text="Fizinės prekės" />
+                    android:text="@string/physical_items" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/listPhysical"

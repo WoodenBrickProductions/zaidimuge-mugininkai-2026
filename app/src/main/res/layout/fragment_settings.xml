@@ -4,4 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SettingsFragment" />
+    tools:context=".SettingsFragment" >
+
+    <TextView
+        android:id="@+id/textView3"
+        style="@style/MyBanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/settings" />
+
+    <Spinner
+        style="@style/MyButton"
+        android:id="@+id/spinnerLanguage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Spinner
+        style="@style/MyButton"
+        android:id="@+id/spinnerTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
