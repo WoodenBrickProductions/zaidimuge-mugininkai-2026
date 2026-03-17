@@ -35,8 +35,6 @@ public class CartFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
-        header = view.findViewById(R.id.header_title);
-        header.setText("Cart");
         return view;
     }
 }

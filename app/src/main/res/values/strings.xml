@@ -8,4 +8,5 @@
     <string name="banner_wishlist">Norų sąrašas</string>
     <string name="button_categories">Kategorijos</string>
     <string name="button_listings">Skelbimai</string>
+    <string name="listing_description_title">Prekės aprašymas</string>
 </resources>
