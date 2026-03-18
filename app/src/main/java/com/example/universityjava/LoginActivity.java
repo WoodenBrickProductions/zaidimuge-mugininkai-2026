@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putLong("user_id", user.getId());
                     editor.apply();
-                    Toast.makeText(getApplicationContext(), R.string.toast_welcome + ", " + name, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.toast_welcome) + ", " + name, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getBaseContext(), MainActivity.class);
 //                    intent.putExtra("UserID", user.getId());
                     startActivity(intent);
