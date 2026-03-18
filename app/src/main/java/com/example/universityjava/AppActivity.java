@@ -23,6 +23,7 @@ public class AppActivity extends Application {
         // so the database can be updated - new tables added and such
         // will delete the data inside them though
         // setQueryCallback adds SQL messages to Logcat
+        //.createFromAsset("my_app_db.db") to use pre-made database in assets folder
     }
 
     public static AppDatabase getDatabase() { return db; }

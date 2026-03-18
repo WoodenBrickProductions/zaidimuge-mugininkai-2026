@@ -41,12 +41,12 @@
             android:text="Pavadinimas lorem ipsum lalalalal"
             android:textSize="@dimen/text_16"
             app:layout_constraintBottom_toTopOf="@+id/listings_from"
-            app:layout_constraintEnd_toStartOf="@+id/wishlist_button"
+            app:layout_constraintEnd_toStartOf="@+id/buttonEdit"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/wishlist_button"
+            android:id="@+id/buttonEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Koreguoti"
@@ -54,7 +54,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/cart_button"
+            android:id="@+id/buttonDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Trinti"

@@ -10,7 +10,7 @@
     <TextView
         style="@style/MyBanner"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/val_128"
+        android:layout_height="wrap_content"
         android:text="@string/banner_cart" />
 
     <androidx.recyclerview.widget.RecyclerView

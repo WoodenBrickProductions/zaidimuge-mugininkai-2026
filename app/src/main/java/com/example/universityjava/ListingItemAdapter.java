@@ -3,6 +3,7 @@ package com.example.universityjava;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
     private boolean isCategory;
     private List<Listing> listings;
     private List<Game> games;
+    private final AppDatabase db = AppActivity.getDatabase();
     /// Listing list or Game list to work
     public ListingItemAdapter(List<?> list){
         if (list != null && !list.isEmpty()){
@@ -36,6 +38,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         private final TextView price;
         private final ImageView image;
         private final TextView listingsFrom;
+        private final Button editButton;
         public ListingViewHolder(View view){
             super(view);
 
@@ -43,6 +46,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
             price = (TextView) view.findViewById(R.id.listing_price);
             image = (ImageView) view.findViewById(R.id.listing_image);
             listingsFrom = (TextView) view.findViewById(R.id.listings_from);
+            editButton = (Button) view.findViewById(R.id.buttonEdit);
         }
 
         public TextView getTitle(){
@@ -70,19 +74,22 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
     public void onBindViewHolder(@NonNull ListingItemAdapter.ListingViewHolder holder, int position) {
         if(isCategory){
             Game item = games.get(position);
-            //holder.getTitle().setText(AppActivity.getDatabase().listingDAO().getGameNameByListingId(item.getId()));
             holder.getTitle().setText(item.getTitle());
-            //holder.getListingsFrom().setVisibility(View.GONE);
             holder.getImage().setImageResource(R.drawable.ic_launcher_background);
-            //holder.getPrice().setText(item.getPrice()+" €");
+            double price = db.gameDAO().getGameMinPriceById(item.getId());
+            if(price != 0)
+                holder.getPrice().setText(price+" €");
+            else{
+                holder.getListingsFrom().setText(R.string.NoListings);
+                holder.getPrice().setText("");}
         }else{
             Listing item = listings.get(position);
-        //holder.getTitle().setText(AppActivity.getDatabase().listingDAO().getGameNameByListingId(item.getId()));
-        holder.getTitle().setText(item.getFk_gameid()+"");
+        holder.getTitle().setText(db.listingDAO().getGameNameByListingId(item.getId()));
         holder.getListingsFrom().setVisibility(View.GONE);
         holder.getImage().setImageResource(R.drawable.ic_launcher_background);
         holder.getPrice().setText(item.getPrice()+" €");
         }
+        holder.editButton.setVisibility(View.GONE);
     }
 
     @Override

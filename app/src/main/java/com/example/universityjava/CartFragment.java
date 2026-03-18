@@ -45,37 +45,6 @@ public class CartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        /*Platform platform = new Platform();
-        platform.setName("PC");
-        AppActivity.getDatabase().platformDAO().insert(platform);
-        platform = new Platform();
-        platform.setName("Playstation");
-        AppActivity.getDatabase().platformDAO().insert(platform);
-        /*List<Listing> list = new ArrayList<Listing>();*/
-        /*Listing listing = new Listing();
-        listing.setIsdigital(true);
-        listing.setPrice(10);
-        listing.setFk_gameid(1);
-        listing.setFk_seller(1);
-        listing.setFk_platform(1);
-        //list.add(listing);*/
-        /*AppActivity.getDatabase().listingDAO().insert(listing);
-        listing = new Listing();
-        listing.setIsdigital(false);
-        listing.setPrice(15);
-        listing.setFk_gameid(2);
-        listing.setFk_seller(1);
-        listing.setFk_platform(2);
-        AppActivity.getDatabase().listingDAO().insert(listing);
-        PhysicalListingAttributes attr = new PhysicalListingAttributes();
-        attr.setFk_listingid(2);
-        attr.setFk_condition(Condition.Good);
-        attr.setCondition_description("Package is a little scratched");
-        attr.setImage("Image go brr");
-        AppActivity.getDatabase().physicalListingAttributesDAO().insert(attr);*/
-        //list.add(listing);
-        //List<Game> gameList = new ArrayList<Game>();
-        //Game game = new Game();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
         recyclerView = view.findViewById(R.id.cart_list);
@@ -83,7 +52,6 @@ public class CartFragment extends Fragment {
         List<Listing> list = AppActivity.getDatabase().listingDAO().getAllListings();
         if(!list.isEmpty())
             recyclerView.setAdapter(new ListingItemAdapter(list));
-        //recyclerView.setAdapter(new ListingItemAdapter(AppActivity.getDatabase().gameDAO().getAllGames()));
         return view;
     }
 }

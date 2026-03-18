@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello_blank_fragment">labas</string>
+    <string name="buy_cart_button">Pirkti</string>
+    <string name="listings_from">Skelbimai nuo</string>
+    <string name="banner_cart">Krepšelis</string>
+    <string name="banner_wishlist">Norų sąrašas</string>
+    <string name="button_categories">Kategorijos</string>
+    <string name="button_listings">Skelbimai</string>
+    <string name="listing_description_title">Prekės aprašymas</string>
     <string name="button_my_listings">Mano skelbimai</string>
     <string name="settings">Nustatymai</string>
     <string name="add_listing_text">Norite sukurti skelbimą? Spauskite simbolį:</string>
@@ -31,4 +38,5 @@
     <string name="about">Apie</string>
     <string name="language">Kalba</string>
     <string name="theme">Tema</string>
+    <string name="NoListings">Skelbimų nėra</string>
 </resources>

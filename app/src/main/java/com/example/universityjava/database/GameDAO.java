@@ -23,4 +23,7 @@ public interface GameDAO {
 
     @Query("SELECT * FROM Game WHERE id = :id")
     Game getGameByID(long id);
+
+    @Query("SELECT MIN(price) FROM Listing INNER JOIN Game ON Listing.fk_gameid = :id")
+    double getGameMinPriceById(long id);
 }

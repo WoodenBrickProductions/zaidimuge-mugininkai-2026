@@ -29,8 +29,7 @@ import com.google.android.material.navigation.NavigationBarView;
 public class MainActivity extends AppCompatActivity {
 
     private AppDatabase db;
-    Button _button;
-    Button _fragmentTestingButton;
+    //Button _button;
     BottomNavigationView _bottomNavigationView;
 
     @Override
@@ -40,46 +39,6 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(new HomeFragment());
 
         db = AppActivity.getDatabase();
-        _button = (Button) findViewById(R.id.cartButton);
-        _fragmentTestingButton = (Button) findViewById(R.id.fragmentTestingButton);
-        _button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*User user = new User();
-                user.setName("Cheesy");
-                user.setEmail("CheesyMail");
-                user.setPassword("Password");
-                db.userDAO().insert(user);*/
-
-
-                System.out.println("OnClick");
-                Intent intent = new Intent(getBaseContext(), SecondWindow.class);
-                intent.putExtra("Data", "Hello World");
-                startActivity(intent);
-            }
-        });
-
-        _fragmentTestingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //db.close();
-                //deleteDatabase("my_app_db");
-                /*User user = new User();
-                user.setName("Cheesy");
-                user.setEmail("CheesyMail");
-                user.setPassword("Password");
-                db.userDAO().insert(user);*/
-                //List<User> userList = db.userDAO().getAllUsers();
-                //User u = userList.get(0);
-                //Toast.makeText(getApplicationContext(), u.getName() + u.getEmail(), Toast.LENGTH_SHORT).show();
-                //Toast.makeText(getApplicationContext(), "Registered successfully", Toast.LENGTH_SHORT).show();
-
-                Intent fragIntent = new Intent(getBaseContext(), FragmentTestingActivity.class);
-                //fragIntent.putExtra("UserID",u.getId());
-                startActivity(fragIntent);
-            }
-        });
-//        _button = (Button) findViewById(R.id.button);
 
         SharedPreferences prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         long userID = prefs.getLong("user_id", -1);
@@ -102,10 +61,10 @@ public class MainActivity extends AppCompatActivity {
                     logOut();
                 }
                 else if (itemId == R.id.navigation_cart) {
-                    replaceFragment(new HomeFragment());
+                    replaceFragment(new CartFragment());
                 }
                 else if (itemId == R.id.navigation_favorites) {
-                    replaceFragment(new HomeFragment());
+                    replaceFragment(new WishlistFragment());
                 }
                 else if (itemId == R.id.navigation_profile) {
                     replaceFragment(new ProfileFragment());
@@ -114,16 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-//        _button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                System.out.println("OnClick");
-//                Intent intent = new Intent(getBaseContext(), SecondWindow.class);
-//                intent.putExtra("Data", "Hello World");
-//                startActivity(intent);
-//            }
-//        });
     }
 
     public void replaceFragment(Fragment fragment) {
