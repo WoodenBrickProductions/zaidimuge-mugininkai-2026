@@ -15,6 +15,7 @@ public class HomeFragment extends Fragment {
     Button _buttonCreateListing;
     Button _buttonPopular;
     Button _buttonNewest;
+    Button _buttonPhysical;
 
     public HomeFragment() {
 
@@ -58,6 +59,18 @@ public class HomeFragment extends Fragment {
                 Fragment fragment = new MainCategoriesFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("name", "Naujausios prekės");
+                fragment.setArguments(bundle);
+                ((MainActivity)getActivity()).replaceFragment(fragment);
+            }
+        });
+
+        _buttonPhysical = (Button) view.findViewById(R.id.buttonPhysical);
+        _buttonPhysical.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new SellerFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("name", "Test Seller");
                 fragment.setArguments(bundle);
                 ((MainActivity)getActivity()).replaceFragment(fragment);
             }
