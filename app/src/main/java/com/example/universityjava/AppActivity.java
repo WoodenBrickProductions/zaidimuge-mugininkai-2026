@@ -19,7 +19,7 @@ public class AppActivity extends Application {
                     Log.d("RoomQueryLog", "SQL Query: " + sqlQuery + " SQL Args: " + bindArgs);
                 }, Executors.newSingleThreadExecutor())
                 .allowMainThreadQueries().build();
-        // use .fallbackToDestructiveMigration() before .allowMainThreadQueries()
+        // use .fallbackToDestructiveMigration() before .setQueryCallback()
         // so the database can be updated - new tables added and such
         // will delete the data inside them though
         // setQueryCallback adds SQL messages to Logcat

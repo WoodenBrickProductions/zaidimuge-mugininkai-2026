@@ -16,8 +16,8 @@ import com.example.universityjava.User;
                 entity = User.class,
                 parentColumns = "id",
                 childColumns = "fk_buyerid")
-}, indices = {@Index(value = "fk_listingid", unique = true),
-        @Index(value = "fk_buyerid", unique = true)})
+}, indices = {@Index(value = "fk_listingid"),
+        @Index(value = "fk_buyerid")})
 public class Review {
     @PrimaryKey
     @ColumnInfo(name="fk_listingid")

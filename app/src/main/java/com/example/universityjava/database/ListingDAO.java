@@ -25,4 +25,8 @@ public interface ListingDAO {
 
     @Query("SELECT * FROM Listing WHERE id = :id")
     Listing getListingByID(long id);
+
+    @Query("SELECT Game.title FROM Game INNER JOIN Listing ON Game.id = fk_gameid WHERE " +
+            "Listing.id = :id")
+    String getGameNameByListingId(long id);
 }

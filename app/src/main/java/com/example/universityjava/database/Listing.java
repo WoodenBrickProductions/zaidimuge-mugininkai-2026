@@ -21,9 +21,9 @@ import com.example.universityjava.User;
                 entity = Game.class,
                 parentColumns = "id",
                 childColumns = "fk_gameid")
-}, indices = {@Index(value = "fk_seller", unique = true),
-              @Index(value = "fk_platform", unique = true),
-              @Index(value = "fk_gameid", unique = true)})
+}, indices = {@Index(value = "fk_seller"),
+              @Index(value = "fk_platform"),
+              @Index(value = "fk_gameid")})
 public class Listing {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name="id")
@@ -43,6 +43,8 @@ public class Listing {
     @NonNull
     @ColumnInfo(name = "fk_gameid")
     private long fk_gameid;
+    @ColumnInfo(name = "issold")
+    private boolean issold;
 
     public void setId(long id) { this.id = id; }
     public long getId() { return this.id; }
@@ -56,6 +58,8 @@ public class Listing {
     public int getFk_platform() {return this.fk_platform;}
     public void setFk_gameid(long fk_gameid) { this.fk_gameid = fk_gameid; }
     public long getFk_gameid() { return this.fk_gameid; }
+    public void setIssold(boolean isdigital) {this.issold = issold;}
+    public boolean getIssold() {return this.issold;}
 }
 
 

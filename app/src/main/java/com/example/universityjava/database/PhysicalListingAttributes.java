@@ -12,7 +12,7 @@ import com.example.universityjava.User;
         entity = Listing.class,
         parentColumns = "id",
         childColumns = "fk_listingid")
-}, indices = {@Index(value = "fk_listingid", unique = true)})
+}, indices = {@Index(value = "fk_listingid")})
 public class PhysicalListingAttributes {
     @PrimaryKey
     @ColumnInfo(name="fk_listingid")
