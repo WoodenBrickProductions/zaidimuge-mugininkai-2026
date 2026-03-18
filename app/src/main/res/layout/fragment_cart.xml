@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CartFragment"
+    android:background="@color/main_background">
+
+    <TextView
+        style="@style/MyBanner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/val_128"
+        android:text="@string/banner_cart" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cart_list"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        tools:listitem="@layout/listing_item_editable">
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/buy_panel"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/secondary_background"
+        android:orientation="horizontal"
+        android:padding="9dp">
+
+        <TextView
+            android:id="@+id/priceAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textSize="@dimen/text_32" />
+
+        <Button
+            android:id="@+id/buyCartButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/buy_cart_button"
+            android:textSize="@dimen/text_24" />
+    </LinearLayout>
+
+</LinearLayout>

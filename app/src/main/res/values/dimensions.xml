@@ -9,4 +9,10 @@
     <dimen name="val_48">48dp</dimen>
     <dimen name="val_64">64dp</dimen>
     <dimen name="val_128">128dp</dimen>
+
+    <dimen name="text_14">14sp</dimen>
+    <dimen name="text_16">16sp</dimen>
+    <dimen name="text_20">20sp</dimen>
+    <dimen name="text_24">24sp</dimen>
+    <dimen name="text_32">32sp</dimen>
 </resources>

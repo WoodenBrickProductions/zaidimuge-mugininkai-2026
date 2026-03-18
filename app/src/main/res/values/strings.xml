@@ -2,6 +2,13 @@
     <string name="app_name">University Java</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="buy_cart_button">Pirkti</string>
+    <string name="listings_from">Skelbimai nuo</string>
+    <string name="banner_cart">Krepšelis</string>
+    <string name="banner_wishlist">Norų sąrašas</string>
+    <string name="button_categories">Kategorijos</string>
+    <string name="button_listings">Skelbimai</string>
+    <string name="listing_description_title">Prekės aprašymas</string>
     <string name="button_my_listings">My listings</string>
     <string name="settings">Settings</string>
     <string name="add_listing_text">Wish to create a listing? Click the symbol:</string>

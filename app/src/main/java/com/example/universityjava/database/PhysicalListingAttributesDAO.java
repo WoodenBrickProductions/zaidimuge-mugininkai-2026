@@ -1,0 +1,21 @@
+package com.example.universityjava.database;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.Query;
+
+import java.util.List;
+
+@Dao
+public interface PhysicalListingAttributesDAO {
+    @Insert
+    void insert(PhysicalListingAttributes listingAttr);
+
+    @Query("DELETE FROM PhysicalListingAttributes")
+    void deleteAll();
+
+    @Query("SELECT * FROM PhysicalListingAttributes")
+    List<PhysicalListingAttributes> getAllListingsPhysAttr();
+
+    @Query("SELECT * FROM PhysicalListingAttributes WHERE fk_listingid LIKE :listingid LIMIT 1")
+    PhysicalListingAttributes getPhysAttrByListingId(long listingid);
+}
