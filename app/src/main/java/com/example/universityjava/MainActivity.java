@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 user.setEmail("CheesyMail");
                 user.setPassword("Password");
                 db.userDAO().insert(user);*/
-                List<User> userList = db.userDAO().getAllUsers();
+                //List<User> userList = db.userDAO().getAllUsers();
                 //User u = userList.get(0);
                 //Toast.makeText(getApplicationContext(), u.getName() + u.getEmail(), Toast.LENGTH_SHORT).show();
                 //Toast.makeText(getApplicationContext(), "Registered successfully", Toast.LENGTH_SHORT).show();
