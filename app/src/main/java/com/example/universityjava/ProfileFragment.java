@@ -44,6 +44,7 @@ public class ProfileFragment extends Fragment {
         _buttonMyListings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ((MainActivity)getActivity()).replaceFragment(new SellerFragment());
             }
         });
 

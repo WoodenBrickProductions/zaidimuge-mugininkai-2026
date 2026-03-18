@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.universityjava.database.Listing;
+import com.example.universityjava.database.ListingDAO;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,41 +74,30 @@ public class SellerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_seller, container, false);
 
         Context context = view.getContext();
-        LinearLayout parent = view.findViewById(R.id.listingsLinearLayout);
 
 //        parent.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
 //                LinearLayout.LayoutParams.WRAP_CONTENT));
 //        parent.setOrientation(LinearLayout.HORIZONTAL);
 
 //children of parent linearlayout
-
-        ImageView iv = new ImageView(context);
-
-        LinearLayout layout2 = new LinearLayout(context);
-
-        layout2.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        layout2.setOrientation(LinearLayout.VERTICAL);
-
-        parent.addView(iv);
-        parent.addView(layout2);
-
 //children of layout2 LinearLayout
 
-        TextView tv1 = new TextView(context);
-        tv1.setText("Test");
-        TextView tv2 = new TextView(context);
-        tv2.setText("Test");
-        TextView tv3 = new TextView(context);
-        tv3.setText("Test");
-        TextView tv4 = new TextView(context);
-        tv4.setText("Test");
+        // Inflate the layout for this fragment
+        RecyclerView recyclerView = view.findViewById(R.id.listings_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        layout2.addView(tv1);
-        layout2.addView(tv2);
-        layout2.addView(tv3);
-        layout2.addView(tv4);
-
+        ListingDAO dao = AppActivity.getDatabase().listingDAO();
+        Listing listing = new Listing();
+        listing.setIssold(false);
+        listing.setPrice(0.99d);
+        listing.setFk_seller(0);
+        listing.setIsdigital(true);
+        listing.setFk_gameid(0);
+        listing.setFk_platform(0);
+        dao.insert(listing);
+        List<Listing> list = dao.getAllListings();
+        if(!list.isEmpty())
+            recyclerView.setAdapter(new ListingItemAdapter(list));
         return view;
     }
 }

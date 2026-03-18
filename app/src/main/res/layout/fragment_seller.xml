@@ -79,17 +79,14 @@
                     android:text="Atsiliepimai" />
 
             </LinearLayout>
-            <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="300dp">
-                <LinearLayout
-                    android:id="@+id/listingsLinearLayout"
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                </LinearLayout>
-            </ScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listings_list"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                tools:listitem="@layout/listing_item_editable">
+            </androidx.recyclerview.widget.RecyclerView>
 
             <Button
                 android:id="@+id/createListing"
