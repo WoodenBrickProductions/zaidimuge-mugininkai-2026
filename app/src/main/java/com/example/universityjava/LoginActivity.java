@@ -1,6 +1,8 @@
 package com.example.universityjava;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -36,6 +38,11 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         db = AppActivity.getDatabase();
+        SharedPreferences prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        if (prefs.getLong("user_id", -1) >= 0) {
+            startActivity(new Intent(getBaseContext(), MainActivity.class));
+        }
+
         _editTextUsername = (EditText) findViewById(R.id.editTextUsername);
         _editTextPassword = (EditText) findViewById(R.id.editTextTextPassword);
         _buttonLogin = (Button) findViewById(R.id.buttonLogin);
@@ -45,22 +52,25 @@ public class LoginActivity extends AppCompatActivity {
                 String name = _editTextUsername.getText().toString().trim();
                 String password = _editTextPassword.getText().toString().trim();
                 if (TextUtils.isEmpty(name) || TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Name and Password must be entered", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.toast_missing_username_password, Toast.LENGTH_SHORT).show();
                 }
                 else {
                     List<User> userList = db.userDAO().getUserByName(name);
                     if (userList.isEmpty()) {
-                        Toast.makeText(getApplicationContext(), "User with this username doesn't exist", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.toast_user_doesnt_exist, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     User user = userList.get(0);
                     if (!TextUtils.equals(password, user.getPassword())) {
-                        Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.toast_incorrect_password, Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    Toast.makeText(getApplicationContext(), "Welcome, " + name, Toast.LENGTH_SHORT).show();
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putLong("user_id", user.getId());
+                    editor.apply();
+                    Toast.makeText(getApplicationContext(), R.string.toast_welcome + ", " + name, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                    intent.putExtra("UserID", user.getId());
+//                    intent.putExtra("UserID", user.getId());
                     startActivity(intent);
                 }
             }
@@ -77,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         _buttonGuest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), HomeActivity.class);
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(intent);
             }
         });

@@ -9,20 +9,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
- */
-public class MainCategoriesFragment extends Fragment {
-
-    String name;
-
-    public MainCategoriesFragment() {
+public class SearchResultsFragment extends Fragment {
+    String _query;
+    public SearchResultsFragment() {
         // Required empty public constructor
     }
 
@@ -31,18 +25,19 @@ public class MainCategoriesFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         if (args != null)
-            name = args.getString("name");
+            _query = args.getString("query");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_main_categories, container, false);
-        TextView textViewName = view.findViewById(R.id.textViewCategoryName);
-        textViewName.setText(name);
+        View view = inflater.inflate(R.layout.fragment_search_results, container, false);
+        SearchView searchView = view.findViewById(R.id.searchViewResult);
+        searchView.setQuery(_query, false);
+        searchView.setIconified(false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewMainCategories);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewSearchResults);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
         List<Integer> images = new ArrayList<>();
@@ -50,8 +45,8 @@ public class MainCategoriesFragment extends Fragment {
             images.add(R.drawable.ic_game_test_icon);
         }
         ImageAdapter adapter = new ImageAdapter(getContext(), images);
-
         recyclerView.setAdapter(adapter);
+
         return view;
     }
 }
