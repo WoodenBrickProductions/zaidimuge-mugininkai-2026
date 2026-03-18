@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,12 +13,44 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textViewProfileUsername"
-            style="@style/MyBanner"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/val_128"
-            android:text="Profilis" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_banner">
+
+            <ImageView
+                android:id="@+id/imageViewProfile"
+                android:layout_width="@dimen/val_128"
+                android:layout_height="@dimen/val_128"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="profile image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/textViewUsername"
+                android:layout_width="240dp"
+                android:layout_height="34dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:text="Vardenis Pavardenis"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/imageViewProfile"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewUserRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:text="Reitingas"
+                app:layout_constraintStart_toEndOf="@+id/imageViewProfile"
+                app:layout_constraintTop_toBottomOf="@+id/textViewUsername" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="311dp"
@@ -38,14 +71,14 @@
                 style="@style/MyButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Mano istorija" />
+                android:text="@string/my_history" />
 
             <Button
                 android:id="@+id/buttonLogOut"
                 style="@style/MyButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Atsijungti" />
+                android:text="@string/logout" />
         </LinearLayout>
     </LinearLayout>
 

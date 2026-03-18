@@ -50,10 +50,10 @@ public class RegisterActivity extends AppCompatActivity {
                 String passwordRepeat = _editTextRegisterPasswordRepeat.getText().toString().trim();
 
                 if (TextUtils.isEmpty(username) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(passwordRepeat)) {
-                    Toast.makeText(getApplicationContext(), "All fields must be filled", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.toast_missing_fields, Toast.LENGTH_SHORT).show();
                 }
                 else if (!TextUtils.equals(password, passwordRepeat)) {
-                    Toast.makeText(getApplicationContext(), "Repeated password does not match", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.toast_password_mismatch, Toast.LENGTH_SHORT).show();
                 }
                 else {
                     User user = new User();
@@ -64,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
                     List<User> userList = db.userDAO().getAllUsers();
                     User u = userList.get(0);
                     Toast.makeText(getApplicationContext(), u.getName() + u.getEmail(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getApplicationContext(), "Registered successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.toast_registration_successful, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getBaseContext(), HomeActivity.class);
                     intent.putExtra("UserID", user.getId());
                     startActivity(intent);

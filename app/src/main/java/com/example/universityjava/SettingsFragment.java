@@ -2,6 +2,7 @@ package com.example.universityjava;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
@@ -37,7 +39,19 @@ public class SettingsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        SharedPreferences prefs = requireContext().getSharedPreferences("settings", MODE_PRIVATE);
+        Button buttonAbout = view.findViewById(R.id.buttonAbout);
+        buttonAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragmentAbout = new AppInformationFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("name", "Lorem ipsum");
+                fragmentAbout.setArguments(bundle);
+                ((MainActivity)getActivity()).replaceFragment(fragmentAbout);
+            }
+        });
+
+        SharedPreferences prefs = requireContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
         Spinner languageSpinner = view.findViewById(R.id.spinnerLanguage);
@@ -50,6 +64,7 @@ public class SettingsFragment extends Fragment {
                     editor.apply();
                     LocaleListCompat appLocale = LocaleListCompat.forLanguageTags("lt-LT");
                     AppCompatDelegate.setApplicationLocales(appLocale);
+//                    ((MainActivity)getActivity()).replaceFragment(new SettingsFragment());
                 }
                 else if (TextUtils.equals(adapterView.getItemAtPosition(i).toString(), "English")
                          && !TextUtils.equals(prefs.getString("app_lang", "en-US"), "en-US")) {
@@ -57,6 +72,7 @@ public class SettingsFragment extends Fragment {
                     editor.apply();
                     LocaleListCompat appLocale = LocaleListCompat.forLanguageTags("en-US");
                     AppCompatDelegate.setApplicationLocales(appLocale);
+//                    ((MainActivity)getActivity()).replaceFragment(new SettingsFragment());
                 }
             }
 
