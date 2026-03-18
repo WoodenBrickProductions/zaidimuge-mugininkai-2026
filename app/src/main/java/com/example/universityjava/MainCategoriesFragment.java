@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MainCategoriesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class MainCategoriesFragment extends Fragment {
