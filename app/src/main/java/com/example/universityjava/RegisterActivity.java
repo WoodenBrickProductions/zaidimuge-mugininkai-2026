@@ -1,6 +1,8 @@
 package com.example.universityjava;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -61,12 +63,14 @@ public class RegisterActivity extends AppCompatActivity {
                     user.setEmail(email);
                     user.setPassword(password);
                     db.userDAO().insert(user);
-                    List<User> userList = db.userDAO().getAllUsers();
-                    User u = userList.get(0);
-                    Toast.makeText(getApplicationContext(), u.getName() + u.getEmail(), Toast.LENGTH_SHORT).show();
                     Toast.makeText(getApplicationContext(), R.string.toast_registration_successful, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getBaseContext(), HomeActivity.class);
-                    intent.putExtra("UserID", user.getId());
+
+                    SharedPreferences prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putLong("user_id", db.userDAO().getUserByName(username).get(0).getId());
+                    editor.apply();
+
+                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
                     startActivity(intent);
                 }
             }

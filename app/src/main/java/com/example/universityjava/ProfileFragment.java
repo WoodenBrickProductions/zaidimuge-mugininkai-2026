@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,10 +69,13 @@ public class ProfileFragment extends Fragment {
         });
 
         long userID = prefs.getLong("user_id", -1);
-        User user = db.userDAO().getUserByID(userID);
+        if (userID >= 0) {
+            User user = db.userDAO().getUserByID(userID);
+            textViewUsername.setText(user.getName());
+            textViewRating.setText("");
+        }
 
-        textViewUsername.setText(user.getName());
-        textViewRating.setText("");
+
         return view;
     }
 }
