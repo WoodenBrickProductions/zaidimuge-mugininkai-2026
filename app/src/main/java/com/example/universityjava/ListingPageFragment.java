@@ -59,7 +59,7 @@ public class ListingPageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        _buttonCreateListing = (Button) view.findViewById(R.id.buttonCreateListing);
+        Button _buttonCreateListing = (Button) view.findViewById(R.id.buttonCreateListing);
         _buttonCreateListing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,7 +68,7 @@ public class ListingPageFragment extends Fragment {
             }
         });
 
-        _buttonPopular = (Button) view.findViewById(R.id.buttonPopular);
+        Button _buttonPopular = (Button) view.findViewById(R.id.buttonPopular);
         _buttonPopular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,7 +80,7 @@ public class ListingPageFragment extends Fragment {
             }
         });
 
-        _buttonNewest = (Button) view.findViewById(R.id.buttonNewest);
+        Button _buttonNewest = (Button) view.findViewById(R.id.buttonNewest);
         _buttonNewest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +92,7 @@ public class ListingPageFragment extends Fragment {
             }
         });
 
-        _buttonPhysical = (Button) view.findViewById(R.id.buttonPhysical);
+        Button _buttonPhysical = (Button) view.findViewById(R.id.buttonPhysical);
         _buttonPhysical.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
