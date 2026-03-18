@@ -38,9 +38,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FragmentTestingActivity"
-            android:exported="false" />
-        <activity
             android:name=".SecondWindow"
             android:exported="false" />
         <activity
