@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">University Java</string>
+    <string name="hello_blank_fragment">labas</string>
+    <string name="button_my_listings">Mano skelbimai</string>
+    <string name="settings">Nustatymai</string>
+    <string name="add_listing_text">Norite sukurti skelbimą? Spauskite simbolį:</string>
+    <string name="popular_items">Populiariausios prekės</string>
+    <string name="newest_items">Naujausios prekės</string>
+</resources>

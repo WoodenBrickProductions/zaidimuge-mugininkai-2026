@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background"
+    tools:context=".HomeFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <TextView
+            style="@style/MyBanner"
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Žaidimugė" />
+
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="64dp" >
+
+        </SearchView>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="292dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center_vertical"
+                        android:text="@string/add_listing_text" />
+
+                    <Button
+                        android:id="@+id/buttonCreateListing"
+                        style="@style/MyButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="right"
+                        android:text="+" />
+
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/buttonPopular"
+                    style="@style/MyButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="48dp"
+                    android:text="@string/popular_items" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/listPopular"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dp" />
+
+                <Button
+                    android:id="@+id/buttonNewest"
+                    style="@style/MyButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="48dp"
+                    android:text="@string/newest_items" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/listNewest"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dp" />
+
+                <Button
+                    android:id="@+id/buttonPhysical"
+                    style="@style/MyButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="48dp"
+                    android:text="@string/physical_items" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/listPhysical"
+                    android:layout_width="match_parent"
+                    android:layout_height="96dp" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+</FrameLayout>
