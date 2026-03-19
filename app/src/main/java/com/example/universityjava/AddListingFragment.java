@@ -59,7 +59,7 @@ public class AddListingFragment extends Fragment {
                 {
                     game = new Game();
                     game.setTitle(addListingGame.getText().toString());
-                    AppActivity.getDatabase().gameDAO().insert(game);
+                    game.setId(AppActivity.getDatabase().gameDAO().insert(game));
                 }
 
                 SharedPreferences prefs = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);

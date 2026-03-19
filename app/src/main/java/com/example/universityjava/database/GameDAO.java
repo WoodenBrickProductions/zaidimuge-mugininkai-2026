@@ -10,7 +10,7 @@ import java.util.List;
 @Dao
 public interface GameDAO {
     @Insert
-    void insert(Game game);
+    long insert(Game game);
 
     @Query("DELETE FROM Game")
     void deleteAll();
