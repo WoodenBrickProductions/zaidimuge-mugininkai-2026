@@ -11,15 +11,15 @@ public class Game {
     @ColumnInfo(name = "id")
     private long id;
     @ColumnInfo(name = "steamdbid")
-    private long steamdbid;
+    private long steamdbid = 0;
     @ColumnInfo(name = "title")
-    private String title;
+    private String title = "empty_title";
     @ColumnInfo(name = "description")
-    private String description;
+    private String description = "empty_description";
     @ColumnInfo(name = "image")
-    private String image;
+    private String image = "image.png";
     @ColumnInfo(name = "is_for_adults")
-    private boolean is_for_adults;
+    private boolean is_for_adults = false;
 
     public void setId(long id) { this.id = id; }
     public long getId() { return this.id; }

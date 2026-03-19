@@ -1,6 +1,7 @@
 package com.example.universityjava;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,8 +15,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
 import com.example.universityjava.database.ListingDAO;
+import com.example.universityjava.database.PhysicalListingAttributes;
+import com.example.universityjava.database.Platform;
+import com.example.universityjava.database.Review;
 
 import java.util.List;
 
@@ -24,7 +29,7 @@ import java.util.List;
  * Use the {@link SellerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SellerFragment extends Fragment {
+public class SellerFragment extends Fragment implements RecyclerViewEvent {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -72,32 +77,32 @@ public class SellerFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_seller, container, false);
-
-        Context context = view.getContext();
-
-//        parent.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                LinearLayout.LayoutParams.WRAP_CONTENT));
-//        parent.setOrientation(LinearLayout.HORIZONTAL);
-
-//children of parent linearlayout
-//children of layout2 LinearLayout
+        SharedPreferences prefs = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        TextView textViewUsername = view.findViewById(R.id.textViewProfileUsername);
 
         // Inflate the layout for this fragment
         RecyclerView recyclerView = view.findViewById(R.id.listings_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        long userID = prefs.getLong("user_id", -1);
+        if (userID >= 0) {
+            User user = AppActivity.getDatabase().userDAO().getUserByID(userID);
+            textViewUsername.setText(user.getName() + "\n" +
+                    "0.0 / 5");
+        }
+
         ListingDAO dao = AppActivity.getDatabase().listingDAO();
-        Listing listing = new Listing();
-        listing.setIssold(false);
-        listing.setPrice(0.99d);
-        listing.setFk_seller(0);
-        listing.setIsdigital(true);
-        listing.setFk_gameid(0);
-        listing.setFk_platform(0);
-        dao.insert(listing);
         List<Listing> list = dao.getAllListings();
+
         if(!list.isEmpty())
-            recyclerView.setAdapter(new ListingItemAdapter(list));
+            recyclerView.setAdapter(new ListingItemAdapter(list, this));
         return view;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        // TODO(Tautvydas):
+        Fragment page = new ListingPageFragment();
+        ((MainActivity)getActivity()).replaceFragment(page);
     }
 }

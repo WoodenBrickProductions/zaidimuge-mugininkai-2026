@@ -12,13 +12,13 @@ public class User {
     private long id;
     @NonNull
     @ColumnInfo(name = "user_name")
-    private String name;
+    private String name = "test_name";
     @NonNull
     @ColumnInfo(name = "email")
-    private String email;
+    private String email = "test_email";
     @NonNull
     @ColumnInfo(name = "password")
-    private String password;
+    private String password = "test_password";
 
     public void setId(long id) { this.id = id; }
     public long getId() { return this.id; }
@@ -28,5 +28,6 @@ public class User {
     public String getEmail() { return this.email; }
     public void setPassword(String password) { this.password = password; }
     public String getPassword() { return this.password; }
+
 
 }
