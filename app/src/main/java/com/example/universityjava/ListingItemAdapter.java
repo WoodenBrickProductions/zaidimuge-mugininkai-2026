@@ -16,13 +16,14 @@ import com.example.universityjava.database.Listing;
 import java.util.List;
 
 public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.ListingViewHolder> {
-
     private boolean isCategory;
     private List<Listing> listings;
     private List<Game> games;
+    private static RecyclerViewEvent listener;
     private final AppDatabase db = AppActivity.getDatabase();
     /// Listing list or Game list to work
-    public ListingItemAdapter(List<?> list){
+    public ListingItemAdapter(List<?> list, RecyclerViewEvent listener){
+        ListingItemAdapter.listener = listener;
         if (list != null && !list.isEmpty()){
             if(list.get(0) instanceof Listing){
                 this.listings = (List<Listing>) list;
@@ -33,13 +34,13 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
             }
         }
     }
-    public static class ListingViewHolder extends RecyclerView.ViewHolder{
+    public static class ListingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView title;
         private final TextView price;
         private final ImageView image;
         private final TextView listingsFrom;
         private final Button editButton;
-        public ListingViewHolder(View view){
+        public ListingViewHolder(View view) {
             super(view);
 
             title = (TextView) view.findViewById(R.id.listing_name);
@@ -47,6 +48,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
             image = (ImageView) view.findViewById(R.id.listing_image);
             listingsFrom = (TextView) view.findViewById(R.id.listings_from);
             editButton = (Button) view.findViewById(R.id.buttonEdit);
+            view.setOnClickListener(this);
         }
 
         public TextView getTitle(){
@@ -60,6 +62,13 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         }
         public TextView getListingsFrom(){
             return listingsFrom;
+        }
+        @Override
+        public void onClick(View v) {
+            int position = getAbsoluteAdapterPosition();
+            if(position != RecyclerView.NO_POSITION){
+                listener.onItemClick(position);
+            }
         }
     }
     @NonNull
