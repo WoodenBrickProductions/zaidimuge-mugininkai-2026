@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.universityjava.database.Listing;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ListingPageFragment#newInstance} factory method to
@@ -24,7 +26,8 @@ public class ListingPageFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private long listingID;
+    private Listing listing;
     private String mParam2;
 
     public ListingPageFragment() {
@@ -35,15 +38,14 @@ public class ListingPageFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
      * @param param2 Parameter 2.
      * @return A new instance of fragment ListingPageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListingPageFragment newInstance(String param1, String param2) {
+    public static ListingPageFragment newInstance(long listingID, String param2) {
         ListingPageFragment fragment = new ListingPageFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putLong(ARG_PARAM1, listingID);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -52,8 +54,13 @@ public class ListingPageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        if (getArguments() != null) {
+            listingID = getArguments().getLong(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
 
+            listing = AppActivity.getDatabase().listingDAO().getListingByID(listingID);
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -97,10 +104,7 @@ public class ListingPageFragment extends Fragment {
         _buttonPhysical.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new SellerFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("name", "Test Seller");
-                fragment.setArguments(bundle);
+                Fragment fragment = SellerFragment.newInstance(listing.getFk_seller(), "");
                 ((MainActivity)getActivity()).replaceFragment(fragment);
             }
         });
