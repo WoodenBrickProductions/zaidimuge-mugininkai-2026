@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +41,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         private final ImageView image;
         private final TextView listingsFrom;
         private final Button editButton;
+        private final Button deleteButton;
         public ListingViewHolder(View view) {
             super(view);
 
@@ -48,6 +50,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
             image = (ImageView) view.findViewById(R.id.listing_image);
             listingsFrom = (TextView) view.findViewById(R.id.listings_from);
             editButton = (Button) view.findViewById(R.id.buttonEdit);
+            deleteButton = view.findViewById(R.id.buttonDelete);
             view.setOnClickListener(this);
         }
 
@@ -99,6 +102,13 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         holder.getPrice().setText(item.getPrice()+" €");
         }
         holder.editButton.setVisibility(View.GONE);
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "Deleting!", Toast.LENGTH_SHORT).show();
+                // TODO: Add listing delete
+            }
+        });
     }
 
     @Override
