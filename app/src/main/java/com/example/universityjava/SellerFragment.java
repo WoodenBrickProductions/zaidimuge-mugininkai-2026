@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,14 +22,10 @@ import com.example.universityjava.database.ListingDAO;
 import com.example.universityjava.database.PhysicalListingAttributes;
 import com.example.universityjava.database.Platform;
 import com.example.universityjava.database.Review;
+import com.example.universityjava.database.ReviewDAO;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SellerFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SellerFragment extends Fragment implements RecyclerViewEvent {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -36,27 +33,18 @@ public class SellerFragment extends Fragment implements RecyclerViewEvent {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
+    private long userID;
     private String mParam2;
+    private boolean isListings = true;
 
     public SellerFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SellerFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SellerFragment newInstance(String param1, String param2) {
+    public static SellerFragment newInstance(long userID, String param2) {
         SellerFragment fragment = new SellerFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putLong(ARG_PARAM1, userID);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -66,7 +54,7 @@ public class SellerFragment extends Fragment implements RecyclerViewEvent {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            userID = getArguments().getLong(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -84,16 +72,37 @@ public class SellerFragment extends Fragment implements RecyclerViewEvent {
         RecyclerView recyclerView = view.findViewById(R.id.listings_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        long userID = prefs.getLong("user_id", -1);
+        RecyclerView reviewsRecyclerView = view.findViewById(R.id.reviews_list);
+        reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        Button buttonListings = view.findViewById(R.id.buttonListings);
+        Button buttonReviews = view.findViewById(R.id.buttonReviews);
+
+        buttonListings.setOnClickListener(v -> {
+            recyclerView.setVisibility(View.VISIBLE);
+            reviewsRecyclerView.setVisibility(View.GONE);
+            isListings = true;
+        });
+
+        buttonReviews.setOnClickListener(v -> {
+            recyclerView.setVisibility(View.GONE);
+            reviewsRecyclerView.setVisibility(View.VISIBLE);
+            isListings = false;
+        });
+
         if (userID >= 0) {
             User user = AppActivity.getDatabase().userDAO().getUserByID(userID);
-            // todo(Tautvydas): separate out textViews
+            // todo(Woody): separate out textViews
             textViewUsername.setText(user.getName() + "\n" +
                     "0.0 / 5");
+
+            List<Review> reviews = AppActivity.getDatabase().reviewDAO().getReviewsBySellerID(userID);
+            if (!reviews.isEmpty())
+                reviewsRecyclerView.setAdapter(new ReviewItemAdapter(reviews, this));
         }
 
         ListingDAO dao = AppActivity.getDatabase().listingDAO();
-        List<Listing> list = dao.getAllListings();
+        List<Listing> list = dao.getListingsByUserId(userID);
 
         if(!list.isEmpty())
             recyclerView.setAdapter(new ListingItemAdapter(list, this));
@@ -102,8 +111,21 @@ public class SellerFragment extends Fragment implements RecyclerViewEvent {
 
     @Override
     public void onItemClick(int position) {
-        // TODO(Tautvydas):
-        Fragment page = new ListingPageFragment();
-        ((MainActivity)getActivity()).replaceFragment(page);
+        // TODO(Woody):
+        if(isListings) {
+
+            System.out.println("Listings");
+            Fragment page = new ListingPageFragment();
+            ((MainActivity)getActivity()).replaceFragment(page);
+        }
+        else {
+            System.out.println("Reviews");
+            ReviewDAO dao = AppActivity.getDatabase().reviewDAO();
+            List<Review> list = dao.getReviewsBySellerID(userID);
+
+            Fragment fragment = SellerFragment.newInstance(list.get(position).getFk_buyerid(), "");
+
+            ((MainActivity)getActivity()).replaceFragment(fragment);
+        }
     }
 }

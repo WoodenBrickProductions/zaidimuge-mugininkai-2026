@@ -88,6 +88,16 @@
                 tools:listitem="@layout/listing_item_editable">
             </androidx.recyclerview.widget.RecyclerView>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reviews_list"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:visibility="gone"
+                tools:listitem="@layout/listing_review">
+            </androidx.recyclerview.widget.RecyclerView>
+
             <Button
                 android:id="@+id/createListing"
                 style="@style/MyButton"

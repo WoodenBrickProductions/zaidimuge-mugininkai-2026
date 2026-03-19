@@ -19,4 +19,9 @@ public interface ReviewDAO {
 
     @Query("SELECT * FROM Review WHERE fk_listingid = :id")
     Review getReviewByID(long id);
+
+    @Query("SELECT Review.* FROM Review " +
+            "INNER JOIN Listing ON Review.fk_listingid = Listing.id " +
+            "WHERE Listing.fk_seller = :sellerId")
+    List<Review> getReviewsBySellerID(long sellerId);
 }
