@@ -115,7 +115,9 @@ public class SellerFragment extends Fragment implements RecyclerViewEvent {
         if(isListings) {
 
             System.out.println("Listings");
-            Fragment page = new ListingPageFragment();
+            ListingDAO dao = AppActivity.getDatabase().listingDAO();
+            var list = dao.getListingsByUserId(userID);
+            Fragment page = ListingPageFragment.newInstance(list.get(position).getId(), "");
             ((MainActivity)getActivity()).replaceFragment(page);
         }
         else {
