@@ -38,5 +38,10 @@ public class Review {
     public void setComment(String comment) { this.comment = comment; }
     public String getComment() { return this.comment; }
 
-
+    public void generateTestData(long fk_listingid, long fk_buyerid) {
+        this.fk_listingid = fk_listingid;
+        this.fk_buyerid = fk_buyerid;
+        this.rating = (int) (fk_listingid / 7.3d) % 5;
+        this.comment = "Lorem Ipsum " + fk_listingid + " " + fk_buyerid;
+    }
 }

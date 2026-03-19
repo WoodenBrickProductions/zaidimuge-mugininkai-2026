@@ -23,6 +23,7 @@ public class AppActivity extends Application {
                 .setQueryCallback((sqlQuery, bindArgs) -> {
                     Log.d("RoomQueryLog", "SQL Query: " + sqlQuery + " SQL Args: " + bindArgs);
                 }, Executors.newSingleThreadExecutor())
+                .createFromAsset("my_app_db.db")
                 .allowMainThreadQueries().build();
         // use .fallbackToDestructiveMigration() before .setQueryCallback()
         // so the database can be updated - new tables added and such
@@ -42,35 +43,31 @@ public class AppActivity extends Application {
         User user1 = new User();
         User user2 = new User();
 
-        user1.setId(DUMMY_ID);
-        user2.setId(DUMMY_ID + 1);
+        user1.generateTestData(DUMMY_ID);
+        user2.generateTestData(DUMMY_ID + 1);
 
-        Game game = new Game();
+        for(int i = 0; i < 10; i++)
+        {
+            Game game = new Game();
+            game.generateTestData(DUMMY_ID + i);
 
-        Listing listing = new Listing();
+            if (db.gameDAO().getGameByID(game.getId()) == null) {
+                db.gameDAO().insert(game);
+            }
+        }
+
 
         Platform platform = new Platform();
-
-        Review review = new Review();
-
-        game.setId(DUMMY_ID);
-
         platform.setId(DUMMY_ID);
         platform.setName("PC");
 
-        listing.setId(DUMMY_ID);
-        listing.setFk_seller(user1.getId());
-        listing.setFk_platform(platform.getId());
-        listing.setFk_gameid(game.getId());
+        Listing listing = new Listing();
+        listing.generateTestData(DUMMY_ID, DUMMY_ID, user1.getId(), platform.getId());
 
-        review.setFk_listingid(listing.getId());
-        review.setFk_buyerid(user2.getId());
+        Review review = new Review();
+        review.generateTestData(listing.getId(), user2.getId());
 
         //PhysicalListingAttributes attributes = new PhysicalListingAttributes();
-
-        if (db.gameDAO().getGameByID(game.getId()) == null) {
-            db.gameDAO().insert(game);
-        }
 
         if (db.platformDAO().getPlatformByID(platform.getId()) == null) {
             db.platformDAO().insert(platform);

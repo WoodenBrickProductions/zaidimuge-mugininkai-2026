@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+
 @Entity
 public class Game {
     @PrimaryKey(autoGenerate = true)
@@ -33,4 +34,14 @@ public class Game {
     public String getImage() { return this.image; }
     public void setIs_for_adults(boolean is_for_adults) { this.is_for_adults = is_for_adults; }
     public boolean getIs_for_adults() { return this.is_for_adults; }
+
+    public void generateTestData(long id)
+    {
+        this.id = id;
+        this.steamdbid = id + 10000;
+        this.title = "game_" + id;
+        this.description = "game game " + id;
+        this.is_for_adults = false;
+    }
+
 }

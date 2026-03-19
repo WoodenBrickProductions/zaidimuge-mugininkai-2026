@@ -29,5 +29,12 @@ public class User {
     public void setPassword(String password) { this.password = password; }
     public String getPassword() { return this.password; }
 
+    public void generateTestData(long id)
+    {
+        this.id = id;
+        this.name = "test_name_" + id;
+        this.email = "test_" + id + "@email.com";
+        this.password = "test";
+    }
 
 }

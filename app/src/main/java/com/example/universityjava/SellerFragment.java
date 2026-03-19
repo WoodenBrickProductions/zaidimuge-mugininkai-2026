@@ -87,6 +87,7 @@ public class SellerFragment extends Fragment implements RecyclerViewEvent {
         long userID = prefs.getLong("user_id", -1);
         if (userID >= 0) {
             User user = AppActivity.getDatabase().userDAO().getUserByID(userID);
+            // todo(Tautvydas): separate out textViews
             textViewUsername.setText(user.getName() + "\n" +
                     "0.0 / 5");
         }

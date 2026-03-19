@@ -60,6 +60,16 @@ public class Listing {
     public long getFk_gameid() { return this.fk_gameid; }
     public void setIssold(boolean isdigital) {this.issold = issold;}
     public boolean getIssold() {return this.issold;}
+
+    public void generateTestData(long id, long fk_gameid, long fk_seller, int fk_platform) {
+        this.id = id;
+        this.fk_gameid = fk_gameid;
+        this.fk_seller = fk_seller;
+        this.fk_platform = fk_platform;
+        this.issold = false;
+        this.isdigital = true;
+        this.price = id / 7.2d;
+    }
 }
 
 
