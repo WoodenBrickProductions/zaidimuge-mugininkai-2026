@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.universityjava.database.Game;
+import com.example.universityjava.database.Listing;
+import com.example.universityjava.database.WishlistListing;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +30,7 @@ public class WishlistFragment extends Fragment implements RecyclerViewEvent{
 
     private RecyclerView recyclerView;
 
-    private List<Game> list;
+    private List<WishlistListing> list;
 
     public WishlistFragment() {
         // Required empty public constructor
@@ -46,9 +49,15 @@ public class WishlistFragment extends Fragment implements RecyclerViewEvent{
         View view = inflater.inflate(R.layout.fragment_wishlist, container, false);
         recyclerView = view.findViewById(R.id.wishlist_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        list = AppActivity.getDatabase().gameDAO().getWishlistGameByUserId(AppActivity.getCurrentUserID());
-        if(!list.isEmpty()) {
-            var listingItemAdapter = new ListingItemAdapter(list, this, ListingItemAdapter.ListingMode.ADDABLE);
+        list = AppActivity.getDatabase().wishlistListingDAO().getListingsByUserId(AppActivity.getCurrentUserID());
+        List<Listing> listingList = new ArrayList<Listing>();
+        for(int i = 0; i < list.size(); i++)
+        {
+            var e = list.get(i);
+            listingList.add(AppActivity.getDatabase().listingDAO().getListingByID(e.getFk_listingid()));
+        }
+        if(!listingList.isEmpty()) {
+            var listingItemAdapter = new ListingItemAdapter(listingList, this, ListingItemAdapter.ListingMode.ADDABLE);
             listingItemAdapter.showWishlist = false;
             recyclerView.setAdapter(listingItemAdapter);
         }
@@ -57,7 +66,7 @@ public class WishlistFragment extends Fragment implements RecyclerViewEvent{
 
     @Override
     public void onItemClick(int position) {
-        Toast toast = Toast.makeText(getContext(), list.get(position).getTitle(), Toast.LENGTH_SHORT);
-        toast.show();
+//        Toast toast = Toast.makeText(getContext(), list.get(position).getTitle(), Toast.LENGTH_SHORT);
+//        toast.show();
     }
 }

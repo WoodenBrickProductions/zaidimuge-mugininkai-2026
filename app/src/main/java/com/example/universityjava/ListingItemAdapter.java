@@ -11,8 +11,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.universityjava.database.CartListing;
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
+import com.example.universityjava.database.WishlistListing;
 
 import java.util.List;
 
@@ -47,6 +49,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         }
     }
     public static class ListingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private Listing listing;
         private final TextView title;
         private final TextView price;
         private final ImageView image;
@@ -108,23 +111,24 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ListingItemAdapter.ListingViewHolder holder, int position) {
+        var listing = listings.get(position);
         if(isCategory){
             Game item = games.get(position);
             holder.getTitle().setText(item.getTitle());
             holder.getImage().setImageResource(R.drawable.ic_launcher_background);
             double price = db.gameDAO().getGameMinPriceById(item.getId());
-            if(price != 0)
+            if(price != 0) {
                 holder.getPrice().setText(price+" €");
+            }
             else{
                 holder.getListingsFrom().setText(R.string.NoListings);
                 holder.getPrice().setText("");}
-        }else{
-            Listing item = listings.get(position);
-        holder.getTitle().setText(db.listingDAO().getGameNameByListingId(item.getId()));
-        holder.getListingsFrom().setVisibility(View.GONE);
-        holder.getImage().setImageResource(R.drawable.ic_launcher_background);
-        holder.getPrice().setText(item.getPrice()+" €");
-
+        }else {
+            holder.getTitle().setText(db.listingDAO().getGameNameByListingId(listing.getId()));
+            holder.getListingsFrom().setVisibility(View.GONE);
+            holder.getImage().setImageResource(R.drawable.ic_launcher_background);
+            holder.getPrice().setText(listing.getPrice() + " €");
+        }
         if(listingMode == ListingMode.EDITABLE)
         {
             holder.editButton.setVisibility(showEdit ? ViewGroup.VISIBLE : View.GONE);
@@ -152,17 +156,27 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(view.getContext(), "Wishlist!", Toast.LENGTH_SHORT).show();
-                    // TODO: Add listing edit
+                    var wListing = new WishlistListing();
+                    wListing.setFk_listingid(listing.getId());
+                    wListing.setFk_userid(AppActivity.getCurrentUserID());
+                    if(AppActivity.getDatabase().wishlistListingDAO().getListingByListingID(listing.getId()).size() == 0) {
+                        AppActivity.getDatabase().wishlistListingDAO().insert(wListing);
+                    }
                 }
             });
             holder.cartButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    var wListing = new CartListing();
+                    wListing.setFk_listingid(listing.getId());
+                    wListing.setFk_userid(AppActivity.getCurrentUserID());
+                    if(AppActivity.getDatabase().cartListingDAO().getListingByListingID(listing.getId()).size() == 0) {
+                        AppActivity.getDatabase().cartListingDAO().insert(wListing);
+                    }
                     Toast.makeText(view.getContext(), "Cart!", Toast.LENGTH_SHORT).show();
                     // TODO: Add listing delete
                 }
             });
-        }
         }
     }
 

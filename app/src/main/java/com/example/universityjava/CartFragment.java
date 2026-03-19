@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +60,14 @@ public class CartFragment extends Fragment implements RecyclerViewEvent {
             listingItemAdapter.showCart = false;
             recyclerView.setAdapter(listingItemAdapter);
         }
+
+        Button buy = view.findViewById(R.id.buyCartButton);
+        buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "Buying!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
     }

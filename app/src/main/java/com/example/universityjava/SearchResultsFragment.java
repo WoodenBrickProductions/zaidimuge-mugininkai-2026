@@ -13,13 +13,14 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.universityjava.database.Game;
+import com.example.universityjava.database.Listing;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchResultsFragment extends Fragment implements RecyclerViewEvent {
     String _query;
-    private List<Game> list;
+    private List<Listing> list;
     private RecyclerView recyclerView;
 
     public SearchResultsFragment() {
@@ -66,7 +67,7 @@ public class SearchResultsFragment extends Fragment implements RecyclerViewEvent
         for (int i = 0; i < 7; i++) {
             images.add(R.drawable.ic_game_test_icon);
         }
-        list = AppActivity.getDatabase().gameDAO().getGamesByTitle(_query);
+        list = AppActivity.getDatabase().listingDAO().getAllListings();
         ImageAdapter adapter = new ImageAdapter(getContext(), images);
 
 //        recyclerView.setAdapter(new ListingItemAdapter(list, this));
@@ -80,7 +81,7 @@ public class SearchResultsFragment extends Fragment implements RecyclerViewEvent
 
     @Override
     public void onItemClick(int position) {
-        Toast toast = Toast.makeText(getContext(), list.get(position).getTitle(), Toast.LENGTH_SHORT);
-        toast.show();
+//        Toast toast = Toast.makeText(getContext(), list.get(position).get(), Toast.LENGTH_SHORT);
+//        toast.show();
     }
 }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.universityjava.database.Game;
+import com.example.universityjava.database.Listing;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.List;
 public class MainCategoriesFragment extends Fragment implements RecyclerViewEvent {
 
     String name;
-    private List<Game> list;
+    private List<Listing> list;
     private RecyclerView recyclerView;
 
     public MainCategoriesFragment() {
@@ -56,7 +57,7 @@ public class MainCategoriesFragment extends Fragment implements RecyclerViewEven
         for (int i = 0; i < 7; i++) {
             images.add(R.drawable.ic_game_test_icon);
         }
-        list = AppActivity.getDatabase().gameDAO().getAllGames();
+        list = AppActivity.getDatabase().listingDAO().getAllListings();
         ImageAdapter adapter = new ImageAdapter(getContext(), images);
 
 //        recyclerView.setAdapter(new ListingItemAdapter(list, this));
