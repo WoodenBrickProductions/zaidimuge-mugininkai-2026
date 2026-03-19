@@ -107,6 +107,16 @@
                     app:layout_constraintBottom_toBottomOf="@+id/user_rating"
                     app:layout_constraintStart_toEndOf="@+id/user_rating"
                     app:layout_constraintTop_toTopOf="@+id/user_rating" />
+
+                <Button
+                    android:id="@+id/buttonSeller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Pardavėjas"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/out_of_five"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
