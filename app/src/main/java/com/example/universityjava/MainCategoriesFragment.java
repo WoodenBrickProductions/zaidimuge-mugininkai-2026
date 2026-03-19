@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.universityjava.database.Game;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +21,11 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class MainCategoriesFragment extends Fragment {
+public class MainCategoriesFragment extends Fragment implements RecyclerViewEvent {
 
     String name;
+    private List<Game> list;
+    private RecyclerView recyclerView;
 
     public MainCategoriesFragment() {
         // Required empty public constructor
@@ -49,9 +54,18 @@ public class MainCategoriesFragment extends Fragment {
         for (int i = 0; i < 7; i++) {
             images.add(R.drawable.ic_game_test_icon);
         }
+        list = AppActivity.getDatabase().gameDAO().getAllGames();
         ImageAdapter adapter = new ImageAdapter(getContext(), images);
 
-        recyclerView.setAdapter(adapter);
+//        recyclerView.setAdapter(new ListingItemAdapter(list, this));
+        if(!list.isEmpty())
+            recyclerView.setAdapter(new ListingItemAdapter(list, this));
         return view;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Toast toast = Toast.makeText(getContext(), list.get(position).getTitle(), Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

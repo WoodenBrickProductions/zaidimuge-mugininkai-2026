@@ -10,12 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
+
+import com.example.universityjava.database.Game;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchResultsFragment extends Fragment {
+public class SearchResultsFragment extends Fragment implements RecyclerViewEvent {
     String _query;
+    private List<Game> list;
+    private RecyclerView recyclerView;
+
     public SearchResultsFragment() {
         // Required empty public constructor
     }
@@ -44,9 +50,19 @@ public class SearchResultsFragment extends Fragment {
         for (int i = 0; i < 7; i++) {
             images.add(R.drawable.ic_game_test_icon);
         }
+        list = AppActivity.getDatabase().gameDAO().getAllGames();
         ImageAdapter adapter = new ImageAdapter(getContext(), images);
-        recyclerView.setAdapter(adapter);
+
+//        recyclerView.setAdapter(new ListingItemAdapter(list, this));
+        if(!list.isEmpty())
+            recyclerView.setAdapter(new ListingItemAdapter(list, this));
 
         return view;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Toast toast = Toast.makeText(getContext(), list.get(position).getTitle(), Toast.LENGTH_SHORT);
+        toast.show();
     }
 }
