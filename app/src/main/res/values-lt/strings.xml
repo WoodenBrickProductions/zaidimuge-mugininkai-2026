@@ -18,7 +18,7 @@
     <string name="logout">Atsijungti</string>
     <string name="profile">Profilis</string>
     <string name="toast_missing_username_password">Naudotojo vardas ir slaptažodis turi būti įvesti</string>
-    <string name="toast_user_doesnt_exist">Naudotojas su tokiu slaptažodžiu neegzistuoja</string>
+    <string name="toast_user_doesnt_exist">Naudotojas su tokiu slapyvardžiu neegzistuoja</string>
     <string name="toast_incorrect_password">Neteisingas slaptažodis</string>
     <string name="toast_welcome">Sveiki</string>
     <string name="toast_registration_successful">Registracija sėkminga</string>
