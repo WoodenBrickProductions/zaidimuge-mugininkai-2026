@@ -26,4 +26,7 @@ public interface GameDAO {
 
     @Query("SELECT MIN(price) FROM Listing INNER JOIN Game ON Listing.fk_gameid = :id")
     double getGameMinPriceById(long id);
+
+    @Query("SELECT * FROM Game INNER JOIN WishlistGame ON Game.id = fk_gameid WHERE fk_userid = :id")
+    List<Game> getWishlistGameByUserId(long id);
 }

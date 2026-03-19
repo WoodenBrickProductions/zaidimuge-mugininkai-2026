@@ -23,10 +23,18 @@ public interface ListingDAO {
     @Query("SELECT * FROM Listing WHERE fk_seller LIKE :userid")
     List<Listing> getListingsByUserId(long userid);
 
+
+
     @Query("SELECT * FROM Listing WHERE id = :id")
     Listing getListingByID(long id);
 
     @Query("SELECT Game.title FROM Game INNER JOIN Listing ON Game.id = fk_gameid WHERE " +
             "Listing.id = :id")
     String getGameNameByListingId(long id);
+
+    @Query("SELECT * FROM Listing INNER JOIN WishlistListing ON Listing.id = fk_listingid WHERE fk_userid = :id")
+    List<Listing> getWishlistListingsByUserId(long id);
+
+    @Query("SELECT * FROM Listing INNER JOIN CartListing ON Listing.id = fk_listingid WHERE fk_userid = :id")
+    List<Listing> getCartListingsByUserId(long id);
 }

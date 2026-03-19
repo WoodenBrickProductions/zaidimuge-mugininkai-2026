@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link WishlistFragment#newInstance} factory method to
+ * Use the {@link WishlistFragment} factory method to
  * create an instance of this fragment.
  */
 public class WishlistFragment extends Fragment implements RecyclerViewEvent{
@@ -46,7 +46,7 @@ public class WishlistFragment extends Fragment implements RecyclerViewEvent{
         View view = inflater.inflate(R.layout.fragment_wishlist, container, false);
         recyclerView = view.findViewById(R.id.wishlist_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        list = AppActivity.getDatabase().gameDAO().getAllGames();
+        list = AppActivity.getDatabase().gameDAO().getWishlistGameByUserId(AppActivity.getCurrentUserID());
         if(!list.isEmpty())
             recyclerView.setAdapter(new ListingItemAdapter(list, this));
         return view;
