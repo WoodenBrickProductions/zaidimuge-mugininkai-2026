@@ -66,7 +66,7 @@ public class AddListingFragment extends Fragment {
 
                 var listing = new Listing();
                 listing.setFk_gameid(game.getId());
-                listing.setFk_seller(prefs.getLong("user_id", -1));
+                listing.setFk_seller(AppActivity.getCurrentUserID());
 
                 final int DUMMY_ID = 100000; // TODO(Woody): implement
                 listing.setFk_platform(DUMMY_ID);

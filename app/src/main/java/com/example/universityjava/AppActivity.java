@@ -1,6 +1,8 @@
 package com.example.universityjava;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.room.Room;
@@ -15,6 +17,7 @@ import java.util.concurrent.Executors;
 
 public class AppActivity extends Application {
     static AppDatabase db;
+    static SharedPreferences prefs;
 
     @Override
     public void onCreate() {
@@ -31,10 +34,15 @@ public class AppActivity extends Application {
         // setQueryCallback adds SQL messages to Logcat
         //.createFromAsset("my_app_db.db") to use pre-made database in assets folder
 
+        prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         generateTestData();
     }
 
     public static AppDatabase getDatabase() { return db; }
+
+    public static long getCurrentUserID() {
+        return prefs.getLong("user_id", -1);
+    }
 
     private void generateTestData() {
 

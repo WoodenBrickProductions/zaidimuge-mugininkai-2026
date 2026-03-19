@@ -40,8 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         db = AppActivity.getDatabase();
 
-        SharedPreferences prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
-        long userID = prefs.getLong("user_id", -1);
+        long userID = AppActivity.getCurrentUserID();
 
         _bottomNavigationView = findViewById(R.id.bottomNavigationView);
         _bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

@@ -36,8 +36,6 @@ public class CartFragment extends Fragment implements RecyclerViewEvent {
     }
     @Override
     public void onItemClick(int position) {
-        SharedPreferences prefs = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
-
         Fragment page = ListingPageFragment.newInstance(list.get(position).getId(), "");
         ((MainActivity)getActivity()).replaceFragment(page);
     }
