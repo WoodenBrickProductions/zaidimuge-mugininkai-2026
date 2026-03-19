@@ -1,5 +1,7 @@
 package com.example.universityjava;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -65,7 +67,8 @@ public class MainCategoriesFragment extends Fragment implements RecyclerViewEven
 
     @Override
     public void onItemClick(int position) {
-        Toast toast = Toast.makeText(getContext(), list.get(position).getTitle(), Toast.LENGTH_SHORT);
-        toast.show();
+        SharedPreferences prefs = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        Fragment page = ListingPageFragment.newInstance(prefs.getLong("user_id", -1), "");
+        ((MainActivity)getActivity()).replaceFragment(page);
     }
 }

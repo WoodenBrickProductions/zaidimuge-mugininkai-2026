@@ -9,7 +9,7 @@ import java.util.List;
 @Dao
 public interface ListingDAO {
     @Insert
-    void insert(Listing listing);
+    long insert(Listing listing);
 
     @Query("DELETE FROM Listing")
     void deleteAll();

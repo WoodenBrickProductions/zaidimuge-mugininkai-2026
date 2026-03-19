@@ -41,8 +41,8 @@ public class HomeFragment extends Fragment {
         _buttonCreateListing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getBaseContext(), LoginActivity.class);
-//                startActivity(intent);
+                Fragment fragment = new AddListingFragment();
+                ((MainActivity)getActivity()).replaceFragment(fragment);
             }
         });
 

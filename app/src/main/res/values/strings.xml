@@ -30,6 +30,7 @@
     <string name="enter_username">enter username</string>
     <string name="enter_password">enter password</string>
     <string name="username">username</string>
+    <string name="price">price</string>
     <string name="email">email</string>
     <string name="password">password</string>
     <string name="repeat_password">repeat password</string>
@@ -37,6 +38,8 @@
     <string name="login_name">Login</string>
     <string name="about">About</string>
     <string name="language">Language</string>
+    <string name="type">Type</string>
+    <string name="platform">Platform</string>
     <string name="theme">Theme</string>
     <string name="NoListings">No listings</string>
     <string-array name="languages_array">

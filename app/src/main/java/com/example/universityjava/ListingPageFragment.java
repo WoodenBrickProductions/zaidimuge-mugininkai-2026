@@ -67,14 +67,14 @@ public class ListingPageFragment extends Fragment {
         // Inflate the layout for this fragment
         //View view = inflater.inflate(R.layout.fragment_home, container, false);
         View view = inflater.inflate(R.layout.fragment_listing_page, container, false);
-        /*Button _buttonCreateListing = (Button) view.findViewById(R.id.buttonCreateListing);
-        _buttonCreateListing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Intent intent = new Intent(getBaseContext(), LoginActivity.class);
-//                startActivity(intent);
-            }
-        });*/
+//        Button _buttonCreateListing = (Button) view.findViewById(R.id.button);
+//        _buttonCreateListing.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Fragment fragment = new AddListingFragment();
+//                ((MainActivity)getActivity()).replaceFragment(fragment);
+//            }
+//        });
 
         /*Button _buttonPopular = (Button) view.findViewById(R.id.buttonPopular);
         _buttonPopular.setOnClickListener(new View.OnClickListener() {

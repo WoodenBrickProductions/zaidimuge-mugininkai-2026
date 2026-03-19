@@ -62,9 +62,17 @@ public class SellerFragment extends Fragment implements RecyclerViewEvent {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_seller, container, false);
+        // Inflate the layout for this fragment
+        Button _buttonCreateListing = (Button) view.findViewById(R.id.createListing);
+        _buttonCreateListing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new AddListingFragment();
+                ((MainActivity)getActivity()).replaceFragment(fragment);
+            }
+        });
         SharedPreferences prefs = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         TextView textViewUsername = view.findViewById(R.id.textViewProfileUsername);
 
