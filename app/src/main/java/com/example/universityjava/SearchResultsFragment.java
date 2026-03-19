@@ -42,6 +42,22 @@ public class SearchResultsFragment extends Fragment implements RecyclerViewEvent
         SearchView searchView = view.findViewById(R.id.searchViewResult);
         searchView.setQuery(_query, false);
         searchView.setIconified(false);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Fragment fragment = new SearchResultsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("query", s);
+                fragment.setArguments(bundle);
+                ((MainActivity)getActivity()).replaceFragment(fragment);
+                return true;
+            }
+        });
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewSearchResults);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -50,7 +66,7 @@ public class SearchResultsFragment extends Fragment implements RecyclerViewEvent
         for (int i = 0; i < 7; i++) {
             images.add(R.drawable.ic_game_test_icon);
         }
-        list = AppActivity.getDatabase().gameDAO().getAllGames();
+        list = AppActivity.getDatabase().gameDAO().getGamesByTitle(_query);
         ImageAdapter adapter = new ImageAdapter(getContext(), images);
 
 //        recyclerView.setAdapter(new ListingItemAdapter(list, this));

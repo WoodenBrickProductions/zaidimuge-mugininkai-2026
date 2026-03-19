@@ -18,6 +18,9 @@ public interface GameDAO {
     @Query("SELECT * FROM Game ORDER BY title")
     List<Game> getAllGames();
 
+    @Query("SELECT * FROM Game WHERE title LIKE '%' || :query || '%' ORDER BY title")
+    List<Game> getGamesByTitle(String query);
+
     @Query("SELECT * FROM Game WHERE title LIKE :name")
     List<Game> getGameByName(String name);
 
