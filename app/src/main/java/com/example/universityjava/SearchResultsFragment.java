@@ -70,8 +70,10 @@ public class SearchResultsFragment extends Fragment implements RecyclerViewEvent
         ImageAdapter adapter = new ImageAdapter(getContext(), images);
 
 //        recyclerView.setAdapter(new ListingItemAdapter(list, this));
-        if(!list.isEmpty())
-            recyclerView.setAdapter(new ListingItemAdapter(list, this));
+        if(!list.isEmpty()) {
+            var listingItemAdapter = new ListingItemAdapter(list, this, ListingItemAdapter.ListingMode.ADDABLE);
+            recyclerView.setAdapter(listingItemAdapter);
+        }
 
         return view;
     }

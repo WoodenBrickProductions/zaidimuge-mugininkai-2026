@@ -17,14 +17,25 @@ import com.example.universityjava.database.Listing;
 import java.util.List;
 
 public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.ListingViewHolder> {
+
+    public enum ListingMode {
+        EDITABLE,
+        ADDABLE
+    }
     private boolean isCategory;
     private List<Listing> listings;
     private List<Game> games;
     private static RecyclerViewEvent listener;
+    public ListingMode listingMode;
+    public boolean showDelete = true;
+    public boolean showEdit = true;
+    public boolean showWishlist = true;
+    public boolean showCart = true;
     private final AppDatabase db = AppActivity.getDatabase();
     /// Listing list or Game list to work
-    public ListingItemAdapter(List<?> list, RecyclerViewEvent listener){
+    public ListingItemAdapter(List<?> list, RecyclerViewEvent listener, ListingMode mode){
         ListingItemAdapter.listener = listener;
+        this.listingMode = mode;
         if (list != null && !list.isEmpty()){
             if(list.get(0) instanceof Listing){
                 this.listings = (List<Listing>) list;
@@ -42,6 +53,8 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         private final TextView listingsFrom;
         private final Button editButton;
         private final Button deleteButton;
+        private final Button wishlistButton;
+        private final Button cartButton;
         public ListingViewHolder(View view) {
             super(view);
 
@@ -51,6 +64,8 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
             listingsFrom = (TextView) view.findViewById(R.id.listings_from);
             editButton = (Button) view.findViewById(R.id.buttonEdit);
             deleteButton = view.findViewById(R.id.buttonDelete);
+            cartButton = view.findViewById(R.id.buttonCart);
+            wishlistButton = view.findViewById(R.id.buttonWishlist);
             view.setOnClickListener(this);
         }
 
@@ -77,9 +92,18 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
     @NonNull
     @Override
     public ListingItemAdapter.ListingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.listing_item_editable, parent, false);
-        return new ListingViewHolder(view);
+        switch (listingMode) {
+            case EDITABLE -> {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.listing_item_editable, parent, false);
+                return new ListingViewHolder(view);
+            }
+            default -> { // ADDABLE
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.listing_item_addable, parent, false);
+                return new ListingViewHolder(view);
+            }
+        }
     }
 
     @Override
@@ -100,15 +124,46 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         holder.getListingsFrom().setVisibility(View.GONE);
         holder.getImage().setImageResource(R.drawable.ic_launcher_background);
         holder.getPrice().setText(item.getPrice()+" €");
+
+        if(listingMode == ListingMode.EDITABLE)
+        {
+            holder.editButton.setVisibility(showEdit ? ViewGroup.VISIBLE : View.GONE);
+            holder.deleteButton.setVisibility(showDelete ? ViewGroup.VISIBLE : View.GONE);
+            holder.editButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(view.getContext(), "Editing!", Toast.LENGTH_SHORT).show();
+                    // TODO: Add listing edit
+                }
+            });
+            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(view.getContext(), "Deleting!", Toast.LENGTH_SHORT).show();
+                    // TODO: Add listing delete
+                }
+            });
         }
-        holder.editButton.setVisibility(View.GONE);
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(), "Deleting!", Toast.LENGTH_SHORT).show();
-                // TODO: Add listing delete
-            }
-        });
+        else
+        {
+            holder.wishlistButton.setVisibility(showWishlist ? ViewGroup.VISIBLE : View.GONE);
+            holder.cartButton.setVisibility(showCart ? ViewGroup.VISIBLE : View.GONE);
+            holder.wishlistButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(view.getContext(), "Wishlist!", Toast.LENGTH_SHORT).show();
+                    // TODO: Add listing edit
+                }
+            });
+            holder.cartButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(view.getContext(), "Cart!", Toast.LENGTH_SHORT).show();
+                    // TODO: Add listing delete
+                }
+            });
+        }
+        }
     }
 
     @Override

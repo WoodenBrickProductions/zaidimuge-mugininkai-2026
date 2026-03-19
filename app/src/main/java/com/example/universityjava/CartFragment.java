@@ -54,8 +54,12 @@ public class CartFragment extends Fragment implements RecyclerViewEvent {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         list = AppActivity.getDatabase().listingDAO().getCartListingsByUserId(AppActivity.getCurrentUserID());
         //list = AppActivity.getDatabase().listingDAO().getAllListings();
-        if(!list.isEmpty())
-            recyclerView.setAdapter(new ListingItemAdapter(list, this));
+        if(!list.isEmpty()) {
+            var listingItemAdapter = new ListingItemAdapter(list, this, ListingItemAdapter.ListingMode.ADDABLE);
+            listingItemAdapter.showCart = false;
+            recyclerView.setAdapter(listingItemAdapter);
+        }
+
         return view;
     }
 

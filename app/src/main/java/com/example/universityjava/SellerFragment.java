@@ -112,8 +112,10 @@ public class SellerFragment extends Fragment implements RecyclerViewEvent {
         ListingDAO dao = AppActivity.getDatabase().listingDAO();
         List<Listing> list = dao.getListingsByUserId(userID);
 
-        if(!list.isEmpty())
-            recyclerView.setAdapter(new ListingItemAdapter(list, this));
+        if(!list.isEmpty()) {
+            var listingItemAdapter = new ListingItemAdapter(list, this, ListingItemAdapter.ListingMode.EDITABLE);
+            recyclerView.setAdapter(listingItemAdapter);
+        }
         return view;
     }
 

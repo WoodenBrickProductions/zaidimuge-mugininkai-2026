@@ -39,7 +39,7 @@
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_weight="1"
-        tools:listitem="@layout/listing_item_editable">
+        tools:listitem="@layout/listing_item_addable">
     </androidx.recyclerview.widget.RecyclerView>
 
 

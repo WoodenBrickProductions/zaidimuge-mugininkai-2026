@@ -47,8 +47,11 @@ public class WishlistFragment extends Fragment implements RecyclerViewEvent{
         recyclerView = view.findViewById(R.id.wishlist_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         list = AppActivity.getDatabase().gameDAO().getWishlistGameByUserId(AppActivity.getCurrentUserID());
-        if(!list.isEmpty())
-            recyclerView.setAdapter(new ListingItemAdapter(list, this));
+        if(!list.isEmpty()) {
+            var listingItemAdapter = new ListingItemAdapter(list, this, ListingItemAdapter.ListingMode.ADDABLE);
+            listingItemAdapter.showWishlist = false;
+            recyclerView.setAdapter(listingItemAdapter);
+        }
         return view;
     }
 
