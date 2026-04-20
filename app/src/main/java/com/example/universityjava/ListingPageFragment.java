@@ -6,12 +6,18 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
+import com.example.universityjava.database.PhysicalListingAttributes;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,8 +33,24 @@ public class ListingPageFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private long listingID;
+    private User seller;
     private Listing listing;
+    private PhysicalListingAttributes physical;
+    private Game game;
     private String mParam2;
+    private View view;
+
+    private ImageView listingImage;
+    private TextView title;
+    private TextView description;
+    private TextView conditionStateTitle;
+    private TextView conditionState;
+    private TextView conditionDescription;
+    private TextView listingPrice;
+    private ImageView sellerImage;
+    private TextView sellerName;
+    private TextView sellerScore;
+
 
     public ListingPageFragment() {
         // Required empty public constructor
@@ -57,8 +79,18 @@ public class ListingPageFragment extends Fragment {
         if (getArguments() != null) {
             listingID = getArguments().getLong(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            //View view = this.getView();
+
+
 
             listing = AppActivity.getDatabase().listingDAO().getListingByID(listingID);
+            //Toast.makeText(getContext(),String.valueOf(listing.getId()), Toast.LENGTH_SHORT).show();
+            if(listing.getIsdigital()){
+                physical = AppActivity.getDatabase().physicalListingAttributesDAO().getPhysAttrByListingId(listingID);
+            }
+            seller = AppActivity.getDatabase().userDAO().getUserByID(listing.getFk_seller());
+            game = AppActivity.getDatabase().gameDAO().getGameByID(listing.getFk_gameid());
+
         }
     }
     @Override
@@ -66,39 +98,49 @@ public class ListingPageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //View view = inflater.inflate(R.layout.fragment_home, container, false);
-        View view = inflater.inflate(R.layout.fragment_listing_page, container, false);
-//        Button _buttonCreateListing = (Button) view.findViewById(R.id.button);
-//        _buttonCreateListing.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Fragment fragment = new AddListingFragment();
-//                ((MainActivity)getActivity()).replaceFragment(fragment);
-//            }
-//        });
+        view = inflater.inflate(R.layout.fragment_listing_page, container, false);
 
-        /*Button _buttonPopular = (Button) view.findViewById(R.id.buttonPopular);
-        _buttonPopular.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment fragment = new MainCategoriesFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("name", "Populiariausios prekės");
-                fragment.setArguments(bundle);
-                ((MainActivity)getActivity()).replaceFragment(fragment);
-            }
-        });
+        listingImage = view.findViewById(R.id.listingImage);
+        title = view.findViewById(R.id.listing_page_title);
+        description = view.findViewById(R.id.listing_description);
+        conditionStateTitle = view.findViewById(R.id.stateTitle);
+        conditionState = view.findViewById(R.id.listing_contition);
+        conditionDescription= view.findViewById(R.id.listing_condition_description);
+        listingPrice= view.findViewById(R.id.page_listing_price);
+        sellerImage =view.findViewById(R.id.user_profile_icon);
+        sellerName = view.findViewById(R.id.username);
+        sellerScore = view.findViewById(R.id.user_rating);
 
-        Button _buttonNewest = (Button) view.findViewById(R.id.buttonNewest);
-        _buttonNewest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment fragment = new MainCategoriesFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("name", "Naujausios prekės");
-                fragment.setArguments(bundle);
-                ((MainActivity)getActivity()).replaceFragment(fragment);
+        if (getArguments() != null) {
+            listingID = getArguments().getLong(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+
+            listing = AppActivity.getDatabase().listingDAO().getListingByID(listingID);
+            Toast.makeText(getContext(),String.valueOf(listing.getId()), Toast.LENGTH_SHORT).show();
+            if (!listing.getIsdigital()) {
+                physical = AppActivity.getDatabase().physicalListingAttributesDAO().getPhysAttrByListingId(listingID);
             }
-        });*/
+            else physical = null;
+            seller = AppActivity.getDatabase().userDAO().getUserByID(listing.getFk_seller());
+            game = AppActivity.getDatabase().gameDAO().getGameByID(listing.getFk_gameid());
+            Toast.makeText(getContext(),String.valueOf(game.getTitle()), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),String.valueOf(seller.getName()), Toast.LENGTH_SHORT).show();
+            String titletext = game.getTitle();
+            title.setText(titletext);
+            description.setText(game.getDescription());
+            listingPrice.setText(String.valueOf(listing.getPrice()));
+            Log.i("Listing: ", "IsDigital: "+ listing.getIsdigital()+" physicalAttr:"+physical);
+            if (listing.getIsdigital()) {
+                conditionStateTitle.setVisibility(View.GONE);
+                conditionState.setVisibility(View.GONE);
+                conditionDescription.setVisibility(View.GONE);
+            } else {
+                conditionState.setText(physical.getFk_condition().getResourceId());
+                conditionDescription.setText(physical.getCondition_description());
+            }
+            sellerName.setText(seller.getName());
+            sellerScore.setText("0");
+        }
 
         Button _buttonPhysical = (Button) view.findViewById(R.id.buttonSeller);
         _buttonPhysical.setOnClickListener(new View.OnClickListener() {

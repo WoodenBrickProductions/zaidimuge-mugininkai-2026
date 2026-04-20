@@ -24,7 +24,7 @@ public interface GameDAO {
     @Query("SELECT * FROM Game WHERE title LIKE :name")
     List<Game> getGameByName(String name);
 
-    @Query("SELECT * FROM Game WHERE id = :id")
+    @Query("SELECT * FROM Game WHERE id = :id LIMIT 1")
     Game getGameByID(long id);
 
     @Query("SELECT MIN(price) FROM Listing INNER JOIN Game ON Listing.fk_gameid = :id")

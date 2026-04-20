@@ -16,6 +16,6 @@ public interface PhysicalListingAttributesDAO {
     @Query("SELECT * FROM PhysicalListingAttributes")
     List<PhysicalListingAttributes> getAllListingsPhysAttr();
 
-    @Query("SELECT * FROM PhysicalListingAttributes WHERE fk_listingid LIKE :listingid LIMIT 1")
+    @Query("SELECT * FROM PhysicalListingAttributes WHERE fk_listingid = :listingid LIMIT 1")
     PhysicalListingAttributes getPhysAttrByListingId(long listingid);
 }
