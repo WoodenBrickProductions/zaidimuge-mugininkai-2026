@@ -2,11 +2,13 @@ package com.example.universityjava;
 
 import static android.app.PendingIntent.getActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +54,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         }
     }
     public static class ListingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private LinearLayout itemHolder;
         private Game game;
         private Listing listing;
         private final TextView title;
@@ -73,6 +76,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
             deleteButton = view.findViewById(R.id.buttonDelete);
             cartButton = view.findViewById(R.id.buttonCart);
             wishlistButton = view.findViewById(R.id.buttonWishlist);
+            itemHolder = view.findViewById(R.id.item_holder);
             view.setOnClickListener(this);
         }
 
@@ -88,7 +92,21 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         public TextView getListingsFrom(){
             return listingsFrom;
         }
-
+        public LinearLayout getItemHolder() {
+            return itemHolder;
+        }
+        public Button getWishlistButton(){
+            return wishlistButton;
+        }
+        public Button getEditButton(){
+            return editButton;
+        }
+        public Button getDeleteButton(){
+            return deleteButton;
+        }
+        public Button getCartButton(){
+            return cartButton;
+        }
         public void SetItem(Listing listing){
             this.listing = listing;
         }
@@ -172,6 +190,10 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         {
             holder.wishlistButton.setVisibility(showWishlist ? ViewGroup.VISIBLE : View.GONE);
             holder.cartButton.setVisibility(showCart ? ViewGroup.VISIBLE : View.GONE);
+            if(listing.getIssold()){
+                holder.wishlistButton.setEnabled(false);
+                holder.cartButton.setEnabled(false);
+            }
             holder.wishlistButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

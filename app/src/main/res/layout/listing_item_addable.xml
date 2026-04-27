@@ -2,17 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_holder"
     android:layout_width="365dp"
     android:layout_height="165dp"
-    android:padding="12dp"
+    android:layout_marginBottom="16dp"
     android:background="@color/secondary_background"
-    android:layout_marginBottom="16dp">
+    android:padding="12dp">
 
     <ImageView
         android:id="@+id/listing_image"
         android:layout_width="112dp"
         android:layout_height="140dp"
-        tools:srcCompat="@tools:sample/avatars"/>
+        tools:srcCompat="@tools:sample/avatars" />
 
     <Space
         android:layout_width="8dp"

@@ -58,7 +58,7 @@ public class Listing {
     public int getFk_platform() {return this.fk_platform;}
     public void setFk_gameid(long fk_gameid) { this.fk_gameid = fk_gameid; }
     public long getFk_gameid() { return this.fk_gameid; }
-    public void setIssold(boolean isdigital) {this.issold = issold;}
+    public void setIssold(boolean issold) {this.issold = issold;}
     public boolean getIssold() {return this.issold;}
 
     public void generateTestData(long id, long fk_gameid, long fk_seller, int fk_platform) {

@@ -32,6 +32,10 @@ public interface ListingDAO {
             "Listing.id = :id")
     String getGameNameByListingId(long id);
 
+    @Query("SELECT Platform.name FROM Platform INNER JOIN Listing ON Platform.id = fk_platform WHERE " +
+            "Listing.id = :id")
+    String getPlatformNameByListingId(long id);
+
     @Query("SELECT * FROM Listing INNER JOIN WishlistListing ON Listing.id = fk_listingid WHERE fk_userid = :id")
     List<Listing> getWishlistListingsByUserId(long id);
 

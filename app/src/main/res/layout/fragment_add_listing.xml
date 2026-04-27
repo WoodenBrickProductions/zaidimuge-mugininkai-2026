@@ -25,24 +25,24 @@
             style="@style/MyEditTextField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xlarge"
             android:elegantTextHeight="true"
             android:ems="10"
             android:hint="game name"
-            android:text="WIP Game"
             android:inputType="text"
-            android:layout_marginTop="@dimen/spacing_xlarge"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp"
+            android:text="WIP Game" />
 
         <EditText
             android:id="@+id/addListingPrice"
             style="@style/MyEditTextField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xlarge"
             android:elegantTextHeight="true"
             android:ems="10"
             android:hint="@string/price"
             android:inputType="text"
-            android:layout_marginTop="@dimen/spacing_xlarge"
             android:minHeight="48dp" />
 
         <LinearLayout
@@ -58,7 +58,7 @@
                 android:text="@string/type" />
 
             <Spinner
-                android:id="@+id/spinnerLanguage"
+                android:id="@+id/spinnerType"
                 style="@style/MyButton"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content" />
@@ -77,18 +77,64 @@
                 android:text="@string/platform" />
 
             <Spinner
-                android:id="@+id/spinnerTheme"
+                android:id="@+id/spinnerPlatform"
+                style="@style/MyButton"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/condition_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/condition_title" />
+
+            <Spinner
+                android:id="@+id/spinnerCondition"
                 style="@style/MyButton"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
+        <EditText
+            android:id="@+id/condition_description"
+            style="@style/MyEditTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:hint="@string/condition_description"/>
+
         <Button
+            android:id="@+id/buttonImage"
             style="@style/MyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add image" />
+
+        <Button
             android:id="@+id/buttonSubmit"
+            style="@style/MyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Submit" />
+
+        <Button
+            android:id="@+id/buttonDelete"
+            style="@style/MyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete" />
+
     </LinearLayout>
 
 </LinearLayout>

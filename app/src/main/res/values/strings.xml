@@ -50,10 +50,11 @@
         <item>Šviesi</item>
         <item>Tamsi</item>
     </string-array>
-    <string name="condition_title">Condition: </string>
+    <string name="condition_title">Condition</string>
     <string name="condition_new">New</string>
     <string name="condition_like_new">Like_new</string>
     <string name="condition_very_good">Very_good</string>
     <string name="condition_good">Good</string>
     <string name="condition_acceptable">Acceptable</string>
+    <string name="condition_description">Condition description</string>
 </resources>
