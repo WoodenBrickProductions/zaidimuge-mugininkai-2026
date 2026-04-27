@@ -2,13 +2,18 @@ package com.example.universityjava;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.universityjava.database.Game;
@@ -34,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements ItemRecyclerViewE
         long userID = AppActivity.getCurrentUserID();
 
         _bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        _bottomNavigationView.setItemIconTintList(ContextCompat.getColorStateList(this, R.color.menu_color_state_list));
         _bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -60,14 +66,39 @@ public class MainActivity extends AppCompatActivity implements ItemRecyclerViewE
                     replaceFragment(new ProfileFragment());
                 }
 
+                // Animation
+                View clickedView = getMenuItemView(itemId);
+                if (clickedView == null)
+                    return true;
+                Animator iconAnimator = AnimatorInflater.loadAnimator(getBaseContext(), R.animator.navigation_icon_click);
+                iconAnimator.setTarget(clickedView);
+                iconAnimator.start();
+
                 return true;
             }
         });
     }
 
+    private View getMenuItemView(int itemId) {
+        ViewGroup group = (ViewGroup) _bottomNavigationView.getChildAt(0);
+
+        for (int i = 0; i < group.getChildCount(); i++) {
+            if (_bottomNavigationView.getMenu().getItem(i).getItemId() == itemId) {
+                return group.getChildAt(i);
+            }
+        }
+        return null;
+    }
+
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(
+                R.anim.slide_in,  // enter
+                R.anim.fade_out,  // exit
+                R.anim.fade_in,   // popEnter
+                R.anim.slide_out  // popExit
+        );
         fragmentTransaction.replace(R.id.frameLayoutMain, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();

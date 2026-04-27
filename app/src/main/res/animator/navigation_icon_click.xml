@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <objectAnimator
+        android:duration="@integer/anim_duration_click"
+        android:propertyName="scaleX"
+        android:valueType="floatType"
+        android:valueFrom="1"
+        android:valueTo="1.2"/>
+    <objectAnimator
+        android:duration="@integer/anim_duration_click"
+        android:propertyName="scaleY"
+        android:valueType="floatType"
+        android:valueFrom="1"
+        android:valueTo="1.2"/>
+    <objectAnimator
+        android:duration="@integer/anim_duration_click"
+        android:propertyName="alpha"
+        android:valueType="floatType"
+        android:valueFrom="0"
+        android:valueTo="1"/>
+    <objectAnimator
+        android:duration="@integer/anim_duration_click"
+        android:startOffset="@integer/anim_duration_click"
+        android:propertyName="scaleX"
+        android:valueType="floatType"
+        android:valueFrom="1.2"
+        android:valueTo="1"/>
+    <objectAnimator
+        android:duration="@integer/anim_duration_click"
+        android:startOffset="@integer/anim_duration_click"
+        android:propertyName="scaleY"
+        android:valueType="floatType"
+        android:valueFrom="1.2"
+        android:valueTo="1"/>
+</set>

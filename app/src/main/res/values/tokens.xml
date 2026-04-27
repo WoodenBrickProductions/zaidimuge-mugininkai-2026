@@ -10,6 +10,7 @@
     <color name="button2_inactive">@color/light_gray</color>
     <color name="banner_background">@color/white</color>
     <color name="navigation_backround">@color/orange</color>
+    <color name="text">@color/black</color>
 
     <dimen name="radius_small">@dimen/val_8</dimen>
     <dimen name="radius_medium">@dimen/val_16</dimen>
@@ -18,4 +19,6 @@
     <dimen name="spacing_medium">@dimen/val_16</dimen>
     <dimen name="spacing_large">@dimen/val_32</dimen>
     <dimen name="spacing_xlarge">@dimen/val_64</dimen>
+
+    <integer name="anim_duration_click">200</integer>
 </resources>
