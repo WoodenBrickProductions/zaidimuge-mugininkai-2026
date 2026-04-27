@@ -3,8 +3,6 @@ package com.example.universityjava;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,10 +15,10 @@ import java.util.List;
 public class ReviewItemAdapter extends RecyclerView.Adapter<ReviewItemAdapter.ViewHolder> {
 
     private final List<Review> reviews;
-    private RecyclerViewEvent listener;
+    private ReviewRecyclerViewEvent listener;
 
 
-    public ReviewItemAdapter(List<Review> list, RecyclerViewEvent listener) {
+    public ReviewItemAdapter(List<Review> list, ReviewRecyclerViewEvent listener) {
         this.reviews = list;
         this.listener = listener;
     }
@@ -49,7 +47,7 @@ public class ReviewItemAdapter extends RecyclerView.Adapter<ReviewItemAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView buyerId, rating, comment;
-        RecyclerViewEvent listener;
+        ReviewRecyclerViewEvent listener;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

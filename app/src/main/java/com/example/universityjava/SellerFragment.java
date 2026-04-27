@@ -12,21 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
 import com.example.universityjava.database.ListingDAO;
-import com.example.universityjava.database.PhysicalListingAttributes;
-import com.example.universityjava.database.Platform;
 import com.example.universityjava.database.Review;
 import com.example.universityjava.database.ReviewDAO;
 
 import java.util.List;
 
-public class SellerFragment extends Fragment implements RecyclerViewEvent {
+public class SellerFragment extends Fragment implements ReviewRecyclerViewEvent {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -113,7 +108,7 @@ public class SellerFragment extends Fragment implements RecyclerViewEvent {
         List<Listing> list = dao.getListingsByUserId(userID);
 
         if(!list.isEmpty()) {
-            var listingItemAdapter = new ListingItemAdapter(list, this, ListingItemAdapter.ListingMode.EDITABLE);
+            var listingItemAdapter = new ListingItemAdapter(list, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.EDITABLE);
             recyclerView.setAdapter(listingItemAdapter);
         }
         return view;
@@ -122,21 +117,12 @@ public class SellerFragment extends Fragment implements RecyclerViewEvent {
     @Override
     public void onItemClick(int position) {
         // TODO(Woody):
-        if(isListings) {
-
-            System.out.println("Listings");
-            ListingDAO dao = AppActivity.getDatabase().listingDAO();
-            var list = dao.getListingsByUserId(userID);
-            Fragment page = ListingPageFragment.newInstance(list.get(position).getId(), "");
-            ((MainActivity)getActivity()).replaceFragment(page);
-        }
-        else {
+        if(!isListings) {
             System.out.println("Reviews");
             ReviewDAO dao = AppActivity.getDatabase().reviewDAO();
             List<Review> list = dao.getReviewsBySellerID(userID);
 
             Fragment fragment = SellerFragment.newInstance(list.get(position).getFk_buyerid(), "");
-
             ((MainActivity)getActivity()).replaceFragment(fragment);
         }
     }

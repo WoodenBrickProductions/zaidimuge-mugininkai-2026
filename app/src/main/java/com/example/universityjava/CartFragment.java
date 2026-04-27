@@ -19,7 +19,7 @@ import com.example.universityjava.database.Listing;
 
 import java.util.List;
 
-public class CartFragment extends Fragment implements RecyclerViewEvent {
+public class CartFragment extends Fragment{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,11 +34,6 @@ public class CartFragment extends Fragment implements RecyclerViewEvent {
 
     public CartFragment() {
         // Required empty public constructor
-    }
-    @Override
-    public void onItemClick(int position) {
-        Fragment page = ListingPageFragment.newInstance(list.get(position).getId(), "");
-        ((MainActivity)getActivity()).replaceFragment(page);
     }
 
     @Override
@@ -56,7 +51,7 @@ public class CartFragment extends Fragment implements RecyclerViewEvent {
         list = AppActivity.getDatabase().listingDAO().getCartListingsByUserId(AppActivity.getCurrentUserID());
         //list = AppActivity.getDatabase().listingDAO().getAllListings();
         if(!list.isEmpty()) {
-            var listingItemAdapter = new ListingItemAdapter(list, this, ListingItemAdapter.ListingMode.ADDABLE);
+            var listingItemAdapter = new ListingItemAdapter(list, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.ADDABLE);
             listingItemAdapter.showCart = false;
             recyclerView.setAdapter(listingItemAdapter);
         }
@@ -71,6 +66,4 @@ public class CartFragment extends Fragment implements RecyclerViewEvent {
 
         return view;
     }
-
-
 }

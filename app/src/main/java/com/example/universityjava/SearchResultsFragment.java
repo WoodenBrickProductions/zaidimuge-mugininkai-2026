@@ -10,15 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.Toast;
 
-import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchResultsFragment extends Fragment implements RecyclerViewEvent {
+public class SearchResultsFragment extends Fragment{
     String _query;
     private List<Listing> list;
     private RecyclerView recyclerView;
@@ -72,16 +70,9 @@ public class SearchResultsFragment extends Fragment implements RecyclerViewEvent
 
 //        recyclerView.setAdapter(new ListingItemAdapter(list, this));
         if(!list.isEmpty()) {
-            var listingItemAdapter = new ListingItemAdapter(list, this, ListingItemAdapter.ListingMode.ADDABLE);
+            var listingItemAdapter = new ListingItemAdapter(list, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.ADDABLE);
             recyclerView.setAdapter(listingItemAdapter);
         }
-
         return view;
-    }
-
-    @Override
-    public void onItemClick(int position) {
-//        Toast toast = Toast.makeText(getContext(), list.get(position).get(), Toast.LENGTH_SHORT);
-//        toast.show();
     }
 }

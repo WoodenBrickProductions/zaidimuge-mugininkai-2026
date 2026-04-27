@@ -6,27 +6,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.universityjava.database.Condition;
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
-import com.example.universityjava.database.PhysicalListingAttributes;
-import com.example.universityjava.database.Platform;
-
-import java.util.List;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ItemRecyclerViewEvent {
 
     private AppDatabase db;
     //Button _button;
@@ -84,5 +75,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void logOut() {
         startActivity(new Intent(getBaseContext(), LoginActivity.class));
+    }
+
+    @Override
+    public void onItemClick(Listing item) {
+        Fragment page = ListingPageFragment.newInstance(item.getId(), "");
+        replaceFragment(page);
+        Toast.makeText(getBaseContext(), "Listing clicked ID: " + item.getId(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemClick(Game item) {
+        //Fragment page = ListingPageFragment.newInstance(item.getId(), "");
+        //replaceFragment(page);
+        Toast.makeText(getBaseContext(), "Game clicked ID: " + item.getId(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onEditClick(Listing item) {
+        Toast.makeText(getBaseContext(), "Edit clicked: " + item.getId(), Toast.LENGTH_SHORT).show();
     }
 }

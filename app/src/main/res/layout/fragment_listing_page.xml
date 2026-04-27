@@ -185,6 +185,7 @@
                     android:id="@+id/listing_contition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/val_8"
                     android:text="TextView"
                     android:textSize="@dimen/text_24" />
             </LinearLayout>

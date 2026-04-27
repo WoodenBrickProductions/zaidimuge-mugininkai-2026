@@ -24,7 +24,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class MainCategoriesFragment extends Fragment implements RecyclerViewEvent {
+public class MainCategoriesFragment extends Fragment{
 
     String name;
     private List<Listing> list;
@@ -62,16 +62,10 @@ public class MainCategoriesFragment extends Fragment implements RecyclerViewEven
 
 //        recyclerView.setAdapter(new ListingItemAdapter(list, this));
         if(!list.isEmpty()) {
-            var listingItemAdapter = new ListingItemAdapter(list, this, ListingItemAdapter.ListingMode.ADDABLE);
+            var listingItemAdapter = new ListingItemAdapter(list, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.ADDABLE);
             recyclerView.setAdapter(listingItemAdapter);
         }
         return view;
     }
 
-    @Override
-    public void onItemClick(int position) {
-        SharedPreferences prefs = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
-        Fragment page = ListingPageFragment.newInstance(prefs.getLong("user_id", -1), "");
-        ((MainActivity)getActivity()).replaceFragment(page);
-    }
 }

@@ -23,7 +23,7 @@ import java.util.List;
  * Use the {@link WishlistFragment} factory method to
  * create an instance of this fragment.
  */
-public class WishlistFragment extends Fragment implements RecyclerViewEvent{
+public class WishlistFragment extends Fragment{
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -57,16 +57,10 @@ public class WishlistFragment extends Fragment implements RecyclerViewEvent{
             listingList.add(AppActivity.getDatabase().listingDAO().getListingByID(e.getFk_listingid()));
         }
         if(!listingList.isEmpty()) {
-            var listingItemAdapter = new ListingItemAdapter(listingList, this, ListingItemAdapter.ListingMode.ADDABLE);
+            var listingItemAdapter = new ListingItemAdapter(listingList, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.ADDABLE);
             listingItemAdapter.showWishlist = false;
             recyclerView.setAdapter(listingItemAdapter);
         }
         return view;
-    }
-
-    @Override
-    public void onItemClick(int position) {
-//        Toast toast = Toast.makeText(getContext(), list.get(position).getTitle(), Toast.LENGTH_SHORT);
-//        toast.show();
     }
 }

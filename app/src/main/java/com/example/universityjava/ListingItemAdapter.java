@@ -1,5 +1,7 @@
 package com.example.universityjava;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.universityjava.database.CartListing;
@@ -27,7 +30,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
     private boolean isCategory;
     private List<Listing> listings;
     private List<Game> games;
-    private static RecyclerViewEvent listener;
+    private static ItemRecyclerViewEvent listener;
     public ListingMode listingMode;
     public boolean showDelete = true;
     public boolean showEdit = true;
@@ -35,7 +38,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
     public boolean showCart = true;
     private final AppDatabase db = AppActivity.getDatabase();
     /// Listing list or Game list to work
-    public ListingItemAdapter(List<?> list, RecyclerViewEvent listener, ListingMode mode){
+    public ListingItemAdapter(List<?> list, ItemRecyclerViewEvent listener, ListingMode mode){
         ListingItemAdapter.listener = listener;
         this.listingMode = mode;
         if (list != null && !list.isEmpty()){
@@ -49,6 +52,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         }
     }
     public static class ListingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private Game game;
         private Listing listing;
         private final TextView title;
         private final TextView price;
@@ -84,11 +88,22 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         public TextView getListingsFrom(){
             return listingsFrom;
         }
+
+        public void SetItem(Listing listing){
+            this.listing = listing;
+        }
+        public void SetItem(Game game){
+            this.game = game;
+        }
         @Override
         public void onClick(View v) {
             int position = getAbsoluteAdapterPosition();
             if(position != RecyclerView.NO_POSITION){
-                listener.onItemClick(position);
+                if(game == null){
+                    listener.onItemClick(listing);}
+                else{
+                    listener.onItemClick(game);
+                }
             }
         }
     }
@@ -114,6 +129,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         var listing = listings.get(position);
         if(isCategory){
             Game item = games.get(position);
+            holder.SetItem(item);
             holder.getTitle().setText(item.getTitle());
             holder.getImage().setImageResource(R.drawable.ic_launcher_background);
             double price = db.gameDAO().getGameMinPriceById(item.getId());
@@ -124,6 +140,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
                 holder.getListingsFrom().setText(R.string.NoListings);
                 holder.getPrice().setText("");}
         }else {
+            holder.SetItem(listing);
             holder.getTitle().setText(db.listingDAO().getGameNameByListingId(listing.getId()));
             holder.getListingsFrom().setVisibility(View.GONE);
             holder.getImage().setImageResource(R.drawable.ic_launcher_background);
@@ -137,6 +154,9 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(view.getContext(), "Editing!", Toast.LENGTH_SHORT).show();
+                    Fragment fragment = new EditListingFragment();
+
+                    //((MainActivity).getActivity()).replaceFragment(fragment);
                     // TODO: Add listing edit
                 }
             });

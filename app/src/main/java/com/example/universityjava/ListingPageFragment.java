@@ -116,15 +116,15 @@ public class ListingPageFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
 
             listing = AppActivity.getDatabase().listingDAO().getListingByID(listingID);
-            Toast.makeText(getContext(),String.valueOf(listing.getId()), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(),String.valueOf(listing.getId()), Toast.LENGTH_SHORT).show();
             if (!listing.getIsdigital()) {
                 physical = AppActivity.getDatabase().physicalListingAttributesDAO().getPhysAttrByListingId(listingID);
             }
             else physical = null;
             seller = AppActivity.getDatabase().userDAO().getUserByID(listing.getFk_seller());
             game = AppActivity.getDatabase().gameDAO().getGameByID(listing.getFk_gameid());
-            Toast.makeText(getContext(),String.valueOf(game.getTitle()), Toast.LENGTH_SHORT).show();
-            Toast.makeText(getContext(),String.valueOf(seller.getName()), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(),String.valueOf(game.getTitle()), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(),String.valueOf(seller.getName()), Toast.LENGTH_SHORT).show();
             String titletext = game.getTitle();
             title.setText(titletext);
             description.setText(game.getDescription());
@@ -134,7 +134,7 @@ public class ListingPageFragment extends Fragment {
                 conditionStateTitle.setVisibility(View.GONE);
                 conditionState.setVisibility(View.GONE);
                 conditionDescription.setVisibility(View.GONE);
-            } else {
+            } else if(physical != null) {
                 conditionState.setText(physical.getFk_condition().getResourceId());
                 conditionDescription.setText(physical.getCondition_description());
             }
