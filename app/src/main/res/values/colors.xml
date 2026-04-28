@@ -12,6 +12,7 @@
     <color name="light_gray">#FFCCCCCC</color>
     <color name="black_50">#99000000</color>
     <color name="blue">#FF80C4F5</color>
+    <color name="darker_blue">#FF1573BA</color>
 <!--    <color name="">#FF</color>-->
 
 </resources>
