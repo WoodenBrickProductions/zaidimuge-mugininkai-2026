@@ -4,7 +4,6 @@ import static android.view.View.GONE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -57,7 +56,7 @@ public class AddListingFragment extends Fragment {
         LinearLayout conditionContainer = view.findViewById(R.id.condition_container);
         EditText conditionDescription = view.findViewById(R.id.condition_description);
         Button buttonImage = view.findViewById(R.id.buttonImage);
-        Button buttonDelete = view.findViewById(R.id.buttonDelete);
+        Button buttonDelete = view.findViewById(R.id.buttonSecond);
         buttonDelete.setVisibility(GONE);
 
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
