@@ -2,6 +2,8 @@ package com.example.universityjava;
 
 import static android.app.PendingIntent.getActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
 import com.example.universityjava.database.WishlistListing;
 
+import java.io.File;
 import java.util.List;
 
 public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.ListingViewHolder> {
@@ -149,7 +152,9 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
             Game item = games.get(position);
             holder.SetItem(item);
             holder.getTitle().setText(item.getTitle());
-            holder.getImage().setImageResource(R.drawable.ic_launcher_background);
+
+            setImage(holder.getImage(), item.getImage());
+
             double price = db.gameDAO().getGameMinPriceById(item.getId());
             if(price != 0) {
                 holder.getPrice().setText(price+" €");
@@ -161,7 +166,9 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
             holder.SetItem(listing);
             holder.getTitle().setText(db.listingDAO().getGameNameByListingId(listing.getId()));
             holder.getListingsFrom().setVisibility(View.GONE);
-            holder.getImage().setImageResource(R.drawable.ic_launcher_background);
+
+            setImage(holder.getImage(), db.gameDAO().getGameByID(listing.getFk_gameid()).getImage());
+
             holder.getPrice().setText(listing.getPrice() + " €");
         }
         if(listingMode == ListingMode.EDITABLE)
@@ -228,5 +235,18 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
             return games.size();
         else
             return listings.size();
+    }
+
+    private void setImage(ImageView imageView, String imageName) {
+        Bitmap bitmap;
+        File imageFile = AppActivity.getCachedImageFile(
+                imageView.getContext(), imageName);
+
+        if(imageFile != null) {
+            bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+            imageView.setImageBitmap(bitmap);
+        } else {
+            imageView.setImageResource(R.drawable.ic_launcher_background);
+        }
     }
 }

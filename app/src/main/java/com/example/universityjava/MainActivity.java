@@ -36,6 +36,13 @@ public class MainActivity extends AppCompatActivity implements ItemRecyclerViewE
 
         db = AppActivity.getDatabase();
 
+        var launcher = AppActivity.registerImagePickerLauncher(this, "my banner",
+                file -> {
+                    if (file != null) System.out.println("Cache Saved to: " + file.getAbsolutePath());
+                });
+
+        launcher.launch("image/*");
+
         long userID = AppActivity.getCurrentUserID();
 
         _bottomNavigationView = findViewById(R.id.bottomNavigationView);
