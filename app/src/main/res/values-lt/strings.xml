@@ -39,10 +39,17 @@
     <string name="language">Kalba</string>
     <string name="theme">Tema</string>
     <string name="NoListings">Skelbimų nėra</string>
+    <string name="theme_light">Šviesi</string>
+    <string name="navigation_settings">Nustatymai</string>
     <string name="condition_title">Būklė: </string>
     <string name="condition_new">Naujas</string>
     <string name="condition_like_new">Kaip naujas</string>
     <string name="condition_very_good">Labai geras</string>
     <string name="condition_good">Geras</string>
     <string name="condition_acceptable">Patenkinamas</string>
+    <string name="theme_dark">Tamsi</string>
+    <string name="navigation_home">Pradžia</string>
+    <string name="navigation_cart">Krepšelis</string>
+    <string name="navigation_wishlist">Norai</string>
+    <string name="navigation_profile">Profilis</string>
 </resources>
