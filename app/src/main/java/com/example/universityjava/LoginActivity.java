@@ -1,8 +1,12 @@
 package com.example.universityjava;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -39,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
         db = AppActivity.getDatabase();
         SharedPreferences prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+
         if (prefs.getLong("user_id", -1) >= 0) {
             startActivity(new Intent(getBaseContext(), MainActivity.class));
         }
@@ -46,23 +51,41 @@ public class LoginActivity extends AppCompatActivity {
         _editTextUsername = (EditText) findViewById(R.id.editTextUsername);
         _editTextPassword = (EditText) findViewById(R.id.editTextTextPassword);
         _buttonLogin = (Button) findViewById(R.id.buttonLogin);
+
+        Animator anim = AnimatorInflater.loadAnimator(this, R.animator.button_click_failed);
+        Animator animUserField = AnimatorInflater.loadAnimator(this, R.animator.text_field_jump);
+        Animator animPassField = AnimatorInflater.loadAnimator(this, R.animator.text_field_jump);
+        anim.setTarget(_buttonLogin);
+        animUserField.setTarget(_editTextUsername);
+        animPassField.setTarget(_editTextPassword);
+
         _buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String name = _editTextUsername.getText().toString().trim();
                 String password = _editTextPassword.getText().toString().trim();
                 if (TextUtils.isEmpty(name) || TextUtils.isEmpty(password)) {
                     Toast.makeText(getApplicationContext(), R.string.toast_missing_username_password, Toast.LENGTH_SHORT).show();
+                    anim.start();
+                    if (TextUtils.isEmpty(name))
+                        animUserField.start();
+                    if (TextUtils.isEmpty(password))
+                        animPassField.start();
                 }
                 else {
                     List<User> userList = db.userDAO().getUserByName(name);
                     if (userList.isEmpty()) {
                         Toast.makeText(getApplicationContext(), R.string.toast_user_doesnt_exist, Toast.LENGTH_SHORT).show();
+                        anim.start();
+                        animUserField.start();
                         return;
                     }
                     User user = userList.get(0);
                     if (!TextUtils.equals(password, user.getPassword())) {
                         Toast.makeText(getApplicationContext(), R.string.toast_incorrect_password, Toast.LENGTH_SHORT).show();
+                        anim.start();
+                        animPassField.start();
                         return;
                     }
                     SharedPreferences.Editor editor = prefs.edit();

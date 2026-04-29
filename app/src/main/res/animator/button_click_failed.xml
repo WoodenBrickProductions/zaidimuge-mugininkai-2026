@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <objectAnimator
+        android:duration="@integer/anim_duration_click_failed"
+        android:propertyName="rotation"
+        android:valueType="floatType"
+        android:valueFrom="0"
+        android:valueTo="5"/>
+    <objectAnimator
+        android:duration="@integer/anim_duration_click_failed"
+        android:startOffset="@integer/anim_duration_click_failed"
+        android:propertyName="rotation"
+        android:valueType="floatType"
+        android:valueFrom="5"
+        android:valueTo="0"/>
+</set>

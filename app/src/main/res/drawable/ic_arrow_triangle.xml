@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="20dp"
+    android:height="20dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <group android:name="arrow_triangle_group">
+        <path android:name="arrow_triangle"
+            android:fillColor="@color/outline_color"
+            android:strokeColor="@color/black"
+            android:strokeWidth="5"
+            android:pathData="M5 5 L95 5 L50 92Z"/>
+    </group>
+</vector>
