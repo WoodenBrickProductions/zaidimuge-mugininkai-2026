@@ -2,17 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_holder"
     android:layout_width="365dp"
     android:layout_height="165dp"
-    android:padding="12dp"
+    android:layout_marginBottom="16dp"
     android:background="@color/secondary_background"
-    android:layout_marginBottom="16dp">
+    android:padding="12dp">
 
     <ImageView
         android:id="@+id/listing_image"
         android:layout_width="112dp"
         android:layout_height="140dp"
-        tools:srcCompat="@tools:sample/avatars"/>
+        tools:srcCompat="@tools:sample/avatars" />
 
     <Space
         android:layout_width="8dp"
@@ -30,6 +31,7 @@
             android:layout_height="wrap_content"
             android:text="@string/listings_from"
             android:textSize="@dimen/text_16"
+            android:textColor="@color/darker_blue"
             app:layout_constraintBottom_toTopOf="@+id/listing_price"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -41,26 +43,29 @@
             android:text="Pavadinimas lorem ipsum lalalalal"
             android:textSize="@dimen/text_16"
             app:layout_constraintBottom_toTopOf="@+id/listings_from"
-            app:layout_constraintEnd_toStartOf="@+id/buttonEdit"
+            app:layout_constraintEnd_toStartOf="@+id/buttonFirst"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/buttonEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Koreguoti"
+        <ImageButton
+            android:id="@+id/buttonFirst"
+            style="@style/MyWhiteButton"
+            android:layout_width="@dimen/val_48"
+            android:layout_height="@dimen/val_48"
+            android:src="@drawable/ic_edit_38"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/buttonDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Trinti"
+        <ImageButton
+            android:id="@+id/buttonSecond"
+            style="@style/MyWhiteButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_delete_48"
             app:layout_constraintBottom_toBottomOf="@+id/listing_price"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/listing_price" />
+            app:layout_constraintTop_toTopOf="@+id/listing_price"
+            app:layout_constraintVertical_bias="0.75" />
 
         <TextView
             android:id="@+id/listing_price"

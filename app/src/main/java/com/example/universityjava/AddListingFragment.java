@@ -1,5 +1,7 @@
 package com.example.universityjava;
 
+import static android.view.View.GONE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -27,6 +30,9 @@ public class AddListingFragment extends Fragment {
 
     EditText addListingGame;
     EditText addListingPrice;
+    Spinner spinnerType;
+    Spinner spinnerPlatform;
+    Spinner spinnerCondition;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,14 @@ public class AddListingFragment extends Fragment {
         Button buttonSubmit = view.findViewById(R.id.buttonSubmit);
         addListingGame = view.findViewById(R.id.addListingGame);
         addListingPrice = view.findViewById(R.id.addListingPrice);
+        //spinnerType = view.findViewById(R.id.spinnerType);
+        //spinnerPlatform = view.findViewById(R.id.spinnerPlatform);
+        spinnerCondition = view.findViewById(R.id.spinnerCondition);
+        LinearLayout conditionContainer = view.findViewById(R.id.condition_container);
+        EditText conditionDescription = view.findViewById(R.id.condition_description);
+        Button buttonImage = view.findViewById(R.id.buttonImage);
+        Button buttonDelete = view.findViewById(R.id.buttonSecond);
+        buttonDelete.setVisibility(GONE);
 
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +94,7 @@ public class AddListingFragment extends Fragment {
         SharedPreferences prefs = requireContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
-        Spinner languageSpinner = view.findViewById(R.id.spinnerLanguage);
+        Spinner languageSpinner = view.findViewById(R.id.spinnerType);
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -127,7 +141,7 @@ public class AddListingFragment extends Fragment {
         languageSpinner.setSelection(spinnerPosition);
 
 
-        Spinner themeSpinner = view.findViewById(R.id.spinnerTheme);
+        Spinner themeSpinner = view.findViewById(R.id.spinnerPlatform);
         ArrayAdapter<CharSequence> themeAdapter = ArrayAdapter.createFromResource(view.getContext(), R.array.themes_array, android.R.layout.simple_spinner_item);
         themeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         themeSpinner.setAdapter(themeAdapter);

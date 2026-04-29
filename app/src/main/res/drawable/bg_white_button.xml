@@ -4,7 +4,9 @@
     <!-- disabled -->
     <item android:state_enabled="false">
         <shape>
-            <solid android:color="@color/button2_inactive"/>
+            <solid android:color="@color/main_background"/>
+            <stroke android:color="@color/button_selected"
+                android:width="2dp"/>
             <corners android:radius="@dimen/radius_small"/>
         </shape>
     </item>
@@ -12,7 +14,9 @@
     <!-- pressed -->
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="@color/button_selected"/>
+            <solid android:color="@color/main_background"/>
+            <stroke android:color="@color/button_selected"
+                android:width="2dp"/>
             <corners android:radius="@dimen/radius_small"/>
         </shape>
     </item>
@@ -20,7 +24,9 @@
     <!-- selected -->
     <item android:state_selected="true">
         <shape>
-            <solid android:color="@color/button_selected"/>
+            <solid android:color="@color/main_background"/>
+            <stroke android:color="@color/button_selected"
+                android:width="2dp"/>
             <corners android:radius="@dimen/radius_small"/>
         </shape>
     </item>
@@ -28,7 +34,9 @@
     <!-- default -->
     <item>
         <shape>
-            <solid android:color="@color/button_base"/>
+            <solid android:color="@color/secondary_background"/>
+            <stroke android:color="@color/button_base"
+                android:width="2dp"/>
             <corners android:radius="@dimen/radius_small"/>
         </shape>
     </item>

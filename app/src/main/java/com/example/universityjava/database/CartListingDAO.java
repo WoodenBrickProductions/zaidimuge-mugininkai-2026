@@ -14,11 +14,18 @@ public interface CartListingDAO {
     void deleteAll();
 
     @Query("SELECT * FROM CartListing")
-    List<CartListing> getAllListings();
+    List<CartListing> getAllCListings();
+
+    @Query("DELETE FROM CartListing WHERE fk_userid = :userid AND" +
+            " fk_listingid = :listid")
+    void removeCListingByListingAndUserID(long listid, long userid);
 
     @Query("SELECT * FROM CartListing WHERE fk_userid LIKE :userid")
-    List<CartListing> getListingsByUserId(long userid);
+    List<CartListing> getCListingsByUserId(long userid);
 
     @Query("SELECT * FROM CartListing WHERE fk_listingid = :id")
-    List<CartListing> getListingByListingID(long id);
+    List<CartListing> getCListingByListingID(long id);
+
+    @Query("SELECT * FROM CartListing WHERE fk_listingid = :listid AND fk_userid = :userid")
+    List<CartListing> getCListingByListingAndUserID(long listid, long userid);
 }

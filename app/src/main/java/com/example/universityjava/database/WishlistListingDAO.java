@@ -14,12 +14,18 @@ public interface WishlistListingDAO {
     @Query("DELETE FROM WishlistListing")
     void deleteAll();
 
+    @Query("DELETE FROM WishlistListing WHERE fk_userid = :userid AND" +
+            " fk_listingid = :listid")
+    void removeWListingByListingAndUserID(long listid, long userid);
     @Query("SELECT * FROM WishlistListing")
-    List<WishlistListing> getAllListings();
+    List<WishlistListing> getAllWListings();
 
     @Query("SELECT * FROM WishlistListing WHERE fk_userid LIKE :userid")
-    List<WishlistListing> getListingsByUserId(long userid);
+    List<WishlistListing> getWListingsByUserId(long userid);
 
     @Query("SELECT * FROM WishlistListing WHERE fk_listingid = :id")
-    List<WishlistListing> getListingByListingID(long id);
+    List<WishlistListing> getWListingByListingID(long id);
+
+    @Query("SELECT * FROM WishlistListing WHERE fk_listingid = :listid AND fk_userid = :userid")
+    List<WishlistListing> getWListingByListingAndUserID(long listid, long userid);
 }

@@ -1,10 +1,8 @@
 package com.example.universityjava;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
@@ -47,9 +44,13 @@ public class ListingPageFragment extends Fragment {
     private TextView conditionState;
     private TextView conditionDescription;
     private TextView listingPrice;
+    private TextView platforms;
     private ImageView sellerImage;
     private TextView sellerName;
     private TextView sellerScore;
+
+    private Button wishlistButton;
+    private Button cartButton;
 
 
     public ListingPageFragment() {
@@ -104,12 +105,18 @@ public class ListingPageFragment extends Fragment {
         title = view.findViewById(R.id.listing_page_title);
         description = view.findViewById(R.id.listing_description);
         conditionStateTitle = view.findViewById(R.id.stateTitle);
-        conditionState = view.findViewById(R.id.listing_contition);
+        conditionStateTitle.append(":");
+        platforms = view.findViewById(R.id.listing_platforms);
+        TextView platformsTitle = view.findViewById(R.id.listing_platforms_title);
+        platformsTitle.append(":");
+        conditionState = view.findViewById(R.id.listing_condition);
         conditionDescription= view.findViewById(R.id.listing_condition_description);
         listingPrice= view.findViewById(R.id.page_listing_price);
         sellerImage =view.findViewById(R.id.user_profile_icon);
         sellerName = view.findViewById(R.id.username);
         sellerScore = view.findViewById(R.id.user_rating);
+        wishlistButton = view.findViewById(R.id.add_to_wishlist_button);
+        cartButton = view.findViewById(R.id.add_to_cart_button);
 
         if (getArguments() != null) {
             listingID = getArguments().getLong(ARG_PARAM1);
@@ -123,12 +130,12 @@ public class ListingPageFragment extends Fragment {
             else physical = null;
             seller = AppActivity.getDatabase().userDAO().getUserByID(listing.getFk_seller());
             game = AppActivity.getDatabase().gameDAO().getGameByID(listing.getFk_gameid());
-            //Toast.makeText(getContext(),String.valueOf(game.getTitle()), Toast.LENGTH_SHORT).show();
-            //Toast.makeText(getContext(),String.valueOf(seller.getName()), Toast.LENGTH_SHORT).show();
             String titletext = game.getTitle();
             title.setText(titletext);
             description.setText(game.getDescription());
             listingPrice.setText(String.valueOf(listing.getPrice()));
+            String pl = AppActivity.getDatabase().listingDAO().getPlatformNameByListingId(listingID);
+            platforms.setText(pl);
             Log.i("Listing: ", "IsDigital: "+ listing.getIsdigital()+" physicalAttr:"+physical);
             if (listing.getIsdigital()) {
                 conditionStateTitle.setVisibility(View.GONE);
@@ -140,6 +147,10 @@ public class ListingPageFragment extends Fragment {
             }
             sellerName.setText(seller.getName());
             sellerScore.setText("0");
+            if(listing.getIssold()){
+                wishlistButton.setEnabled(false);
+                cartButton.setEnabled(false);
+            }
         }
 
         Button _buttonPhysical = (Button) view.findViewById(R.id.buttonSeller);

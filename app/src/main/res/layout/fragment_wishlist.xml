@@ -16,19 +16,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/spacing_medium"
+        android:paddingRight="@dimen/spacing_medium">
 
         <Button
             android:id="@+id/category_button"
-            android:layout_width="wrap_content"
+            style="@style/MyButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
             android:layout_weight="1"
             android:text="@string/button_categories" />
 
         <Button
             android:id="@+id/listings_button"
-            android:layout_width="wrap_content"
+            style="@style/MyButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
             android:layout_weight="1"
             android:text="@string/button_listings" />
     </LinearLayout>
