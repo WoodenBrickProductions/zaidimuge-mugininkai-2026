@@ -58,7 +58,7 @@ public class MainCategoriesFragment extends Fragment{
             images.add(R.drawable.ic_game_test_icon);
         }
         list = AppActivity.getDatabase().listingDAO().getAllListings();
-        ImageAdapter adapter = new ImageAdapter(getContext(), images);
+        //ImageAdapter adapter = new ImageAdapter(getContext(), images);
 
 //        recyclerView.setAdapter(new ListingItemAdapter(list, this));
         if(!list.isEmpty()) {

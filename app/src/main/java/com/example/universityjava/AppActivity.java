@@ -179,7 +179,7 @@ public class AppActivity extends Application {
 
     @Nullable
     public static File savePickedImageToCache(Context context, Uri uri, String saveName) {
-        File dest = new File(context.getCacheDir(), saveName + ".png"); // ← swap to getFilesDir() for permanence
+        File dest = new File(context.getCacheDir(), "game_icons/" + saveName + ".png"); // ← swap to getFilesDir() for permanence
         try (InputStream in = context.getContentResolver().openInputStream(uri);
              FileOutputStream out = new FileOutputStream(dest)) {
             if (in == null) return null;
@@ -198,6 +198,9 @@ public class AppActivity extends Application {
     @Nullable
     public static File getCachedImageFile(Context context, String name) {
         File file = new File(context.getCacheDir(), GAME_ASSETS_FOLDER + "/" + name + ".jpg");
+        if (file.exists()) return file;
+
+        file = new File(context.getCacheDir(), GAME_ASSETS_FOLDER + "/" + name + ".jpeg");
         if (file.exists()) return file;
 
         file = new File(context.getCacheDir(), GAME_ASSETS_FOLDER + "/" + name + ".png");

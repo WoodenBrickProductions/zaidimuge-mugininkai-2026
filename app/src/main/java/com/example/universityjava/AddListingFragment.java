@@ -4,6 +4,7 @@ import static android.view.View.GONE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -22,6 +23,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
+
+import java.io.File;
 
 public class AddListingFragment extends Fragment {
     public AddListingFragment() {
@@ -59,6 +62,21 @@ public class AddListingFragment extends Fragment {
         Button buttonDelete = view.findViewById(R.id.buttonSecond);
         buttonDelete.setVisibility(GONE);
 
+        buttonImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.gotFileCallback = new MainActivity.GotFileCallback() {
+                    @Override
+                    public void gotFile(File file) {
+//                        buttonImage.setText(file.getName().substring(0, file.getName().lastIndexOf('.')));
+                        buttonImage.setText(addListingGame.getText().toString());
+                        AppActivity.savePickedImageToCache(getContext(), Uri.fromFile(file), addListingGame.getText().toString());
+                    }
+                };
+                MainActivity.imageLauncher.launch("image/*");
+            }
+        });
+
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +90,7 @@ public class AddListingFragment extends Fragment {
                 else
                 {
                     game = new Game();
+                    game.setImage(buttonImage.getText().toString());
                     game.setTitle(addListingGame.getText().toString());
                     game.setId(AppActivity.getDatabase().gameDAO().insert(game));
                 }

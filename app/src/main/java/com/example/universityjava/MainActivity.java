@@ -1,5 +1,6 @@
 package com.example.universityjava;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -22,8 +23,15 @@ import com.example.universityjava.database.Listing;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity implements ItemRecyclerViewEvent {
 
+    public interface GotFileCallback {
+        public void gotFile(File file);
+    }
+    public static ActivityResultLauncher<String> imageLauncher;
+    public static GotFileCallback gotFileCallback;
     private AppDatabase db;
     //Button _button;
     BottomNavigationView _bottomNavigationView;
@@ -35,13 +43,14 @@ public class MainActivity extends AppCompatActivity implements ItemRecyclerViewE
         replaceFragment(new HomeFragment());
 
         db = AppActivity.getDatabase();
-
-        var launcher = AppActivity.registerImagePickerLauncher(this, "my banner",
+        imageLauncher = AppActivity.registerImagePickerLauncher(this, "my banner",
                 file -> {
-                    if (file != null) System.out.println("Cache Saved to: " + file.getAbsolutePath());
+                    if (file != null) {
+                           System.out.println("Cache Saved to: " + file.getAbsolutePath());
+                           gotFileCallback.gotFile(file);
+                           gotFileCallback = null;
+                    }
                 });
-
-        launcher.launch("image/*");
 
         long userID = AppActivity.getCurrentUserID();
 
