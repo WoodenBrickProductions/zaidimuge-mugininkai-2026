@@ -2,8 +2,11 @@ package com.example.universityjava;
 
 import static android.view.View.GONE;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
@@ -31,6 +35,7 @@ public class AddListingFragment extends Fragment {
         // Required empty public constructor
     }
 
+    ImageView imageView;
     EditText addListingGame;
     EditText addListingPrice;
     Spinner spinnerType;
@@ -52,6 +57,7 @@ public class AddListingFragment extends Fragment {
 
         Button buttonSubmit = view.findViewById(R.id.buttonSubmit);
         addListingGame = view.findViewById(R.id.addListingGame);
+        imageView = view.findViewById(R.id.gameImage);
         addListingPrice = view.findViewById(R.id.addListingPrice);
         //spinnerType = view.findViewById(R.id.spinnerType);
         //spinnerPlatform = view.findViewById(R.id.spinnerPlatform);
@@ -71,6 +77,15 @@ public class AddListingFragment extends Fragment {
 //                        buttonImage.setText(file.getName().substring(0, file.getName().lastIndexOf('.')));
                         buttonImage.setText(addListingGame.getText().toString());
                         AppActivity.savePickedImageToCache(getContext(), Uri.fromFile(file), addListingGame.getText().toString());
+                        var bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                        imageView.setImageBitmap(bitmap);
+                        ObjectAnimator scaleInX = ObjectAnimator.ofFloat(imageView, "scaleX", 0f, 1f);
+                        scaleInX.setDuration(500);
+                        ObjectAnimator scaleInY = ObjectAnimator.ofFloat(imageView, "scaleY", 0f, 1f);
+                        scaleInY.setDuration(500);
+                        AnimatorSet sequence = new AnimatorSet();
+                        sequence.playTogether(scaleInX, scaleInY);
+                        sequence.start();
                     }
                 };
                 MainActivity.imageLauncher.launch("image/*");
