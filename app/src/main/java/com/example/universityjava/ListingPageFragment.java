@@ -1,5 +1,7 @@
 package com.example.universityjava;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
 import com.example.universityjava.database.PhysicalListingAttributes;
+
+import java.io.File;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -130,6 +134,18 @@ public class ListingPageFragment extends Fragment {
             else physical = null;
             seller = AppActivity.getDatabase().userDAO().getUserByID(listing.getFk_seller());
             game = AppActivity.getDatabase().gameDAO().getGameByID(listing.getFk_gameid());
+
+            Bitmap bitmap;
+            File imageFile = AppActivity.getCachedImageFile(
+                    listingImage.getContext(), game.getImage());
+
+            if(imageFile != null) {
+                bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+                listingImage.setImageBitmap(bitmap);
+            } else {
+                listingImage.setImageResource(R.drawable.ic_launcher_background);
+            }
+
             String titletext = game.getTitle();
             title.setText(titletext);
             description.setText(game.getDescription());
