@@ -52,9 +52,10 @@
 
             <Button
                 android:id="@+id/add_to_wishlist_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Norai" />
+                style="@style/MyButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:drawableLeft="@drawable/as_favorite_states_48" />
 
         </LinearLayout>
 
@@ -137,9 +138,11 @@
 
                 <Button
                     android:id="@+id/add_to_cart_button"
+                    style="@style/MyButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Krepšelis"
+                    android:layout_height="60dp"
+                    android:drawableLeft="@drawable/as_shopping_cart_states"
+                    android:text="@string/banner_cart"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:layout_editor_absoluteY="0dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>

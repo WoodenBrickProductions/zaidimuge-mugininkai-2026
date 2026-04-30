@@ -151,6 +151,14 @@ public class ListingPageFragment extends Fragment {
                 wishlistButton.setEnabled(false);
                 cartButton.setEnabled(false);
             }
+            if(!AppActivity.getDatabase().wishlistListingDAO().getWListingByListingAndUserID(listingID,
+                    AppActivity.getCurrentUserID()).isEmpty()){
+                wishlistButton.setSelected(true);
+            }else wishlistButton.setSelected(false);
+            if(!AppActivity.getDatabase().cartListingDAO().getCListingByListingAndUserID(listingID,
+                    AppActivity.getCurrentUserID()).isEmpty()){
+                cartButton.setSelected(true);
+            } else cartButton.setSelected(false);
         }
 
         Button _buttonPhysical = (Button) view.findViewById(R.id.buttonSeller);
@@ -159,6 +167,25 @@ public class ListingPageFragment extends Fragment {
             public void onClick(View v) {
                 Fragment fragment = SellerFragment.newInstance(listing.getFk_seller(), "");
                 ((MainActivity)getActivity()).replaceFragment(fragment);
+            }
+        });
+
+        cartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(cartButton.isSelected()){
+                    cartButton.setSelected(false);
+                }
+                else cartButton.setSelected(true);
+            }
+        });
+        wishlistButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(wishlistButton.isSelected()){
+                    wishlistButton.setSelected(false);
+                }
+                else wishlistButton.setSelected(true);
             }
         });
         return view;
