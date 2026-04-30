@@ -21,16 +21,6 @@
         </shape>
     </item>
 
-    <!-- selected -->
-    <item android:state_selected="true">
-        <shape>
-            <solid android:color="@color/main_background"/>
-            <stroke android:color="@color/button_selected"
-                android:width="2dp"/>
-            <corners android:radius="@dimen/radius_small"/>
-        </shape>
-    </item>
-
     <!-- default -->
     <item>
         <shape>

@@ -23,8 +23,6 @@ public interface ListingDAO {
     @Query("SELECT * FROM Listing WHERE fk_seller LIKE :userid")
     List<Listing> getListingsByUserId(long userid);
 
-
-
     @Query("SELECT * FROM Listing WHERE id = :id")
     Listing getListingByID(long id);
 

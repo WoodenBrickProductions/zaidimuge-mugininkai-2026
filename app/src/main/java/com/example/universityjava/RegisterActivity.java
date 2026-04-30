@@ -1,5 +1,7 @@
 package com.example.universityjava;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,6 +45,18 @@ public class RegisterActivity extends AppCompatActivity {
         _editTextRegisterPassword = (EditText) findViewById(R.id.editTextRegisterPassword);
         _editTextRegisterPasswordRepeat = (EditText) findViewById(R.id.editTextRegisterPasswordRepeat);
         _buttonRegisterConfirm = (Button) findViewById(R.id.buttonRegisterConfirm);
+
+        Animator anim = AnimatorInflater.loadAnimator(this, R.animator.button_click_failed);
+        Animator animUser = AnimatorInflater.loadAnimator(this, R.animator.text_field_jump);
+        Animator animEmail = AnimatorInflater.loadAnimator(this, R.animator.text_field_jump);
+        Animator animPass = AnimatorInflater.loadAnimator(this, R.animator.text_field_jump);
+        Animator animPassR = AnimatorInflater.loadAnimator(this, R.animator.text_field_jump);
+        anim.setTarget(_buttonRegisterConfirm);
+        animUser.setTarget(_editTextRegisterUsername);
+        animEmail.setTarget(_editTextRegisterEmail);
+        animPass.setTarget(_editTextRegisterPassword);
+        animPassR.setTarget(_editTextRegisterPasswordRepeat);
+
         _buttonRegisterConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,9 +67,21 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(username) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(passwordRepeat)) {
                     Toast.makeText(getApplicationContext(), R.string.toast_missing_fields, Toast.LENGTH_SHORT).show();
+                    anim.start();
+
+                    if (TextUtils.isEmpty(username))
+                        animUser.start();
+                    if (TextUtils.isEmpty(email))
+                        animEmail.start();
+                    if (TextUtils.isEmpty(password))
+                        animPass.start();
+                    if (TextUtils.isEmpty(passwordRepeat))
+                        animPassR.start();
                 }
                 else if (!TextUtils.equals(password, passwordRepeat)) {
                     Toast.makeText(getApplicationContext(), R.string.toast_password_mismatch, Toast.LENGTH_SHORT).show();
+                    anim.start();
+                    animPassR.start();
                 }
                 else {
                     User user = new User();

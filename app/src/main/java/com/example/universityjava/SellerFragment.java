@@ -108,7 +108,16 @@ public class SellerFragment extends Fragment implements ReviewRecyclerViewEvent 
         List<Listing> list = dao.getListingsByUserId(userID);
 
         if(!list.isEmpty()) {
-            var listingItemAdapter = new ListingItemAdapter(list, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.EDITABLE);
+            ListingItemAdapter listingItemAdapter;
+            if(userID == AppActivity.getCurrentUserID()) {
+                listingItemAdapter = new ListingItemAdapter(list,
+                        (MainActivity)getActivity(), ListingItemAdapter.ListingMode.EDITABLE);
+                listingItemAdapter.showDelete = false;
+            }
+            else{
+                listingItemAdapter = new ListingItemAdapter(list,
+                        (MainActivity)getActivity(), ListingItemAdapter.ListingMode.ADDABLE);
+            }
             recyclerView.setAdapter(listingItemAdapter);
         }
         return view;

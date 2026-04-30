@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:title="Pradžia"
+    <item android:title="@string/navigation_home"
         android:icon="@drawable/baseline_home_24"
         android:id="@+id/navigation_home"/>
-    <item android:title="Krepšelis"
+    <item android:title="@string/navigation_cart"
         android:icon="@drawable/baseline_shopping_cart_24"
         android:id="@+id/navigation_cart"/>
-    <item android:title="Norai"
+    <item android:title="@string/navigation_wishlist"
         android:icon="@drawable/baseline_favorite_border_24"
         android:id="@+id/navigation_favorites"/>
-    <item android:title="Profilis"
+    <item android:title="@string/navigation_profile"
         android:icon="@drawable/baseline_person_outline_24"
         android:id="@+id/navigation_profile"/>
-    <item android:title="Nustatymai"
+    <item android:title="@string/navigation_settings"
         android:icon="@drawable/baseline_settings_24"
         android:id="@+id/navigation_settings"/>
 </menu>

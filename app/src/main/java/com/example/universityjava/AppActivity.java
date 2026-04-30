@@ -44,6 +44,7 @@ public class AppActivity extends Application {
 
         prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         generateTestData();
+        Themes.applyTheme(this);
         prepopulateGameIconCache(getApplicationContext());
     }
 

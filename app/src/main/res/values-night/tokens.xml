@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_background">@color/cream_gray_dark</color>
+    <color name="secondary_background">@color/black</color>
+    <color name="outline_color">@color/light_orange</color>
+    <color name="button_base">@color/dark_orange</color>
+    <color name="button_selected">@color/light_orange</color>
+    <color name="button_inactive">@color/dark_orange</color>
+    <color name="button2_base">@color/black</color>
+    <color name="button2_inactive">@color/dark_gray</color>
+    <color name="banner_background">@color/darkish_orange</color>
+    <color name="navigation_backround">@color/dark_orange</color>
+    <color name="text">@color/white</color>
+    <color name="text_background">@color/black</color>
+</resources>

@@ -5,21 +5,21 @@ import static android.app.PendingIntent.getActivity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.universityjava.database.CartListing;
-import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
 import com.example.universityjava.database.WishlistListing;
 
@@ -32,42 +32,39 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         EDITABLE,
         ADDABLE
     }
-    private boolean isCategory;
     private List<Listing> listings;
-    private List<Game> games;
     private static ItemRecyclerViewEvent listener;
     public ListingMode listingMode;
     public boolean showDelete = true;
     public boolean showEdit = true;
     public boolean showWishlist = true;
     public boolean showCart = true;
+    public boolean isInWishlistFragment;
     private final AppDatabase db = AppActivity.getDatabase();
     /// Listing list or Game list to work
-    public ListingItemAdapter(List<?> list, ItemRecyclerViewEvent listener, ListingMode mode){
+    public ListingItemAdapter(List<Listing> list, ItemRecyclerViewEvent listener, ListingMode mode){
         ListingItemAdapter.listener = listener;
         this.listingMode = mode;
         if (list != null && !list.isEmpty()){
-            if(list.get(0) instanceof Listing){
-                this.listings = (List<Listing>) list;
-                isCategory = false;
-            }else if(list.get(0) instanceof Game){
-                this.games = (List<Game>) list;
-                isCategory = true;
-            }
+            this.listings = list;
         }
     }
     public static class ListingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private LinearLayout itemHolder;
-        private Game game;
+        private final LinearLayout itemHolder;
         private Listing listing;
         private final TextView title;
         private final TextView price;
         private final ImageView image;
         private final TextView listingsFrom;
-        private final Button editButton;
-        private final Button deleteButton;
-        private final Button wishlistButton;
-        private final Button cartButton;
+        private final ImageButton editButton;
+        private final ImageButton deleteButton;
+        private final ImageButton wishlistButton;
+        private final ImageButton cartButton;
+        private final Animator wishlistBounce;
+        private final Animator cartBounce;
+        private final Animator editBounce;
+        private final Animator deleteBounce;
+        private final Animator fadeOutListing;
         public ListingViewHolder(View view) {
             super(view);
 
@@ -75,12 +72,22 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
             price = (TextView) view.findViewById(R.id.listing_price);
             image = (ImageView) view.findViewById(R.id.listing_image);
             listingsFrom = (TextView) view.findViewById(R.id.listings_from);
-            editButton = (Button) view.findViewById(R.id.buttonEdit);
-            deleteButton = view.findViewById(R.id.buttonDelete);
+            editButton = view.findViewById(R.id.buttonFirst);
+            deleteButton = view.findViewById(R.id.buttonSecond);
             cartButton = view.findViewById(R.id.buttonCart);
             wishlistButton = view.findViewById(R.id.buttonWishlist);
             itemHolder = view.findViewById(R.id.item_holder);
             view.setOnClickListener(this);
+            fadeOutListing = AnimatorInflater.loadAnimator(view.getContext(),R.animator.listing_fade_out);
+            fadeOutListing.setTarget(itemHolder);
+            wishlistBounce = AnimatorInflater.loadAnimator(view.getContext(), R.animator.overshoot_bounce);
+            cartBounce = AnimatorInflater.loadAnimator(view.getContext(), R.animator.overshoot_bounce);
+            editBounce = AnimatorInflater.loadAnimator(view.getContext(), R.animator.overshoot_bounce);
+            deleteBounce = AnimatorInflater.loadAnimator(view.getContext(), R.animator.overshoot_bounce);
+            cartBounce.setTarget(cartButton);
+            editBounce.setTarget(editButton);
+            deleteBounce.setTarget(deleteButton);
+            wishlistBounce.setTarget(wishlistButton);
         }
 
         public TextView getTitle(){
@@ -98,33 +105,27 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         public LinearLayout getItemHolder() {
             return itemHolder;
         }
-        public Button getWishlistButton(){
+        public ImageButton getWishlistButton(){
             return wishlistButton;
         }
-        public Button getEditButton(){
+        public ImageButton getEditButton(){
             return editButton;
         }
-        public Button getDeleteButton(){
+        public ImageButton getDeleteButton(){
             return deleteButton;
         }
-        public Button getCartButton(){
+        public ImageButton getCartButton(){
             return cartButton;
         }
         public void SetItem(Listing listing){
             this.listing = listing;
         }
-        public void SetItem(Game game){
-            this.game = game;
-        }
+
         @Override
         public void onClick(View v) {
             int position = getAbsoluteAdapterPosition();
             if(position != RecyclerView.NO_POSITION){
-                if(game == null){
-                    listener.onItemClick(listing);}
-                else{
-                    listener.onItemClick(game);
-                }
+                listener.onItemClick(listing);
             }
         }
     }
@@ -147,30 +148,14 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ListingItemAdapter.ListingViewHolder holder, int position) {
-        var listing = listings.get(position);
-        if(isCategory){
-            Game item = games.get(position);
-            holder.SetItem(item);
-            holder.getTitle().setText(item.getTitle());
-
-            setImage(holder.getImage(), item.getImage());
-
-            double price = db.gameDAO().getGameMinPriceById(item.getId());
-            if(price != 0) {
-                holder.getPrice().setText(price+" €");
-            }
-            else{
-                holder.getListingsFrom().setText(R.string.NoListings);
-                holder.getPrice().setText("");}
-        }else {
-            holder.SetItem(listing);
-            holder.getTitle().setText(db.listingDAO().getGameNameByListingId(listing.getId()));
-            holder.getListingsFrom().setVisibility(View.GONE);
-
-            setImage(holder.getImage(), db.gameDAO().getGameByID(listing.getFk_gameid()).getImage());
-
-            holder.getPrice().setText(listing.getPrice() + " €");
-        }
+        Listing listing = listings.get(position);
+        holder.SetItem(listing);
+        holder.getTitle().setText(db.listingDAO().getGameNameByListingId(listing.getId()));
+        holder.getListingsFrom().setVisibility(View.GONE);
+        holder.getImage().setImageResource(R.drawable.ic_launcher_background);
+        holder.getPrice().setText(listing.getPrice() + " €");
+        long userId = AppActivity.getCurrentUserID();
+        setImage(holder.getImage(), db.gameDAO().getGameByID(listing.getFk_gameid()).getImage());
         if(listingMode == ListingMode.EDITABLE)
         {
             holder.editButton.setVisibility(showEdit ? ViewGroup.VISIBLE : View.GONE);
@@ -179,9 +164,8 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(view.getContext(), "Editing!", Toast.LENGTH_SHORT).show();
-                    Fragment fragment = new EditListingFragment();
-
-                    //((MainActivity).getActivity()).replaceFragment(fragment);
+                    holder.editBounce.start();
+                    listener.onEditClick(listing);
                     // TODO: Add listing edit
                 }
             });
@@ -189,7 +173,16 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(view.getContext(), "Deleting!", Toast.LENGTH_SHORT).show();
-                    // TODO: Add listing delete
+                    holder.deleteBounce.start();
+                    if(isInWishlistFragment){
+                        db.wishlistListingDAO().removeWListingByListingAndUserID(listing.getId(),userId);
+                    }else{
+                        db.cartListingDAO().removeCListingByListingAndUserID(listing.getId(),userId);
+                    }
+                    holder.fadeOutListing.start();
+                    listings.remove(listing);
+                    notifyItemRemoved(holder.getBindingAdapterPosition());
+                    notifyItemRangeChanged(holder.getBindingAdapterPosition(), listings.size());
                 }
             });
         }
@@ -197,6 +190,13 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         {
             holder.wishlistButton.setVisibility(showWishlist ? ViewGroup.VISIBLE : View.GONE);
             holder.cartButton.setVisibility(showCart ? ViewGroup.VISIBLE : View.GONE);
+
+            if(!db.cartListingDAO().getCListingByListingAndUserID(listing.getId(),userId).isEmpty()){
+                holder.cartButton.setSelected(true);
+            }
+            if(!db.wishlistListingDAO().getWListingByListingAndUserID(listing.getId(),userId).isEmpty()){
+                holder.wishlistButton.setSelected(true);
+            }
             if(listing.getIssold()){
                 holder.wishlistButton.setEnabled(false);
                 holder.cartButton.setEnabled(false);
@@ -207,9 +207,14 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
                     Toast.makeText(view.getContext(), "Wishlist!", Toast.LENGTH_SHORT).show();
                     var wListing = new WishlistListing();
                     wListing.setFk_listingid(listing.getId());
-                    wListing.setFk_userid(AppActivity.getCurrentUserID());
-                    if(AppActivity.getDatabase().wishlistListingDAO().getListingByListingID(listing.getId()).size() == 0) {
-                        AppActivity.getDatabase().wishlistListingDAO().insert(wListing);
+                    wListing.setFk_userid(userId);
+                    holder.wishlistBounce.start();
+                    if(db.wishlistListingDAO().getWListingByListingAndUserID(listing.getId(),userId).isEmpty()) {
+                        db.wishlistListingDAO().insert(wListing);
+                        holder.wishlistButton.setSelected(true);
+                    }else{
+                        db.wishlistListingDAO().removeWListingByListingAndUserID(listing.getId(), userId);
+                        holder.wishlistButton.setSelected(false);
                     }
                 }
             });
@@ -218,12 +223,16 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
                 public void onClick(View view) {
                     var wListing = new CartListing();
                     wListing.setFk_listingid(listing.getId());
-                    wListing.setFk_userid(AppActivity.getCurrentUserID());
-                    if(AppActivity.getDatabase().cartListingDAO().getListingByListingID(listing.getId()).size() == 0) {
-                        AppActivity.getDatabase().cartListingDAO().insert(wListing);
+                    wListing.setFk_userid(userId);
+                    holder.cartBounce.start();
+                    if(db.cartListingDAO().getCListingByListingAndUserID(listing.getId(),userId).isEmpty()) {
+                        db.cartListingDAO().insert(wListing);
+                        holder.cartButton.setSelected(true);
+                    }else{
+                        db.cartListingDAO().removeCListingByListingAndUserID(listing.getId(),userId);
+                        holder.cartButton.setSelected(false);
                     }
-                    Toast.makeText(view.getContext(), "Cart!", Toast.LENGTH_SHORT).show();
-                    // TODO: Add listing delete
+                    //Toast.makeText(view.getContext(), "Cart!", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -231,10 +240,9 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
 
     @Override
     public int getItemCount() {
-        if(isCategory)
-            return games.size();
-        else
+        if(listings != null)
             return listings.size();
+        return -1;
     }
 
     private void setImage(ImageView imageView, String imageName) {

@@ -51,8 +51,8 @@ public class CartFragment extends Fragment{
         list = AppActivity.getDatabase().listingDAO().getCartListingsByUserId(AppActivity.getCurrentUserID());
         //list = AppActivity.getDatabase().listingDAO().getAllListings();
         if(!list.isEmpty()) {
-            var listingItemAdapter = new ListingItemAdapter(list, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.ADDABLE);
-            listingItemAdapter.showCart = false;
+            var listingItemAdapter = new ListingItemAdapter(list, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.EDITABLE);
+            listingItemAdapter.showEdit = false;
             recyclerView.setAdapter(listingItemAdapter);
         }
 

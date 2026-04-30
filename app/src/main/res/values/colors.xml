@@ -2,15 +2,19 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="light_orange">#FFF6980F</color>
     <color name="dark_orange">#FFA6580F</color>
+    <color name="darkish_orange">#FFC76A0F</color>
     <color name="medium_dark_orange">#FFED7302</color>
     <color name="orange">#FFFB973A</color>
     <color name="cream">#FFF4DBBD</color>
     <color name="cream_gray">#FFF1E2D2</color>
+    <color name="cream_gray_dark">#FF191212</color>
     <color name="light_cream">#FFFFF6ED</color>
     <color name="dark_gray">#FF2C303B</color>
     <color name="light_gray">#FFCCCCCC</color>
     <color name="black_50">#99000000</color>
+    <color name="white_50">#99FFFFFF</color>
     <color name="blue">#FF80C4F5</color>
     <color name="darker_blue">#FF1573BA</color>
 <!--    <color name="">#FF</color>-->

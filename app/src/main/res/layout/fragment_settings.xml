@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/main_background"
-    tools:context=".SettingsFragment" >
+    tools:context=".SettingsFragment">
 
     <TextView
         style="@style/MyBanner"
@@ -32,11 +33,15 @@
                 android:layout_weight="1"
                 android:text="@string/language" />
 
-            <Spinner
-                android:id="@+id/spinnerLanguage"
-                style="@style/MyButton"
+<!--            <Spinner-->
+<!--                android:id="@+id/spinnerLanguage"-->
+<!--                style="@style/MyButton"-->
+<!--                android:layout_width="200dp"-->
+<!--                android:layout_height="wrap_content" />-->
+            <com.example.universityjava.CustomDropdown
+                android:id="@+id/languageDropdown"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout
@@ -50,13 +55,47 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="@string/theme" />
-
-            <Spinner
-                android:id="@+id/spinnerTheme"
-                style="@style/MyButton"
+            <com.example.universityjava.CustomDropdown
+                android:id="@+id/themeDropdown"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
+
+<!--            <Spinner-->
+<!--                android:id="@+id/spinnerTheme"-->
+<!--                style="@style/MyButton"-->
+<!--                android:layout_width="200dp"-->
+<!--                android:layout_height="wrap_content" />-->
         </LinearLayout>
+
+<!--        <FrameLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                style="@style/MyDropdownStyle"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:endIconMode="none">-->
+
+<!--                <AutoCompleteTextView-->
+<!--                    android:id="@+id/languageDropdown"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="none"-->
+<!--                    android:background="@drawable/bg_button"/>-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/arrowIcon"-->
+<!--                android:src="@drawable/ic_arrow_triangle"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="end|center_vertical"-->
+<!--                android:paddingEnd="8dp"/>-->
+<!--        </FrameLayout>-->
+
+
+
 
         <Button
             style="@style/MyButton"

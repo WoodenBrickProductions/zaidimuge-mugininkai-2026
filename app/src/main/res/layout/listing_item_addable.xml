@@ -7,7 +7,9 @@
     android:layout_height="165dp"
     android:layout_marginBottom="16dp"
     android:background="@color/secondary_background"
-    android:padding="12dp">
+    android:padding="12dp"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <ImageView
         android:id="@+id/listing_image"
@@ -31,6 +33,7 @@
             android:layout_height="wrap_content"
             android:text="@string/listings_from"
             android:textSize="@dimen/text_16"
+            android:textColor="@color/darker_blue"
             app:layout_constraintBottom_toTopOf="@+id/listing_price"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -46,22 +49,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <ImageButton
             android:id="@+id/buttonWishlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Norai"
+            style="@style/MyWhiteButton"
+            android:layout_width="@dimen/val_48"
+            android:layout_height="@dimen/val_48"
+            android:src="@drawable/as_favorite_states_38"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <ImageButton
             android:id="@+id/buttonCart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Krepselis"
-            app:layout_constraintBottom_toBottomOf="@+id/listing_price"
+            style="@style/MyWhiteButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/as_shopping_cart_states"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/listing_price" />
+            app:layout_constraintTop_toTopOf="@+id/listing_price"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/listing_price"

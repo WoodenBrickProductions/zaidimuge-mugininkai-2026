@@ -11,6 +11,7 @@
     <color name="banner_background">@color/white</color>
     <color name="navigation_backround">@color/orange</color>
     <color name="text">@color/black</color>
+    <color name="text_background">@color/white</color>
 
     <dimen name="radius_small">@dimen/val_8</dimen>
     <dimen name="radius_medium">@dimen/val_16</dimen>
@@ -21,4 +22,7 @@
     <dimen name="spacing_xlarge">@dimen/val_64</dimen>
 
     <integer name="anim_duration_click">200</integer>
+    <integer name="anim_duration_click_failed">50</integer>
+    <integer name="anim_duration_click_failed_text">150</integer>
+    <integer name="anim_duration_arrow_flip">200</integer>
 </resources>

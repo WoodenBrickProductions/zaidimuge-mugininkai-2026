@@ -50,6 +50,13 @@
         <item>Šviesi</item>
         <item>Tamsi</item>
     </string-array>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_light">Light</string>
+    <string name="navigation_home">Home</string>
+    <string name="navigation_cart">Cart</string>
+    <string name="navigation_wishlist">Wishlist</string>
+    <string name="navigation_profile">Profile</string>
+    <string name="navigation_settings">Settings</string>
     <string name="condition_title">Condition</string>
     <string name="condition_new">New</string>
     <string name="condition_like_new">Like_new</string>
