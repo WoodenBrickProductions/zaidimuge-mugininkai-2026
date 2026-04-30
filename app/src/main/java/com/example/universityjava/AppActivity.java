@@ -43,9 +43,9 @@ public class AppActivity extends Application {
         //.createFromAsset("my_app_db.db") to use pre-made database in assets folder
 
         prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        prepopulateGameIconCache(getApplicationContext());
         generateTestData();
         Themes.applyTheme(this);
-        prepopulateGameIconCache(getApplicationContext());
     }
 
     public static AppDatabase getDatabase() { return db; }

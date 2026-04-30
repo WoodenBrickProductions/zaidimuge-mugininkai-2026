@@ -152,7 +152,6 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         holder.SetItem(listing);
         holder.getTitle().setText(db.listingDAO().getGameNameByListingId(listing.getId()));
         holder.getListingsFrom().setVisibility(View.GONE);
-        holder.getImage().setImageResource(R.drawable.ic_launcher_background);
         holder.getPrice().setText(listing.getPrice() + " €");
         long userId = AppActivity.getCurrentUserID();
         setImage(holder.getImage(), db.gameDAO().getGameByID(listing.getFk_gameid()).getImage());
