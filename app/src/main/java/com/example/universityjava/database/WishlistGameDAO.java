@@ -28,5 +28,5 @@ public interface WishlistGameDAO {
     List<WishlistGame> getWGameByGameID(long id);
 
     @Query("SELECT * FROM WishlistGame WHERE fk_gameid = :gameid AND fk_userid = :userid")
-    List<WishlistGame> getWGameByListingAndUserID(long gameid, long userid);
+    List<WishlistGame> getWGameByGameAndUserID(long gameid, long userid);
 }

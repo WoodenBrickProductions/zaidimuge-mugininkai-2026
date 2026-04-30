@@ -7,7 +7,9 @@
     android:layout_height="165dp"
     android:layout_marginBottom="16dp"
     android:background="@color/secondary_background"
-    android:padding="12dp">
+    android:padding="12dp"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <ImageView
         android:id="@+id/listing_image"

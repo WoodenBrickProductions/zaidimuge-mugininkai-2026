@@ -7,7 +7,9 @@
     android:layout_height="165dp"
     android:layout_marginBottom="16dp"
     android:background="@color/secondary_background"
-    android:padding="12dp">
+    android:padding="12dp"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <ImageView
         android:id="@+id/listing_image"
@@ -52,7 +54,7 @@
             style="@style/MyWhiteButton"
             android:layout_width="@dimen/val_48"
             android:layout_height="@dimen/val_48"
-            android:src="@drawable/ic_favorite_nofill_38"
+            android:src="@drawable/as_favorite_states_38"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,7 +63,7 @@
             style="@style/MyWhiteButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/ic_shopping_cart_nofill_48"
+            android:src="@drawable/as_shopping_cart_states"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/listing_price"

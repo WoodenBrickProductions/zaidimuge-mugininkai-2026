@@ -61,6 +61,7 @@ public class WishlistFragment extends Fragment{
         if(!listList.isEmpty()) {
             var listingItemAdapter = new ListingItemAdapter(listList, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.EDITABLE);
             listingItemAdapter.showEdit = false;
+            listingItemAdapter.isInWishlistFragment = true;
             recyclerView.setAdapter(listingItemAdapter);
         }
 
@@ -70,11 +71,10 @@ public class WishlistFragment extends Fragment{
                 if(listingButton.isSelected()) return;
                 categoryButton.setSelected(false);
                 listingButton.setSelected(true);
-                if(!listList.isEmpty()) {
-                    var listingItemAdapter = new ListingItemAdapter(listList, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.EDITABLE);
-                    listingItemAdapter.showEdit = false;
-                    recyclerView.setAdapter(listingItemAdapter);
-                }
+                var listingItemAdapter = new ListingItemAdapter(listList, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.EDITABLE);
+                listingItemAdapter.showEdit = false;
+                listingItemAdapter.isInWishlistFragment = true;
+                recyclerView.setAdapter(listingItemAdapter);
             }
         });
 
@@ -84,11 +84,9 @@ public class WishlistFragment extends Fragment{
                 if(categoryButton.isSelected()) return;
                 categoryButton.setSelected(true);
                 listingButton.setSelected(false);
-                if(!gameList.isEmpty()) {
-                    var listingItemAdapter = new GameItemAdapter(gameList, (MainActivity)getActivity(), GameItemAdapter.ListingMode.EDITABLE);
-                    listingItemAdapter.showEdit = false;
-                    recyclerView.setAdapter(listingItemAdapter);
-                }
+                var listingItemAdapter = new GameItemAdapter(gameList, (MainActivity)getActivity(), GameItemAdapter.ListingMode.EDITABLE);
+                listingItemAdapter.showEdit = false;
+                recyclerView.setAdapter(listingItemAdapter);
             }
         });
         return view;

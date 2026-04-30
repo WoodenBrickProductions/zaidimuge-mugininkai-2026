@@ -1,9 +1,10 @@
 package com.example.universityjava;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,6 +51,9 @@ public class GameItemAdapter extends RecyclerView.Adapter<GameItemAdapter.GameVi
         private final ImageButton deleteButton;
         private final ImageButton wishlistButton;
         private final ImageButton cartButton;
+        private final Animator wishlistBounce;
+        private final Animator deleteBounce;
+        private final Animator fadeOutGame;
         public GameViewHolder(View view) {
             super(view);
 
@@ -63,6 +67,12 @@ public class GameItemAdapter extends RecyclerView.Adapter<GameItemAdapter.GameVi
             wishlistButton = view.findViewById(R.id.buttonWishlist);
             itemHolder = view.findViewById(R.id.item_holder);
             view.setOnClickListener(this);
+            fadeOutGame = AnimatorInflater.loadAnimator(view.getContext(),R.animator.listing_fade_out);
+            fadeOutGame.setTarget(itemHolder);
+            wishlistBounce = AnimatorInflater.loadAnimator(view.getContext(), R.animator.overshoot_bounce);
+            deleteBounce = AnimatorInflater.loadAnimator(view.getContext(), R.animator.overshoot_bounce);
+            wishlistBounce.setTarget(wishlistButton);
+            deleteBounce.setTarget(deleteButton);
         }
 
         public TextView getTitle(){
@@ -123,6 +133,7 @@ public class GameItemAdapter extends RecyclerView.Adapter<GameItemAdapter.GameVi
     @Override
     public void onBindViewHolder(@NonNull GameViewHolder holder, int position) {
         Game game = games.get(position);
+        long userid = AppActivity.getCurrentUserID();
         holder.SetItem(game);
         holder.getTitle().setText(game.getTitle());
         holder.getImage().setImageResource(R.drawable.ic_launcher_background);
@@ -142,7 +153,12 @@ public class GameItemAdapter extends RecyclerView.Adapter<GameItemAdapter.GameVi
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(view.getContext(), "Deleting!", Toast.LENGTH_SHORT).show();
-                    // TODO: Add listing delete
+                    holder.deleteBounce.start();
+                    db.wishlistGameDAO().removeWGameByGameAndUserID(game.getId(),userid);
+                    holder.fadeOutGame.start();
+                    games.remove(game);
+                    notifyItemRemoved(holder.getBindingAdapterPosition());
+                    notifyItemRangeChanged(holder.getBindingAdapterPosition(), games.size());
                 }
             });
         }
@@ -150,15 +166,23 @@ public class GameItemAdapter extends RecyclerView.Adapter<GameItemAdapter.GameVi
         {
             holder.wishlistButton.setVisibility(showWishlist ? ViewGroup.VISIBLE : View.GONE);
             holder.cartButton.setVisibility(View.GONE);
+            if(!db.wishlistGameDAO().getWGameByGameAndUserID(game.getId(), userid).isEmpty()) {
+                holder.wishlistButton.setSelected(true);
+            }else holder.wishlistButton.setSelected(false);
             holder.wishlistButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(view.getContext(), "Wishlist!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(view.getContext(), "Wishlist!", Toast.LENGTH_SHORT).show();
                     var wGame = new WishlistGame();
                     wGame.setFk_gameid(game.getId());
                     wGame.setFk_userid(AppActivity.getCurrentUserID());
-                    if(AppActivity.getDatabase().wishlistGameDAO().getWGameByGameID(game.getId()).isEmpty()) {
-                        AppActivity.getDatabase().wishlistGameDAO().insert(wGame);
+                    holder.wishlistBounce.start();
+                    if(db.wishlistGameDAO().getWGameByGameAndUserID(game.getId(), userid).isEmpty()) {
+                        db.wishlistGameDAO().insert(wGame);
+                        holder.wishlistButton.setSelected(true);
+                    }else {
+                        db.wishlistGameDAO().removeWGameByGameAndUserID(game.getId(),userid);
+                        holder.wishlistButton.setSelected(false);
                     }
                 }
             });
@@ -167,6 +191,8 @@ public class GameItemAdapter extends RecyclerView.Adapter<GameItemAdapter.GameVi
 
     @Override
     public int getItemCount() {
-        return games.size();
+        if(games != null)
+            return games.size();
+        return -1;
     }
 }
