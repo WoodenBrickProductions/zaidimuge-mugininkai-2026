@@ -1,5 +1,8 @@
 package com.example.universityjava;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.SearchView;
 
@@ -22,6 +27,7 @@ public class HomeFragment extends Fragment {
     Button _buttonPopular;
     Button _buttonNewest;
     Button _buttonPhysical;
+    DrawableDecoration _decoration;
 
     public HomeFragment() {
 
@@ -37,6 +43,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        _decoration = view.findViewById(R.id.view3);
         _buttonCreateListing = (Button) view.findViewById(R.id.buttonCreateListing);
         _buttonCreateListing.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +130,19 @@ public class HomeFragment extends Fragment {
         popularRW.setAdapter(popularAdapter);
         newestRW.setAdapter(newestAdapter);
         physicalRW.setAdapter(physicalAdapter);
+
+        ObjectAnimator rotation = ObjectAnimator.ofFloat(_decoration,"rotationY", 360);
+        rotation.setInterpolator(new LinearInterpolator());
+        rotation.setDuration(8000);
+        rotation.start();
+        rotation.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                rotation.start();
+            }
+        });
+
         return view;
     }
 }
