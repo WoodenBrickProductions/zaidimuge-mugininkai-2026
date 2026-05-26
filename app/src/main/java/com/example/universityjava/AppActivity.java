@@ -14,6 +14,9 @@ import androidx.room.Room;
 
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
+import com.example.universityjava.database.PickupPoint;
+import com.example.universityjava.database.PickupPointDAO;
+import com.example.universityjava.database.PickupPointPopulator;
 import com.example.universityjava.database.Platform;
 import com.example.universityjava.database.Review;
 
@@ -21,6 +24,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.concurrent.Executors;
 
 public class AppActivity extends Application {
@@ -34,7 +38,8 @@ public class AppActivity extends Application {
                 .setQueryCallback((sqlQuery, bindArgs) -> {
                     Log.d("RoomQueryLog", "SQL Query: " + sqlQuery + " SQL Args: " + bindArgs);
                 }, Executors.newSingleThreadExecutor())
-                .createFromAsset("my_app_db.db")
+//                .createFromAsset("my_app_db.db")
+                .fallbackToDestructiveMigration()
                 .allowMainThreadQueries().build();
         // use .fallbackToDestructiveMigration() before .setQueryCallback()
         // so the database can be updated - new tables added and such
@@ -44,6 +49,7 @@ public class AppActivity extends Application {
 
         prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         prepopulateGameIconCache(getApplicationContext());
+        prepopulatePickupLocations(getApplicationContext());
         generateTestData();
         Themes.applyTheme(this);
     }
@@ -138,6 +144,17 @@ public class AppActivity extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void prepopulatePickupLocations(Context context) {
+        new Thread(() -> {
+            PickupPointDAO dao = db.pickupPointDAO();
+            List<PickupPoint> existing = dao.getAllPickupPoints();
+            if (existing.isEmpty()) {
+                List<PickupPoint> points =  PickupPointPopulator.loadPickupPoints(context);
+                dao.insertPickupPoints(points);
+            }
+        }).start();
     }
 
     private static File getOrCreateCacheFolder(Context context, String folderName) {

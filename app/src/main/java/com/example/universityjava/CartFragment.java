@@ -62,7 +62,7 @@ public class CartFragment extends Fragment{
             recyclerView.setAdapter(listingItemAdapter);
         }else{
             priceAmount.setText("0€");
-            buy.setEnabled(false);
+//            buy.setEnabled(false);
         }
 
 
@@ -70,6 +70,8 @@ public class CartFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Toast.makeText(view.getContext(), "Buying!", Toast.LENGTH_SHORT).show();
+                Fragment fragment = new MapsFragment();
+                ((MainActivity)getActivity()).replaceFragment(fragment);
             }
         });
 

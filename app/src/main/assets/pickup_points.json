@@ -1,0 +1,178 @@
+[
+  {
+    "id": "omniva_akropolis",
+    "name": "Omniva Akropolis",
+    "address": "Karaliaus Mindaugo pr. 49, Kaunas",
+    "courier": "Omniva",
+    "latitude": 54.8901,
+    "longitude": 23.9218
+  },
+  {
+    "id": "dpd_mega",
+    "name": "DPD Mega",
+    "address": "Islandijos pl. 32, Kaunas",
+    "courier": "DPD",
+    "latitude": 54.9495,
+    "longitude": 23.9896
+  },
+  {
+    "id": "lp_express_akropolis",
+    "name": "LP EXPRESS Akropolis",
+    "address": "Karaliaus Mindaugo pr. 49, Kaunas",
+    "courier": "LP EXPRESS",
+    "latitude": 54.8901,
+    "longitude": 23.9218
+  },
+  {
+    "id": "dpd_akropolis",
+    "name": "DPD Akropolis",
+    "address": "Karaliaus Mindaugo pr. 49, Kaunas",
+    "courier": "DPD",
+    "latitude": 54.8901,
+    "longitude": 23.9218
+  },
+  {
+    "id": "lp_express_mega",
+    "name": "LP EXPRESS MEGA",
+    "address": "Islandijos pl. 32, Kaunas",
+    "courier": "LP EXPRESS",
+    "latitude": 54.9495,
+    "longitude": 23.9896
+  },
+  {
+    "id": "omniva_mega",
+    "name": "Omniva MEGA",
+    "address": "Islandijos pl. 32, Kaunas",
+    "courier": "Omniva",
+    "latitude": 54.9495,
+    "longitude": 23.9896
+  },
+  {
+    "id": "dpd_savanoriu_iki",
+    "name": "DPD Savanorių IKI",
+    "address": "Savanorių pr. 111, Kaunas",
+    "courier": "DPD",
+    "latitude": 54.90454,
+    "longitude": 23.91607
+  },
+  {
+    "id": "dpd_zemaiciu_iki",
+    "name": "DPD Žemaičių IKI",
+    "address": "Žemaičių pl. 23, Kaunas",
+    "courier": "DPD",
+    "latitude": 54.9283,
+    "longitude": 23.88781
+  },
+  {
+    "id": "dpd_river_mall",
+    "name": "DPD River Mall",
+    "address": "Jonavos g. 60, Kaunas",
+    "courier": "DPD",
+    "latitude": 54.90352,
+    "longitude": 23.89737
+  },
+  {
+    "id": "omniva_river_mall",
+    "name": "Omniva River Mall",
+    "address": "Jonavos g. 60, Kaunas",
+    "courier": "Omniva",
+    "latitude": 54.90352,
+    "longitude": 23.89737
+  },
+  {
+    "id": "lp_express_lidl_jonavos",
+    "name": "LP EXPRESS LIDL Jonavos",
+    "address": "Jonavos g. 40, Kaunas",
+    "courier": "LP EXPRESS",
+    "latitude": 54.9061,
+    "longitude": 23.8979
+  },
+  {
+    "id": "lp_express_girstupis",
+    "name": "LP EXPRESS IKI Girstupis",
+    "address": "Kovo 11-osios g. 22, Kaunas",
+    "courier": "LP EXPRESS",
+    "latitude": 54.9127,
+    "longitude": 23.9676
+  },
+  {
+    "id": "omniva_girstupis",
+    "name": "Omniva IKI Girstupis",
+    "address": "Kovo 11-osios g. 22, Kaunas",
+    "courier": "Omniva",
+    "latitude": 54.9127,
+    "longitude": 23.9676
+  },
+  {
+    "id": "lp_express_lidl_barsausko",
+    "name": "LP EXPRESS LIDL Baršausko",
+    "address": "K. Baršausko g. 66, Kaunas",
+    "courier": "LP EXPRESS",
+    "latitude": 54.8995,
+    "longitude": 23.9635
+  },
+  {
+    "id": "omniva_barsausko",
+    "name": "Omniva K. Baršausko",
+    "address": "K. Baršausko g. 66, Kaunas",
+    "courier": "Omniva",
+    "latitude": 54.8995,
+    "longitude": 23.9635
+  },
+  {
+    "id": "lp_express_rimi_prancuzu",
+    "name": "LP EXPRESS Rimi Prancūzų",
+    "address": "Prancūzų g. 81, Kaunas",
+    "courier": "LP EXPRESS",
+    "latitude": 54.888,
+    "longitude": 23.9592
+  },
+  {
+    "id": "omniva_prancuzu",
+    "name": "Omniva Prancūzų",
+    "address": "Prancūzų g. 81, Kaunas",
+    "courier": "Omniva",
+    "latitude": 54.888,
+    "longitude": 23.9592
+  },
+  {
+    "id": "lp_express_rimi_europos",
+    "name": "LP EXPRESS Rimi Europos",
+    "address": "Europos pr. 43, Kaunas",
+    "courier": "LP EXPRESS",
+    "latitude": 54.8768,
+    "longitude": 23.9009
+  },
+  {
+    "id": "omniva_europos",
+    "name": "Omniva Europos",
+    "address": "Europos pr. 43, Kaunas",
+    "courier": "Omniva",
+    "latitude": 54.8768,
+    "longitude": 23.9009
+  },
+  {
+    "id": "lp_express_lidl_juozapaviciaus",
+    "name": "LP EXPRESS LIDL Juozapavičiaus",
+    "address": "A. Juozapavičiaus pr. 125, Kaunas",
+    "courier": "LP EXPRESS",
+    "latitude": 54.8568,
+    "longitude": 23.9375
+  },
+  {
+    "id": "lp_express_rimi_kreves",
+    "name": "LP EXPRESS Rimi Krėvės",
+    "address": "V. Krėvės pr. 43A, Kaunas",
+    "courier": "LP EXPRESS",
+    "latitude": 54.9184,
+    "longitude": 23.9652
+  },
+  {
+    "id": "lp_express_savas",
+    "name": "LP EXPRESS Savas",
+    "address": "Savanorių pr. 346, Kaunas",
+    "courier": "LP EXPRESS",
+    "latitude": 54.921,
+    "longitude": 23.963
+  }
+]
