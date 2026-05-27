@@ -31,6 +31,9 @@ public class CartFragment extends Fragment{
     //private String mParam2;
     private RecyclerView recyclerView;
     private List<Listing> list;
+    private TextView priceAmount;
+    private Button buy;
+
 
     public CartFragment() {
         // Required empty public constructor
@@ -46,17 +49,23 @@ public class CartFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
+        priceAmount = view.findViewById(R.id.priceAmount);
         recyclerView = view.findViewById(R.id.cart_list);
+        buy = view.findViewById(R.id.buyCartButton);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         list = AppActivity.getDatabase().listingDAO().getCartListingsByUserId(AppActivity.getCurrentUserID());
         //list = AppActivity.getDatabase().listingDAO().getAllListings();
         if(!list.isEmpty()) {
+            priceAmount.setText("€");
             var listingItemAdapter = new ListingItemAdapter(list, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.EDITABLE);
             listingItemAdapter.showEdit = false;
             recyclerView.setAdapter(listingItemAdapter);
+        }else{
+            priceAmount.setText("0€");
+            buy.setEnabled(false);
         }
 
-        Button buy = view.findViewById(R.id.buyCartButton);
+
         buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
