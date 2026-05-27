@@ -10,20 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.universityjava.database.Listing;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SearchResultsFragment extends Fragment{
     String _query;
     private List<Listing> list;
     private RecyclerView recyclerView;
+    ShakeDetector shakeDetector;
 
     public SearchResultsFragment() {
         // Required empty public constructor
     }
+    boolean reversed = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,27 @@ public class SearchResultsFragment extends Fragment{
             var listingItemAdapter = new ListingItemAdapter(list, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.ADDABLE);
             recyclerView.setAdapter(listingItemAdapter);
         }
+
+        shakeDetector = new ShakeDetector(requireContext(), () -> {
+            reversed = !reversed;
+            Collections.reverse(list);
+            adapter.notifyDataSetChanged();
+
+            Toast.makeText(requireContext(), reversed ? R.string.order_reversed : R.string.order_restored, Toast.LENGTH_SHORT).show();
+        });
+
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        shakeDetector.stop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        shakeDetector.start();
     }
 }
