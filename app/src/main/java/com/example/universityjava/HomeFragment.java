@@ -1,11 +1,13 @@
 package com.example.universityjava;
 
 import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,7 +19,9 @@ import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +32,10 @@ public class HomeFragment extends Fragment {
     Button _buttonNewest;
     Button _buttonPhysical;
     DrawableDecoration _decoration;
+    TextView mainText;
+    ImageButton star1;
+    ImageButton star2;
+    ImageButton star3;
 
     public HomeFragment() {
 
@@ -44,6 +52,96 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         _decoration = view.findViewById(R.id.view3);
+        mainText = view.findViewById(R.id.textView2);
+        star1 = view.findViewById(R.id.star1);
+        star2 = view.findViewById(R.id.star2);
+        star3 = view.findViewById(R.id.star3);
+
+        Animator anim = AnimatorInflater.loadAnimator(getContext(), R.animator.logo_anim);
+        anim.setTarget(mainText);
+        anim.start();
+
+        Animator anim1 = AnimatorInflater.loadAnimator(getContext(), R.animator.star_anim);
+        anim1.setTarget(star1);
+
+        Animator anim2 = AnimatorInflater.loadAnimator(getContext(), R.animator.star_anim);
+        anim2.setTarget(star2);
+
+        Animator anim3 = AnimatorInflater.loadAnimator(getContext(), R.animator.star_anim);
+        anim3.setTarget(star3);
+
+        Animator.AnimatorListener listener = new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationCancel(@NonNull Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(@NonNull Animator animator) {
+                anim1.start();
+            }
+
+            @Override
+            public void onAnimationRepeat(@NonNull Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationStart(@NonNull Animator animator) {
+
+            }
+        };
+
+        anim.addListener(listener);
+
+        Animator.AnimatorListener listener2 = new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationCancel(@NonNull Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(@NonNull Animator animator) {
+                anim2.start();
+            }
+
+            @Override
+            public void onAnimationRepeat(@NonNull Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationStart(@NonNull Animator animator) {
+
+            }
+        };
+
+        anim1.addListener(listener2);
+
+        Animator.AnimatorListener listener3 = new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationCancel(@NonNull Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(@NonNull Animator animator) {
+                anim3.start();
+            }
+
+            @Override
+            public void onAnimationRepeat(@NonNull Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationStart(@NonNull Animator animator) {
+
+            }
+        };
+
+        anim2.addListener(listener3);
+
         _buttonCreateListing = (Button) view.findViewById(R.id.buttonCreateListing);
         _buttonCreateListing.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +150,8 @@ public class HomeFragment extends Fragment {
                 ((MainActivity)getActivity()).replaceFragment(fragment);
             }
         });
+
+        //anim.addListener(listener);
 
         _buttonPopular = (Button) view.findViewById(R.id.buttonPopular);
         _buttonPopular.setOnClickListener(new View.OnClickListener() {

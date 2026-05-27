@@ -36,6 +36,47 @@
                 android:layout_height="wrap_content"
                 android:padding="0dp"
                 android:text="@string/app_name" />
+
+            <ImageButton
+                android:id="@+id/star1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:translationX="1000dp"
+                android:src="@drawable/star"
+                android:background="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <ImageButton
+                android:id="@+id/star2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:src="@drawable/star"
+                android:translationX="1000dp"
+                android:background="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <ImageButton
+                android:id="@+id/star3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:translationX="1000dp"
+                android:src="@drawable/star"
+                android:background="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+
         </LinearLayout>
 
         <SearchView

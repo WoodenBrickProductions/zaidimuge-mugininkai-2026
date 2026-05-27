@@ -2,6 +2,8 @@ package com.example.universityjava;
 
 import static android.view.View.GONE;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -65,12 +67,15 @@ public class AddListingFragment extends Fragment {
         LinearLayout conditionContainer = view.findViewById(R.id.condition_container);
         EditText conditionDescription = view.findViewById(R.id.condition_description);
         Button buttonImage = view.findViewById(R.id.buttonImage);
+        Animator anim = AnimatorInflater.loadAnimator(getContext(), R.animator.overshoot_bounce);
+        anim.setTarget(buttonImage);
         Button buttonDelete = view.findViewById(R.id.buttonSecond);
         buttonDelete.setVisibility(GONE);
 
         buttonImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                anim.start();
                 MainActivity.gotFileCallback = new MainActivity.GotFileCallback() {
                     @Override
                     public void gotFile(File file) {
