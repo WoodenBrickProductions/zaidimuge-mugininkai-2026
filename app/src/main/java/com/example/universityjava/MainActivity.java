@@ -35,12 +35,14 @@ public class MainActivity extends AppCompatActivity implements ItemRecyclerViewE
     private AppDatabase db;
     //Button _button;
     BottomNavigationView _bottomNavigationView;
+    BannerGyroController gyroController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        replaceFragment(new HomeFragment());
+        if (savedInstanceState == null)
+            setRootFragment(new HomeFragment());
 
         db = AppActivity.getDatabase();
         imageLauncher = AppActivity.registerImagePickerLauncher(this, "my banner",
@@ -88,11 +90,26 @@ public class MainActivity extends AppCompatActivity implements ItemRecyclerViewE
                     return true;
                 Animator iconAnimator = AnimatorInflater.loadAnimator(getBaseContext(), R.animator.navigation_icon_click);
                 iconAnimator.setTarget(clickedView);
-                iconAnimator.start();
+                if (AnimationSettings.areAnimationsEnabled())
+                    iconAnimator.start();
 
                 return true;
             }
         });
+
+        gyroController = new BannerGyroController(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gyroController.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gyroController.stop();
     }
 
     private View getMenuItemView(int itemId) {
@@ -109,16 +126,27 @@ public class MainActivity extends AppCompatActivity implements ItemRecyclerViewE
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(
-                R.anim.slide_in,  // enter
-                R.anim.fade_out,  // exit
-                R.anim.fade_in,   // popEnter
-                R.anim.slide_out  // popExit
-        );
+        if (AnimationSettings.areAnimationsEnabled())
+            fragmentTransaction.setCustomAnimations(
+                    R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.fade_in,   // popEnter
+                    R.anim.slide_out  // popExit
+            );
         fragmentTransaction.replace(R.id.frameLayoutMain, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
+
+    private void setRootFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frameLayoutMain, fragment);
+        transaction.commit();
+    }
+
 
     public void logOut() {
         startActivity(new Intent(getBaseContext(), LoginActivity.class));
