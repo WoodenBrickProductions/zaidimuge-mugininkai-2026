@@ -24,9 +24,10 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="2.5"
+                android:scaleType="centerCrop"
                 android:src="@drawable/baseline_person_outline_24" />
 
             <TextView

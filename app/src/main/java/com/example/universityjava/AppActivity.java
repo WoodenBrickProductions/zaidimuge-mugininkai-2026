@@ -11,6 +11,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
@@ -27,6 +29,13 @@ public class AppActivity extends Application {
     static AppDatabase db;
     static SharedPreferences prefs;
 
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(@androidx.annotation.NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE User ADD COLUMN profile_image TEXT");
+        }
+    };
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -35,6 +44,7 @@ public class AppActivity extends Application {
                     Log.d("RoomQueryLog", "SQL Query: " + sqlQuery + " SQL Args: " + bindArgs);
                 }, Executors.newSingleThreadExecutor())
                 .createFromAsset("my_app_db.db")
+                .addMigrations(MIGRATION_1_2)
                 .allowMainThreadQueries().build();
         // use .fallbackToDestructiveMigration() before .setQueryCallback()
         // so the database can be updated - new tables added and such

@@ -11,7 +11,7 @@ import com.example.universityjava.database.*;
         PhysicalListingAttributes.class, Platform.class,
         Review.class, CartListing.class, WishlistListing.class,
         WishlistGame.class
-}, version = 1)
+}, version = 2)
 //@TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDAO userDAO();

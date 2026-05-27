@@ -19,6 +19,8 @@ public class User {
     @NonNull
     @ColumnInfo(name = "password")
     private String password = "test_password";
+    @ColumnInfo(name = "profile_image")
+    private String profileImage;
 
     public void setId(long id) { this.id = id; }
     public long getId() { return this.id; }
@@ -28,6 +30,8 @@ public class User {
     public String getEmail() { return this.email; }
     public void setPassword(String password) { this.password = password; }
     public String getPassword() { return this.password; }
+    public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
+    public String getProfileImage() { return this.profileImage; }
 
     public void generateTestData(long id)
     {

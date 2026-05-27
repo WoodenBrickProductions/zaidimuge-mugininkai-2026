@@ -10,9 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.net.Uri;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.File;
 
 import com.example.universityjava.database.Listing;
 import com.example.universityjava.database.ListingDAO;
@@ -98,6 +102,12 @@ public class SellerFragment extends Fragment implements ReviewRecyclerViewEvent 
             // todo(Woody): separate out textViews
             textViewUsername.setText(user.getName() + "\n" +
                     "0.0 / 5");
+
+            ImageView imageView = view.findViewById(R.id.imageView);
+            if (user.getProfileImage() != null) {
+                File f = AppActivity.getCachedImageFile(requireContext(), user.getProfileImage());
+                if (f != null) imageView.setImageURI(Uri.fromFile(f));
+            }
 
             List<Review> reviews = AppActivity.getDatabase().reviewDAO().getReviewsBySellerID(userID);
             if (!reviews.isEmpty())
