@@ -1,9 +1,14 @@
 package com.example.universityjava;
 
+import android.animation.ValueAnimator;
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.PowerManager;
 import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -30,6 +35,8 @@ import java.util.concurrent.Executors;
 public class AppActivity extends Application {
     static AppDatabase db;
     static SharedPreferences prefs;
+    private PowerManager powerManager;
+
 
     @Override
     public void onCreate() {
@@ -52,6 +59,7 @@ public class AppActivity extends Application {
         prepopulatePickupLocations(getApplicationContext());
         generateTestData();
         Themes.applyTheme(this);
+        handleBatterySaver();
     }
 
     public static AppDatabase getDatabase() { return db; }
@@ -230,5 +238,23 @@ public class AppActivity extends Application {
     public static String getCachedImagePath(Context context, String name) {
         File file = getCachedImageFile(context, name);
         return file != null ? file.getAbsolutePath() : null;
+    }
+
+    private void handleBatterySaver() {
+        powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+
+        updateAnimationState();
+
+        BroadcastReceiver powerSaveReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                updateAnimationState();
+            }
+        };
+        registerReceiver(powerSaveReceiver, new IntentFilter(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED));
+    }
+    private void updateAnimationState() {
+        boolean enabled = !powerManager.isPowerSaveMode();
+        AnimationSettings.setEnableAnimations(enabled);
     }
 }
