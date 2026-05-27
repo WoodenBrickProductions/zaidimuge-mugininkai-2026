@@ -9,6 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 
 import com.example.universityjava.database.Game;
@@ -54,6 +58,13 @@ public class WishlistFragment extends Fragment{
         categoryButton = view.findViewById(R.id.category_button);
         listingButton = view.findViewById(R.id.listings_button);
         recyclerView = view.findViewById(R.id.wishlist_list);
+        /* Sliding in animation for list items
+        Animation slideInListing = AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_in_listing);
+        AnimationSet set = new AnimationSet(true);
+        set.addAnimation(slideInListing);
+        LayoutAnimationController controller = new LayoutAnimationController(set, 0.5f);
+        recyclerView.setLayoutAnimation(controller);*/
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         listingButton.setSelected(true);
         listList = AppActivity.getDatabase().listingDAO().getWishlistListingsByUserId(AppActivity.getCurrentUserID());

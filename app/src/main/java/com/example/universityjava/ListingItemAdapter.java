@@ -2,6 +2,7 @@ package com.example.universityjava;
 
 import static android.app.PendingIntent.getActivity;
 
+import android.animation.AnimatorListenerAdapter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -10,6 +11,10 @@ import android.animation.AnimatorInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,6 +56,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
     }
     public static class ListingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final LinearLayout itemHolder;
+        private final View view;
         private Listing listing;
         private final TextView title;
         private final TextView price;
@@ -65,9 +71,11 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         private final Animator editBounce;
         private final Animator deleteBounce;
         private final Animator fadeOutListing;
+        //private final Animation slideInListing;
+        //private final AnimationSet set;
         public ListingViewHolder(View view) {
             super(view);
-
+            this.view = view;
             title = (TextView) view.findViewById(R.id.listing_name);
             price = (TextView) view.findViewById(R.id.listing_price);
             image = (ImageView) view.findViewById(R.id.listing_image);
@@ -88,6 +96,14 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
             editBounce.setTarget(editButton);
             deleteBounce.setTarget(deleteButton);
             wishlistBounce.setTarget(wishlistButton);
+            //slideInListing = AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_in_listing);
+            //set = new AnimationSet(true);
+            //set.addAnimation(slideInListing);
+            //LayoutAnimationController controller = new LayoutAnimationController(set, 0.5f);
+
+            //set.addAnimation(slideInListing);
+
+            //slideInListing.setTarget(itemHolder);
         }
 
         public TextView getTitle(){
@@ -150,6 +166,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
     public void onBindViewHolder(@NonNull ListingItemAdapter.ListingViewHolder holder, int position) {
         Listing listing = listings.get(position);
         holder.SetItem(listing);
+        //holder.itemHolder.startAnimation(holder.slideInListing);
         holder.getTitle().setText(db.listingDAO().getGameNameByListingId(listing.getId()));
         holder.getListingsFrom().setVisibility(View.GONE);
         holder.getPrice().setText(listing.getPrice() + " €");
@@ -179,9 +196,15 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
                         db.cartListingDAO().removeCListingByListingAndUserID(listing.getId(),userId);
                     }
                     holder.fadeOutListing.start();
-                    listings.remove(listing);
-                    notifyItemRemoved(holder.getBindingAdapterPosition());
-                    notifyItemRangeChanged(holder.getBindingAdapterPosition(), listings.size());
+                    holder.fadeOutListing.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            listings.remove(listing);
+                            notifyItemRemoved(holder.getBindingAdapterPosition());
+                            notifyItemRangeChanged(holder.getBindingAdapterPosition(), listings.size());
+                        }
+                    });
                 }
             });
         }
@@ -189,6 +212,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         {
             holder.wishlistButton.setVisibility(showWishlist ? ViewGroup.VISIBLE : View.GONE);
             holder.cartButton.setVisibility(showCart ? ViewGroup.VISIBLE : View.GONE);
+            //holder.itemHolder.startAnimation(holder.slideInListing);
 
             if(!db.cartListingDAO().getCListingByListingAndUserID(listing.getId(),userId).isEmpty()){
                 holder.cartButton.setSelected(true);
