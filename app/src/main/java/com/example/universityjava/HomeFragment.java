@@ -36,6 +36,7 @@ public class HomeFragment extends Fragment {
     ImageButton star1;
     ImageButton star2;
     ImageButton star3;
+    ObjectAnimator rotation;
 
     public HomeFragment() {
 
@@ -231,7 +232,7 @@ public class HomeFragment extends Fragment {
         newestRW.setAdapter(newestAdapter);
         physicalRW.setAdapter(physicalAdapter);
 
-        ObjectAnimator rotation = ObjectAnimator.ofFloat(_decoration,"rotationY", 360);
+        rotation = ObjectAnimator.ofFloat(_decoration,"rotationY", 360);
         rotation.setInterpolator(new LinearInterpolator());
         rotation.setDuration(8000);
         rotation.start();
@@ -244,5 +245,11 @@ public class HomeFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (rotation != null) rotation.cancel();
     }
 }
