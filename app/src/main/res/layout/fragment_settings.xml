@@ -96,7 +96,11 @@
 <!--                android:paddingEnd="8dp"/>-->
 <!--        </FrameLayout>-->
 
-
+        <Switch
+            android:id="@+id/switchBrightness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dynamic_brightness" />
 
 
         <Button

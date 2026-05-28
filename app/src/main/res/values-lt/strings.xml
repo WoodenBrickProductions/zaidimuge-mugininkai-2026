@@ -56,4 +56,5 @@
     <string name="platform">Platforma</string>
     <string name="order_reversed">Rikiavimo tvarka apversta</string>
     <string name="order_restored">Rikiavimo tvarka sugrąžinta</string>
+    <string name="dynamic_brightness">Automatinis šviesumas</string>
 </resources>

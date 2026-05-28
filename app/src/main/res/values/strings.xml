@@ -66,4 +66,5 @@
     <string name="condition_description">Condition description</string>
     <string name="order_reversed">Sorting order reversed</string>
     <string name="order_restored">Sorting order restored</string>
+    <string name="dynamic_brightness">Dynamic brightness</string>
 </resources>
