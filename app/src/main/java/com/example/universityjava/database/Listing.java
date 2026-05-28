@@ -45,6 +45,12 @@ public class Listing {
     private long fk_gameid;
     @ColumnInfo(name = "issold")
     private boolean issold;
+    @ColumnInfo(name = "physical_photo_1")
+    private String physicalPhoto1;
+    @ColumnInfo(name = "physical_photo_2")
+    private String physicalPhoto2;
+    @ColumnInfo(name = "physical_photo_3")
+    private String physicalPhoto3;
 
     public void setId(long id) { this.id = id; }
     public long getId() { return this.id; }
@@ -60,6 +66,12 @@ public class Listing {
     public long getFk_gameid() { return this.fk_gameid; }
     public void setIssold(boolean issold) {this.issold = issold;}
     public boolean getIssold() {return this.issold;}
+    public void setPhysicalPhoto1(String p) { this.physicalPhoto1 = p; }
+    public String getPhysicalPhoto1() { return physicalPhoto1; }
+    public void setPhysicalPhoto2(String p) { this.physicalPhoto2 = p; }
+    public String getPhysicalPhoto2() { return physicalPhoto2; }
+    public void setPhysicalPhoto3(String p) { this.physicalPhoto3 = p; }
+    public String getPhysicalPhoto3() { return physicalPhoto3; }
 
     public void generateTestData(long id, long fk_gameid, long fk_seller, int fk_platform) {
         this.id = id;

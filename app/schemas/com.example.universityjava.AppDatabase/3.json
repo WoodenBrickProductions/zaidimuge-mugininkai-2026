@@ -1,0 +1,466 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "b582bc9a7683c292edaf31f075c9a5b2",
+    "entities": [
+      {
+        "tableName": "User",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `user_name` TEXT NOT NULL, `email` TEXT NOT NULL, `password` TEXT NOT NULL, `profile_image` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "user_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "password",
+            "columnName": "password",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "profileImage",
+            "columnName": "profile_image",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "Game",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `steamdbid` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `image` TEXT, `is_for_adults` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "steamdbid",
+            "columnName": "steamdbid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "is_for_adults",
+            "columnName": "is_for_adults",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "Listing",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_seller` INTEGER NOT NULL, `price` REAL NOT NULL, `isdigital` INTEGER NOT NULL, `fk_platform` INTEGER NOT NULL, `fk_gameid` INTEGER NOT NULL, `issold` INTEGER NOT NULL, `physical_photo_1` TEXT, `physical_photo_2` TEXT, `physical_photo_3` TEXT, FOREIGN KEY(`fk_seller`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`fk_platform`) REFERENCES `Platform`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`fk_gameid`) REFERENCES `Game`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fk_seller",
+            "columnName": "fk_seller",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "price",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isdigital",
+            "columnName": "isdigital",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fk_platform",
+            "columnName": "fk_platform",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fk_gameid",
+            "columnName": "fk_gameid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "issold",
+            "columnName": "issold",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "physicalPhoto1",
+            "columnName": "physical_photo_1",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "physicalPhoto2",
+            "columnName": "physical_photo_2",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "physicalPhoto3",
+            "columnName": "physical_photo_3",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Listing_fk_seller",
+            "unique": false,
+            "columnNames": [
+              "fk_seller"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Listing_fk_seller` ON `${TABLE_NAME}` (`fk_seller`)"
+          },
+          {
+            "name": "index_Listing_fk_platform",
+            "unique": false,
+            "columnNames": [
+              "fk_platform"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Listing_fk_platform` ON `${TABLE_NAME}` (`fk_platform`)"
+          },
+          {
+            "name": "index_Listing_fk_gameid",
+            "unique": false,
+            "columnNames": [
+              "fk_gameid"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Listing_fk_gameid` ON `${TABLE_NAME}` (`fk_gameid`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "User",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "fk_seller"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Platform",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "fk_platform"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Game",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "fk_gameid"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "PhysicalListingAttributes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`fk_listingid` INTEGER NOT NULL, `fk_condition` TEXT, `condition_description` TEXT, `image` TEXT, PRIMARY KEY(`fk_listingid`), FOREIGN KEY(`fk_listingid`) REFERENCES `Listing`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "fk_listingid",
+            "columnName": "fk_listingid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fk_condition",
+            "columnName": "fk_condition",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "condition_description",
+            "columnName": "condition_description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "fk_listingid"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_PhysicalListingAttributes_fk_listingid",
+            "unique": false,
+            "columnNames": [
+              "fk_listingid"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_PhysicalListingAttributes_fk_listingid` ON `${TABLE_NAME}` (`fk_listingid`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Listing",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "fk_listingid"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Platform",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "Review",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`fk_listingid` INTEGER NOT NULL, `fk_buyerid` INTEGER NOT NULL, `rating` INTEGER NOT NULL, `comment` TEXT, PRIMARY KEY(`fk_listingid`), FOREIGN KEY(`fk_listingid`) REFERENCES `Listing`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`fk_buyerid`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "fk_listingid",
+            "columnName": "fk_listingid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fk_buyerid",
+            "columnName": "fk_buyerid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rating",
+            "columnName": "rating",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "comment",
+            "columnName": "comment",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "fk_listingid"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Review_fk_listingid",
+            "unique": false,
+            "columnNames": [
+              "fk_listingid"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Review_fk_listingid` ON `${TABLE_NAME}` (`fk_listingid`)"
+          },
+          {
+            "name": "index_Review_fk_buyerid",
+            "unique": false,
+            "columnNames": [
+              "fk_buyerid"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Review_fk_buyerid` ON `${TABLE_NAME}` (`fk_buyerid`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Listing",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "fk_listingid"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "User",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "fk_buyerid"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "CartListing",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`fk_userid` INTEGER NOT NULL, `fk_listingid` INTEGER NOT NULL, PRIMARY KEY(`fk_userid`, `fk_listingid`))",
+        "fields": [
+          {
+            "fieldPath": "fk_userid",
+            "columnName": "fk_userid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fk_listingid",
+            "columnName": "fk_listingid",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "fk_userid",
+            "fk_listingid"
+          ]
+        }
+      },
+      {
+        "tableName": "WishlistListing",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`fk_userid` INTEGER NOT NULL, `fk_listingid` INTEGER NOT NULL, PRIMARY KEY(`fk_userid`, `fk_listingid`))",
+        "fields": [
+          {
+            "fieldPath": "fk_userid",
+            "columnName": "fk_userid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fk_listingid",
+            "columnName": "fk_listingid",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "fk_userid",
+            "fk_listingid"
+          ]
+        }
+      },
+      {
+        "tableName": "WishlistGame",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`fk_userid` INTEGER NOT NULL, `fk_gameid` INTEGER NOT NULL, PRIMARY KEY(`fk_userid`, `fk_gameid`))",
+        "fields": [
+          {
+            "fieldPath": "fk_userid",
+            "columnName": "fk_userid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fk_gameid",
+            "columnName": "fk_gameid",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "fk_userid",
+            "fk_gameid"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b582bc9a7683c292edaf31f075c9a5b2')"
+    ]
+  }
+}

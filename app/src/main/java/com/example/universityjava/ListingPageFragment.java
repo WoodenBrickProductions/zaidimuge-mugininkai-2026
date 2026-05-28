@@ -3,9 +3,6 @@ package com.example.universityjava;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,25 +11,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
+
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
 import com.example.universityjava.database.PhysicalListingAttributes;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ListingPageFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ListingPageFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private long listingID;
     private User seller;
     private Listing listing;
@@ -41,7 +37,7 @@ public class ListingPageFragment extends Fragment {
     private String mParam2;
     private View view;
 
-    private ImageView listingImage;
+    private ViewPager2 imagePager;
     private TextView title;
     private TextView description;
     private TextView conditionStateTitle;
@@ -52,23 +48,11 @@ public class ListingPageFragment extends Fragment {
     private ImageView sellerImage;
     private TextView sellerName;
     private TextView sellerScore;
-
     private Button wishlistButton;
     private Button cartButton;
 
+    public ListingPageFragment() {}
 
-    public ListingPageFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ListingPageFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ListingPageFragment newInstance(long listingID, String param2) {
         ListingPageFragment fragment = new ListingPageFragment();
         Bundle args = new Bundle();
@@ -84,39 +68,30 @@ public class ListingPageFragment extends Fragment {
         if (getArguments() != null) {
             listingID = getArguments().getLong(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-            //View view = this.getView();
-
-
-
             listing = AppActivity.getDatabase().listingDAO().getListingByID(listingID);
-            //Toast.makeText(getContext(),String.valueOf(listing.getId()), Toast.LENGTH_SHORT).show();
-            if(listing.getIsdigital()){
+            if (!listing.getIsdigital()) {
                 physical = AppActivity.getDatabase().physicalListingAttributesDAO().getPhysAttrByListingId(listingID);
             }
             seller = AppActivity.getDatabase().userDAO().getUserByID(listing.getFk_seller());
             game = AppActivity.getDatabase().gameDAO().getGameByID(listing.getFk_gameid());
-
         }
     }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //View view = inflater.inflate(R.layout.fragment_home, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_listing_page, container, false);
 
-        listingImage = view.findViewById(R.id.listingImage);
+        imagePager = view.findViewById(R.id.listingImagePager);
         title = view.findViewById(R.id.listing_page_title);
         description = view.findViewById(R.id.listing_description);
         conditionStateTitle = view.findViewById(R.id.stateTitle);
         conditionStateTitle.append(":");
         platforms = view.findViewById(R.id.listing_platforms);
-        TextView platformsTitle = view.findViewById(R.id.listing_platforms_title);
-        platformsTitle.append(":");
+        ((TextView) view.findViewById(R.id.listing_platforms_title)).append(":");
         conditionState = view.findViewById(R.id.listing_condition);
-        conditionDescription= view.findViewById(R.id.listing_condition_description);
-        listingPrice= view.findViewById(R.id.page_listing_price);
-        sellerImage =view.findViewById(R.id.user_profile_icon);
+        conditionDescription = view.findViewById(R.id.listing_condition_description);
+        listingPrice = view.findViewById(R.id.page_listing_price);
+        sellerImage = view.findViewById(R.id.user_profile_icon);
         sellerName = view.findViewById(R.id.username);
         sellerScore = view.findViewById(R.id.user_rating);
         wishlistButton = view.findViewById(R.id.add_to_wishlist_button);
@@ -124,86 +99,98 @@ public class ListingPageFragment extends Fragment {
 
         if (getArguments() != null) {
             listingID = getArguments().getLong(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-
             listing = AppActivity.getDatabase().listingDAO().getListingByID(listingID);
-            //Toast.makeText(getContext(),String.valueOf(listing.getId()), Toast.LENGTH_SHORT).show();
             if (!listing.getIsdigital()) {
                 physical = AppActivity.getDatabase().physicalListingAttributesDAO().getPhysAttrByListingId(listingID);
-            }
-            else physical = null;
+            } else physical = null;
             seller = AppActivity.getDatabase().userDAO().getUserByID(listing.getFk_seller());
             game = AppActivity.getDatabase().gameDAO().getGameByID(listing.getFk_gameid());
 
-            Bitmap bitmap;
-            File imageFile = AppActivity.getCachedImageFile(
-                    listingImage.getContext(), game.getImage());
+            // Build image list: game icon first, then physical photos
+            List<String> imagePaths = new ArrayList<>();
+            File iconFile = AppActivity.getCachedImageFile(requireContext(), game.getImage());
+            imagePaths.add(iconFile != null ? iconFile.getAbsolutePath() : null);
 
-            if(imageFile != null) {
-                bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-                listingImage.setImageBitmap(bitmap);
-            } else {
-                listingImage.setImageResource(R.drawable.ic_launcher_background);
+            if (!listing.getIsdigital()) {
+                String[] photos = {listing.getPhysicalPhoto1(), listing.getPhysicalPhoto2(), listing.getPhysicalPhoto3()};
+                for (String photoName : photos) {
+                    if (photoName != null) {
+                        File f = AppActivity.getCachedImageFile(requireContext(), photoName);
+                        if (f != null) imagePaths.add(f.getAbsolutePath());
+                    }
+                }
             }
 
-            String titletext = game.getTitle();
-            title.setText(titletext);
+            imagePager.setAdapter(new ImagePagerAdapter(imagePaths));
+            imagePager.setUserInputEnabled(imagePaths.size() > 1);
+
+            title.setText(game.getTitle());
             description.setText(game.getDescription());
             listingPrice.setText(String.valueOf(listing.getPrice()));
-            String pl = AppActivity.getDatabase().listingDAO().getPlatformNameByListingId(listingID);
-            platforms.setText(pl);
-            Log.i("Listing: ", "IsDigital: "+ listing.getIsdigital()+" physicalAttr:"+physical);
+            platforms.setText(AppActivity.getDatabase().listingDAO().getPlatformNameByListingId(listingID));
+
+            Log.i("Listing: ", "IsDigital: " + listing.getIsdigital() + " physicalAttr:" + physical);
             if (listing.getIsdigital()) {
                 conditionStateTitle.setVisibility(View.GONE);
                 conditionState.setVisibility(View.GONE);
                 conditionDescription.setVisibility(View.GONE);
-            } else if(physical != null) {
+            } else if (physical != null) {
                 conditionState.setText(physical.getFk_condition().getResourceId());
                 conditionDescription.setText(physical.getCondition_description());
             }
             sellerName.setText(seller.getName());
             sellerScore.setText("0");
-            if(listing.getIssold()){
+
+            if (listing.getIssold()) {
                 wishlistButton.setEnabled(false);
                 cartButton.setEnabled(false);
             }
-            if(!AppActivity.getDatabase().wishlistListingDAO().getWListingByListingAndUserID(listingID,
-                    AppActivity.getCurrentUserID()).isEmpty()){
-                wishlistButton.setSelected(true);
-            }else wishlistButton.setSelected(false);
-            if(!AppActivity.getDatabase().cartListingDAO().getCListingByListingAndUserID(listingID,
-                    AppActivity.getCurrentUserID()).isEmpty()){
-                cartButton.setSelected(true);
-            } else cartButton.setSelected(false);
+            wishlistButton.setSelected(!AppActivity.getDatabase().wishlistListingDAO()
+                    .getWListingByListingAndUserID(listingID, AppActivity.getCurrentUserID()).isEmpty());
+            cartButton.setSelected(!AppActivity.getDatabase().cartListingDAO()
+                    .getCListingByListingAndUserID(listingID, AppActivity.getCurrentUserID()).isEmpty());
         }
 
-        Button _buttonPhysical = (Button) view.findViewById(R.id.buttonSeller);
-        _buttonPhysical.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = SellerFragment.newInstance(listing.getFk_seller(), "");
-                ((MainActivity)getActivity()).replaceFragment(fragment);
-            }
-        });
+        view.findViewById(R.id.buttonSeller).setOnClickListener(v ->
+                ((MainActivity) requireActivity()).replaceFragment(
+                        SellerFragment.newInstance(listing.getFk_seller(), "")));
 
-        cartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(cartButton.isSelected()){
-                    cartButton.setSelected(false);
-                }
-                else cartButton.setSelected(true);
-            }
-        });
-        wishlistButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(wishlistButton.isSelected()){
-                    wishlistButton.setSelected(false);
-                }
-                else wishlistButton.setSelected(true);
-            }
-        });
+        cartButton.setOnClickListener(v -> cartButton.setSelected(!cartButton.isSelected()));
+        wishlistButton.setOnClickListener(v -> wishlistButton.setSelected(!wishlistButton.isSelected()));
+
         return view;
+    }
+
+    // Minimal ViewPager2 adapter — creates ImageViews programmatically, no separate layout needed
+    private static class ImagePagerAdapter extends RecyclerView.Adapter<ImagePagerAdapter.VH> {
+        private final List<String> paths;
+
+        ImagePagerAdapter(List<String> paths) { this.paths = paths; }
+
+        static class VH extends RecyclerView.ViewHolder {
+            ImageView imageView;
+            VH(ImageView v) { super(v); imageView = v; }
+        }
+
+        @NonNull @Override
+        public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            ImageView iv = new ImageView(parent.getContext());
+            iv.setLayoutParams(new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            return new VH(iv);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull VH holder, int position) {
+            String path = paths.get(position);
+            if (path != null) {
+                Bitmap bm = BitmapFactory.decodeFile(path);
+                if (bm != null) { holder.imageView.setImageBitmap(bm); return; }
+            }
+            holder.imageView.setImageResource(R.drawable.ic_launcher_background);
+        }
+
+        @Override public int getItemCount() { return paths.size(); }
     }
 }

@@ -24,14 +24,13 @@
             android:text="Atgal" />
     </FrameLayout>
 
-    <ImageView
-        android:id="@+id/listingImage"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/listingImagePager"
         android:layout_width="match_parent"
         android:layout_height="244dp"
         android:layout_marginEnd="@dimen/val_12"
         android:layout_marginStart="@dimen/val_12"
-        android:background="@color/secondary_background"
-        tools:srcCompat="@tools:sample/avatars"/>
+        android:background="@color/secondary_background" />
 
     <LinearLayout
         android:layout_width="match_parent"

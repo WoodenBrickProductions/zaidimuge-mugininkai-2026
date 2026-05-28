@@ -29,6 +29,15 @@ public class AppActivity extends Application {
     static AppDatabase db;
     static SharedPreferences prefs;
 
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(@androidx.annotation.NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE Listing ADD COLUMN physical_photo_1 TEXT");
+            database.execSQL("ALTER TABLE Listing ADD COLUMN physical_photo_2 TEXT");
+            database.execSQL("ALTER TABLE Listing ADD COLUMN physical_photo_3 TEXT");
+        }
+    };
+
     static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
         public void migrate(@androidx.annotation.NonNull SupportSQLiteDatabase database) {
@@ -44,7 +53,7 @@ public class AppActivity extends Application {
                     Log.d("RoomQueryLog", "SQL Query: " + sqlQuery + " SQL Args: " + bindArgs);
                 }, Executors.newSingleThreadExecutor())
                 .createFromAsset("my_app_db.db")
-                .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                 .allowMainThreadQueries().build();
         // use .fallbackToDestructiveMigration() before .setQueryCallback()
         // so the database can be updated - new tables added and such
