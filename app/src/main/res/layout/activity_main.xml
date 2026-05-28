@@ -17,6 +17,18 @@
 
     </FrameLayout>
 
+
+    <View
+        android:id="@+id/lightOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:alpha="0"
+        android:clickable="false"
+        android:focusable="false"
+        android:importantForAccessibility="no" />
+
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"

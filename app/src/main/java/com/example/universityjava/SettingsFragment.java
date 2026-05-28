@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.os.LocaleListCompat;
 import androidx.fragment.app.Fragment;
@@ -21,9 +22,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SettingsFragment extends Fragment {
@@ -99,6 +104,18 @@ public class SettingsFragment extends Fragment {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             }
         });
+
+        Switch brightnessSwitch = view.findViewById(R.id.switchBrightness);
+        brightnessSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(@NonNull CompoundButton compoundButton, boolean b) {
+                prefs.edit().putBoolean("auto_brightness", b).apply();
+                ((MainActivity) requireActivity()).updateOverlaySetting();
+            }
+        });
+
+        TextView banner = view.findViewById(R.id.bannerSettings);
+        ((MainActivity) requireActivity()).gyroController.addBanner(banner);
 
         return view;
     }

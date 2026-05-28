@@ -10,7 +10,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,12 +37,16 @@ public class MainActivity extends AppCompatActivity implements ItemRecyclerViewE
     private AppDatabase db;
     //Button _button;
     BottomNavigationView _bottomNavigationView;
+    BannerGyroController gyroController;
+    OverlayController overlayController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        replaceFragment(new HomeFragment());
+
+        if (savedInstanceState == null)
+            setRootFragment(new HomeFragment());
 
         db = AppActivity.getDatabase();
         imageLauncher = AppActivity.registerImagePickerLauncher(this, "my banner",
@@ -88,11 +94,33 @@ public class MainActivity extends AppCompatActivity implements ItemRecyclerViewE
                     return true;
                 Animator iconAnimator = AnimatorInflater.loadAnimator(getBaseContext(), R.animator.navigation_icon_click);
                 iconAnimator.setTarget(clickedView);
-                iconAnimator.start();
+                if (AnimationSettings.areAnimationsEnabled())
+                    iconAnimator.start();
 
                 return true;
             }
         });
+
+        gyroController = new BannerGyroController(this);
+
+        View contentView = findViewById(R.id.frameLayoutMain);
+        View overlayView = findViewById(R.id.lightOverlay);
+        overlayController = new OverlayController(this, contentView, overlayView);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gyroController.start();
+        if (getOverlaySetting())
+            overlayController.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gyroController.stop();
+        overlayController.stop();
     }
 
     private View getMenuItemView(int itemId) {
@@ -109,16 +137,27 @@ public class MainActivity extends AppCompatActivity implements ItemRecyclerViewE
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(
-                R.anim.slide_in,  // enter
-                R.anim.fade_out,  // exit
-                R.anim.fade_in,   // popEnter
-                R.anim.slide_out  // popExit
-        );
+        if (AnimationSettings.areAnimationsEnabled())
+            fragmentTransaction.setCustomAnimations(
+                    R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.fade_in,   // popEnter
+                    R.anim.slide_out  // popExit
+            );
         fragmentTransaction.replace(R.id.frameLayoutMain, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
+
+    private void setRootFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frameLayoutMain, fragment);
+        transaction.commit();
+    }
+
 
     public void logOut() {
         startActivity(new Intent(getBaseContext(), LoginActivity.class));
@@ -141,5 +180,20 @@ public class MainActivity extends AppCompatActivity implements ItemRecyclerViewE
     @Override
     public void onEditClick(Listing item) {
         Toast.makeText(getBaseContext(), "Edit clicked: " + item.getId(), Toast.LENGTH_SHORT).show();
+    }
+
+    public void updateOverlaySetting() {
+        boolean isEnabled = getOverlaySetting();
+        if (isEnabled)
+            overlayController.start();
+        else {
+            overlayController.stop();
+            overlayController.reset();
+        }
+    }
+
+    public boolean getOverlaySetting() {
+        SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
+        return prefs.getBoolean("auto_brightness", false);
     }
 }

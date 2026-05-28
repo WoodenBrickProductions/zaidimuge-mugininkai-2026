@@ -141,6 +141,8 @@ public class CustomDropdown extends FrameLayout {
     }
 
     private void animateArrow(boolean open) {
+        if (!AnimationSettings.areAnimationsEnabled())
+            return;
         if (open)
             animDown.start();
         else

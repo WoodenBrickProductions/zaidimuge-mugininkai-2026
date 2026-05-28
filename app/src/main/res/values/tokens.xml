@@ -21,6 +21,8 @@
     <dimen name="spacing_large">@dimen/val_32</dimen>
     <dimen name="spacing_xlarge">@dimen/val_64</dimen>
 
+    <dimen name="elevation_banner">@dimen/val_8</dimen>
+
     <integer name="anim_duration_click">200</integer>
     <integer name="anim_duration_click_failed">50</integer>
     <integer name="anim_duration_click_failed_text">150</integer>

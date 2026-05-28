@@ -10,8 +10,8 @@ import com.example.universityjava.database.*;
 @Database(entities = {User.class, Game.class,Listing.class,
         PhysicalListingAttributes.class, Platform.class,
         Review.class, CartListing.class, WishlistListing.class,
-        WishlistGame.class
-}, version = 3)
+        WishlistGame.class, PickupPoint.class
+}, version = 4)
 //@TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDAO userDAO();
@@ -24,4 +24,5 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CartListingDAO cartListingDAO();
     public abstract WishlistListingDAO wishlistListingDAO();
     public abstract WishlistGameDAO wishlistGameDAO();
+    public abstract PickupPointDAO pickupPointDAO();
 }

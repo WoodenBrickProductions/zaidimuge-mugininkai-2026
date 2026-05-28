@@ -1,9 +1,14 @@
 package com.example.universityjava;
 
+import android.animation.ValueAnimator;
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.PowerManager;
 import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -16,6 +21,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
+import com.example.universityjava.database.PickupPoint;
+import com.example.universityjava.database.PickupPointDAO;
+import com.example.universityjava.database.PickupPointPopulator;
 import com.example.universityjava.database.Platform;
 import com.example.universityjava.database.Review;
 
@@ -23,11 +31,21 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.concurrent.Executors;
 
 public class AppActivity extends Application {
     static AppDatabase db;
     static SharedPreferences prefs;
+    private PowerManager powerManager;
+
+
+    static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(@androidx.annotation.NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE Listing ADD COLUMN physical_photo_1 TEXT");
+        }
+    };
 
     static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
@@ -52,8 +70,7 @@ public class AppActivity extends Application {
                 .setQueryCallback((sqlQuery, bindArgs) -> {
                     Log.d("RoomQueryLog", "SQL Query: " + sqlQuery + " SQL Args: " + bindArgs);
                 }, Executors.newSingleThreadExecutor())
-                .createFromAsset("my_app_db.db")
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                .fallbackToDestructiveMigration()
                 .allowMainThreadQueries().build();
         // use .fallbackToDestructiveMigration() before .setQueryCallback()
         // so the database can be updated - new tables added and such
@@ -63,8 +80,10 @@ public class AppActivity extends Application {
 
         prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         prepopulateGameIconCache(getApplicationContext());
+        prepopulatePickupLocations(getApplicationContext());
         generateTestData();
         Themes.applyTheme(this);
+        handleBatterySaver();
     }
 
     public static AppDatabase getDatabase() { return db; }
@@ -159,6 +178,17 @@ public class AppActivity extends Application {
         }
     }
 
+    public static void prepopulatePickupLocations(Context context) {
+        new Thread(() -> {
+            PickupPointDAO dao = db.pickupPointDAO();
+            List<PickupPoint> existing = dao.getAllPickupPoints();
+            if (existing.isEmpty()) {
+                List<PickupPoint> points =  PickupPointPopulator.loadPickupPoints(context);
+                dao.insertPickupPoints(points);
+            }
+        }).start();
+    }
+
     private static File getOrCreateCacheFolder(Context context, String folderName) {
         File folder = new File(context.getCacheDir(), folderName);
         folder.mkdirs();
@@ -232,5 +262,23 @@ public class AppActivity extends Application {
     public static String getCachedImagePath(Context context, String name) {
         File file = getCachedImageFile(context, name);
         return file != null ? file.getAbsolutePath() : null;
+    }
+
+    private void handleBatterySaver() {
+        powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+
+        updateAnimationState();
+
+        BroadcastReceiver powerSaveReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                updateAnimationState();
+            }
+        };
+        registerReceiver(powerSaveReceiver, new IntentFilter(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED));
+    }
+    private void updateAnimationState() {
+        boolean enabled = !powerManager.isPowerSaveMode();
+        AnimationSettings.setEnableAnimations(enabled);
     }
 }
