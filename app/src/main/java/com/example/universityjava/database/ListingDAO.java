@@ -26,6 +26,22 @@ public interface ListingDAO {
     @Query("SELECT * FROM Listing WHERE id = :id")
     Listing getListingByID(long id);
 
+    @Query("""
+    SELECT l.*
+    FROM Listing l
+    INNER JOIN Game g ON l.fk_gameid = g.id
+    WHERE g.title LIKE '%' || :title || '%'
+      AND (:isDigital IS NULL OR l.isdigital = :isDigital)
+      AND (:platformId IS NULL OR l.fk_platform = :platformId)
+      AND l.issold = 0
+    ORDER BY l.price ASC
+    """)
+    List<Listing> searchListings(
+            String title,
+            Boolean isDigital,
+            Integer platformId
+    );
+
     @Query("SELECT Game.title FROM Game INNER JOIN Listing ON Game.id = fk_gameid WHERE " +
             "Listing.id = :id")
     String getGameNameByListingId(long id);

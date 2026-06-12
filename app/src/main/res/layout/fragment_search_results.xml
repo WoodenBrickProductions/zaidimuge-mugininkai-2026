@@ -21,6 +21,67 @@
 
         </SearchView>
 
+            <Button
+                style="@style/MyButton"
+                android:id="@+id/buttonFilters"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="Filters"/>
+
+        <LinearLayout
+            android:id="@+id/filterView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/spacing_xlarge"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:textAlignment="center"
+                android:text="Sorting Order" />
+
+            <com.example.universityjava.CustomDropdown
+                android:id="@+id/sortingDropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:textAlignment="center"
+                android:text="Type" />
+
+            <com.example.universityjava.CustomDropdown
+                android:id="@+id/typeDropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:textAlignment="center"
+                android:text="Platform" />
+
+            <com.example.universityjava.CustomDropdown
+                android:id="@+id/platformDropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/buttonFilter"
+                style="@style/MyButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="Refresh" />
+
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewSearchResults"
             android:layout_marginTop="@dimen/spacing_medium"
