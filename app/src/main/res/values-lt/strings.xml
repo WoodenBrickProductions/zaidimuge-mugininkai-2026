@@ -57,4 +57,11 @@
     <string name="order_reversed">Rikiavimo tvarka apversta</string>
     <string name="order_restored">Rikiavimo tvarka sugrąžinta</string>
     <string name="dynamic_brightness">Automatinis šviesumas</string>
+    <string name="purchases_button">Pirkimai</string>
+    <string name="sales_button">Pardavimai</string>
+    <string name="orderstate_pending">Laukiama patvirtinimo</string>
+    <string name="orderstate_confirmed">Patvirtintas</string>
+    <string name="orderstate_shipped">Išsiųstas</string>
+    <string name="orderstate_delivered">Pristatytas</string>
+    <string name="orderstate_cancelled">Atšauktas</string>
 </resources>

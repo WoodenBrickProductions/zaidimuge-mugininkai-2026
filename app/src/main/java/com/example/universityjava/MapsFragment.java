@@ -14,6 +14,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -28,6 +29,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.universityjava.database.Listing;
+import com.example.universityjava.database.Order;
+import com.example.universityjava.database.OrderState;
 import com.example.universityjava.database.PickupPoint;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -146,6 +150,9 @@ public class MapsFragment extends Fragment {
 
                                 // TODO:
                                 // continue checkout / return result / save selection
+                                AddOrders(selectedPickupPoint);
+                                Fragment fragment = HistoryFragment.newInstance(AppActivity.getCurrentUserID());
+                                ((MainActivity)getActivity()).replaceFragment(fragment);
 
                             })
                             .setNegativeButton("Cancel", (dialog, which) -> {
@@ -313,5 +320,22 @@ public class MapsFragment extends Fragment {
         map.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(lastLocation, 12f)
         );
+    }
+
+    private void AddOrders(PickupPoint pickupPoint){
+        AppDatabase db = AppActivity.getDatabase();
+        SharedPreferences prefs = requireContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        long userID = prefs.getLong("user_id", -1);
+        if(userID < 0) return;
+        List<Listing> cartListings = db.listingDAO().getCartListingsByUserId(userID);
+        for (Listing listing:cartListings) {
+            Order order = new Order();
+            order.setFk_pickuppoint(selectedPickupPoint.getId());
+            order.setFk_userid(userID);
+            order.setFk_listingid(listing.getId());
+            order.setOrderstate(OrderState.Pending);
+            db.orderDAO().insert(order);
+            db.cartListingDAO().removeCListingByListingAndUserID(listing.getId(), userID);
+        }
     }
 }

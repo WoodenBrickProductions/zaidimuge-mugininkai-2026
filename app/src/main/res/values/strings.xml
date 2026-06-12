@@ -67,4 +67,11 @@
     <string name="order_reversed">Sorting order reversed</string>
     <string name="order_restored">Sorting order restored</string>
     <string name="dynamic_brightness">Dynamic brightness</string>
+    <string name="purchases_button">Purchases</string>
+    <string name="sales_button">Sales</string>
+    <string name="orderstate_pending">Pending</string>
+    <string name="orderstate_confirmed">Confirmed</string>
+    <string name="orderstate_shipped">Shipped</string>
+    <string name="orderstate_delivered">Delivered</string>
+    <string name="orderstate_cancelled">Cancelled</string>
 </resources>

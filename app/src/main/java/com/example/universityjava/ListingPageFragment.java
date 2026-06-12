@@ -141,7 +141,7 @@ public class ListingPageFragment extends Fragment {
             sellerName.setText(seller.getName());
             sellerScore.setText("0");
 
-            if (listing.getIssold()) {
+            if (listing.getIssold() || AppActivity.getCurrentUserID() == listing.getFk_seller()) {
                 wishlistButton.setEnabled(false);
                 cartButton.setEnabled(false);
             }

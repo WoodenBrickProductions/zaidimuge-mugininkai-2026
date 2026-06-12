@@ -2,8 +2,10 @@ package com.example.universityjava;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.opengl.Visibility;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +36,7 @@ public class CartFragment extends Fragment{
     private List<Listing> list;
     private TextView priceAmount;
     private Button buy;
+    private LinearLayout buyPanel;
 
 
     public CartFragment() {
@@ -54,6 +58,7 @@ public class CartFragment extends Fragment{
         buy = view.findViewById(R.id.buyCartButton);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         list = AppActivity.getDatabase().listingDAO().getCartListingsByUserId(AppActivity.getCurrentUserID());
+        buyPanel = view.findViewById(R.id.buy_panel);
         //list = AppActivity.getDatabase().listingDAO().getAllListings();
         if(!list.isEmpty()) {
             priceAmount.setText("€");
@@ -61,14 +66,22 @@ public class CartFragment extends Fragment{
             listingItemAdapter.showEdit = false;
             recyclerView.setAdapter(listingItemAdapter);
         }else{
-            priceAmount.setText("0€");
-//            buy.setEnabled(false);
+            buyPanel.setVisibility(View.GONE);
         }
+        recyclerView.addRecyclerListener(new RecyclerView.RecyclerListener() {
+            @Override
+            public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+                if(recyclerView.getChildCount() <= 0){
+                    buyPanel.setVisibility(View.GONE);
+                }
+            }
+        });
 
 
         buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(recyclerView.getChildCount() <= 0) return;
                 Toast.makeText(view.getContext(), "Buying!", Toast.LENGTH_SHORT).show();
                 Fragment fragment = new MapsFragment();
                 ((MainActivity)getActivity()).replaceFragment(fragment);

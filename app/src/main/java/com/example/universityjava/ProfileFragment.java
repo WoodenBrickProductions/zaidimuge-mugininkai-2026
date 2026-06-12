@@ -72,7 +72,8 @@ public class ProfileFragment extends Fragment {
                         SellerFragment.newInstance(prefs.getLong("user_id", -1), "")));
 
         Button _buttonMyHistory = view.findViewById(R.id.buttonMyHistory);
-        _buttonMyHistory.setOnClickListener(v -> {});
+        _buttonMyHistory.setOnClickListener(v -> ((MainActivity) requireActivity()).replaceFragment(
+                HistoryFragment.newInstance(prefs.getLong("user_id", -1))));
 
         Button _buttonLogOut = view.findViewById(R.id.buttonLogOut);
         _buttonLogOut.setOnClickListener(v -> {

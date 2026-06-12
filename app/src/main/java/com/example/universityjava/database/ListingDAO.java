@@ -39,4 +39,10 @@ public interface ListingDAO {
 
     @Query("SELECT * FROM Listing INNER JOIN CartListing ON Listing.id = fk_listingid WHERE fk_userid = :id")
     List<Listing> getCartListingsByUserId(long id);
+
+    @Query("SELECT * FROM Listing INNER JOIN `Order` ON Listing.id = fk_listingid WHERE Listing.fk_seller = :id")
+    List<Listing> getOrderListingsBySellerId(long id);
+
+    @Query("SELECT * FROM Listing INNER JOIN `Order` ON Listing.id = fk_listingid WHERE fk_userid = :id")
+    List<Listing> getOrderListingsByUserId(long id);
 }
