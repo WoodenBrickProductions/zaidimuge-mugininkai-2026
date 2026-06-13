@@ -16,6 +16,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -61,7 +62,12 @@ public class RegisterActivity extends AppCompatActivity {
                     User user = new User();
                     user.setName(username);
                     user.setEmail(email);
-                    user.setPassword(password);
+//                    user.setPassword(password);
+                    try {
+                        user.setPassword(PasswordHashing.hashPassword(password));
+                    } catch (NoSuchAlgorithmException e) {
+                        throw new RuntimeException(e);
+                    }
                     db.userDAO().insert(user);
                     Toast.makeText(getApplicationContext(), R.string.toast_registration_successful, Toast.LENGTH_SHORT).show();
 

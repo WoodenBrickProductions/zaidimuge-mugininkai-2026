@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.security.NoSuchAlgorithmException;
 
 public class ProfileFragment extends Fragment {
 
@@ -66,6 +69,22 @@ public class ProfileFragment extends Fragment {
                 editor.putLong("user_id", -1);
                 editor.apply();
                 startActivity(intent);
+            }
+        });
+
+        Button buttonChangePassword = view.findViewById(R.id.buttonChangePassword);
+        buttonChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                String passwd = "hallo";
+//                String hash = "";
+//                try {
+//                    hash = PasswordHashing.hashPassword(passwd);
+//                } catch (NoSuchAlgorithmException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                Toast.makeText(view.getContext(), hash, Toast.LENGTH_SHORT).show();
+                ((MainActivity)getActivity()).replaceFragment(new PasswordChangeFragment());
             }
         });
 

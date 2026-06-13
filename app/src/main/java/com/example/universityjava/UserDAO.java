@@ -3,6 +3,7 @@ package com.example.universityjava;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -22,4 +23,8 @@ public interface UserDAO {
 
     @Query("SELECT * FROM User WHERE id = :id")
     User getUserByID(long id);
+
+    @Query("UPDATE User SET password = :passw WHERE id = :id")
+    void updatePassword(long id, String passw);
+//    @Update()
 }
