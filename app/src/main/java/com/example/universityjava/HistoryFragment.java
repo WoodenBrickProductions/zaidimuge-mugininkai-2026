@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.universityjava.database.Listing;
+import com.example.universityjava.database.Order;
 
 import java.io.File;
 import java.util.List;
@@ -27,7 +28,7 @@ import java.util.List;
  * Use the {@link HistoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment implements OrderRecyclerViewEvent {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,8 +36,8 @@ public class HistoryFragment extends Fragment {
 
     private ImageView imageViewProfile;
     private RecyclerView recyclerView;
-    private List<Listing> purchasesList;
-    private List<Listing> salesList;
+    private List<Order> purchasesList;
+    private List<Order> salesList;
 
     // TODO: Rename and change types of parameters
     private long userID;
@@ -67,6 +68,7 @@ public class HistoryFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_history, container, false);
         SharedPreferences prefs = requireContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        if(userID <= 0) userID = AppActivity.getCurrentUserID();
 
         AppDatabase db = AppActivity.getDatabase();
         TextView textViewUsername = view.findViewById(R.id.textViewUsername);
@@ -79,12 +81,12 @@ public class HistoryFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         _buttonPurchases.setSelected(true);
-        purchasesList = AppActivity.getDatabase().listingDAO().getOrderListingsByUserId(AppActivity.getCurrentUserID());
-        salesList = AppActivity.getDatabase().listingDAO().getOrderListingsBySellerId(AppActivity.getCurrentUserID());
+        purchasesList = AppActivity.getDatabase().orderDAO().getOrdersByUserId(AppActivity.getCurrentUserID());
+        salesList = AppActivity.getDatabase().orderDAO().getOrdersBySellerId(AppActivity.getCurrentUserID());
         if(!purchasesList.isEmpty()) {
-            var listingItemAdapter = new ListingItemAdapter(purchasesList, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.EDITABLE);
-            listingItemAdapter.showEdit = false;
-            listingItemAdapter.isInWishlistFragment = true;
+            var listingItemAdapter = new OrderItemAdapter(purchasesList, this, OrderItemAdapter.OrderMode.PURCHASES);
+            //listingItemAdapter.showEdit = false;
+            //listingItemAdapter.isInWishlistFragment = true;
             recyclerView.setAdapter(listingItemAdapter);
         }
 
@@ -94,9 +96,9 @@ public class HistoryFragment extends Fragment {
                 if(_buttonPurchases.isSelected()) return;
                 _buttonSales.setSelected(false);
                 _buttonPurchases.setSelected(true);
-                var listingItemAdapter = new ListingItemAdapter(purchasesList, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.EDITABLE);
-                listingItemAdapter.showEdit = false;
-                listingItemAdapter.isInWishlistFragment = true;
+                var listingItemAdapter = new OrderItemAdapter(purchasesList, HistoryFragment.this, OrderItemAdapter.OrderMode.PURCHASES);
+                //listingItemAdapter.showEdit = false;
+                //listingItemAdapter.isInWishlistFragment = true;
                 recyclerView.setAdapter(listingItemAdapter);
             }
         });
@@ -108,9 +110,9 @@ public class HistoryFragment extends Fragment {
                 if(_buttonSales.isSelected()) return;
                 _buttonPurchases.setSelected(false);
                 _buttonSales.setSelected(true);
-                var listingItemAdapter = new ListingItemAdapter(salesList, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.EDITABLE);
-                listingItemAdapter.showEdit = false;
-                listingItemAdapter.isInWishlistFragment = true;
+                var listingItemAdapter = new OrderItemAdapter(salesList, HistoryFragment.this, OrderItemAdapter.OrderMode.SALES);
+                //listingItemAdapter.showEdit = false;
+                //listingItemAdapter.isInWishlistFragment = true;
                 recyclerView.setAdapter(listingItemAdapter);
             }
         });
@@ -131,5 +133,25 @@ public class HistoryFragment extends Fragment {
         if (imageViewProfile == null || user.getProfileImage() == null) return;
         File f = AppActivity.getCachedImageFile(requireContext(), user.getProfileImage());
         if (f != null) imageViewProfile.setImageURI(Uri.fromFile(f));
+    }
+
+    @Override
+    public void onItemClick(Listing item) {
+        ((MainActivity) requireActivity()).onItemClick(item);
+    }
+
+    @Override
+    public void onEditClick(Listing item) {
+
+    }
+
+    @Override
+    public void onReviewClick(Listing item) {
+
+    }
+
+    @Override
+    public void onOrderStateDropdownClick(Listing item) {
+
     }
 }

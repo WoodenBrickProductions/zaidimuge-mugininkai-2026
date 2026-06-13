@@ -61,7 +61,11 @@ public class CartFragment extends Fragment{
         buyPanel = view.findViewById(R.id.buy_panel);
         //list = AppActivity.getDatabase().listingDAO().getAllListings();
         if(!list.isEmpty()) {
-            priceAmount.setText("€");
+            double price = 0;
+            for(Listing l: list){
+                price += l.getPrice();
+            }
+            priceAmount.setText(String.format("%,.2f €",price));
             var listingItemAdapter = new ListingItemAdapter(list, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.EDITABLE);
             listingItemAdapter.showEdit = false;
             recyclerView.setAdapter(listingItemAdapter);

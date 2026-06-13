@@ -64,4 +64,6 @@
     <string name="orderstate_shipped">Išsiųstas</string>
     <string name="orderstate_delivered">Pristatytas</string>
     <string name="orderstate_cancelled">Atšauktas</string>
+    <string name="leave_review">Palikti atsiliepimą</string>
+    <string name="view_review">Peržiūrėti atsiliepimą</string>
 </resources>

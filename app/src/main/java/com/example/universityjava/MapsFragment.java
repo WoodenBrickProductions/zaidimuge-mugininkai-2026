@@ -335,6 +335,8 @@ public class MapsFragment extends Fragment {
             order.setFk_listingid(listing.getId());
             order.setOrderstate(OrderState.Pending);
             db.orderDAO().insert(order);
+            listing.setIssold(true);
+            db.listingDAO().update(listing);
             db.cartListingDAO().removeCListingByListingAndUserID(listing.getId(), userID);
         }
     }

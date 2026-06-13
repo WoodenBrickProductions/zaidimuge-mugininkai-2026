@@ -67,6 +67,7 @@ public class AppActivity extends Application {
     public void onCreate() {
         super.onCreate();
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "my_app_db")
+                .createFromAsset("my_app_db.db")
                 .setQueryCallback((sqlQuery, bindArgs) -> {
                     Log.d("RoomQueryLog", "SQL Query: " + sqlQuery + " SQL Args: " + bindArgs);
                 }, Executors.newSingleThreadExecutor())

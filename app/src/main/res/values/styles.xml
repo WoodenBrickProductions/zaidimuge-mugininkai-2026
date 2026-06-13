@@ -25,7 +25,7 @@
     <style name="MyWhiteButton">
         <item name="android:textSize">20sp</item>
         <item name="android:minHeight">48dp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:padding">@dimen/val_8</item>
         <item name="android:background">@drawable/bg_white_button</item>
         <item name="backgroundTint">@null</item>
