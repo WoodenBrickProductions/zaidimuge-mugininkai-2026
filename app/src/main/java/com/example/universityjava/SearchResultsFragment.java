@@ -132,8 +132,8 @@ public class SearchResultsFragment extends Fragment{
     private void setupDropdowns(View view, RecyclerView recyclerView) {
         CustomDropdown sortingDropdown = view.findViewById(R.id.sortingDropdown);
         String[] sortingLabels = {
-                "Ascending",
-                "Descending"};
+                getString(R.string.sort_ascending),
+                getString(R.string.sort_descending)};
         String[] sortingValues = {"ASC", "DESC"};
 
         sortingDropdown.setItems(sortingLabels, sortingValues);
@@ -146,9 +146,9 @@ public class SearchResultsFragment extends Fragment{
 
         CustomDropdown typeDropdown = view.findViewById(R.id.typeDropdown);
         String[] typeLabels = {
-                "Any",
-                "Digital",
-                "Physical"};
+                getString(R.string.any),
+                getString(R.string.type_digital),
+                getString(R.string.type_physical)};
         String[] typeValues = {"ANY", "DIG", "PHY"};
 
         typeDropdown.setItems(typeLabels, typeValues);
@@ -170,7 +170,7 @@ public class SearchResultsFragment extends Fragment{
 
         CustomDropdown platformDropdown = view.findViewById(R.id.platformDropdown);
         String[] platformLabels = {
-                "Any",
+                getString(R.string.any),
                 "PC",
                 "Xbox",
                 "PlayStation"};
@@ -195,10 +195,6 @@ public class SearchResultsFragment extends Fragment{
                     break;
             }
         });
-    }
-
-    private void setupFilterView(View view) {
-
     }
 
     @Override

@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:textAlignment="center"
-                android:text="Sorting Order" />
+                android:text="@string/sorting_order" />
 
             <com.example.universityjava.CustomDropdown
                 android:id="@+id/sortingDropdown"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:textAlignment="center"
-                android:text="Type" />
+                android:text="@string/type" />
 
             <com.example.universityjava.CustomDropdown
                 android:id="@+id/typeDropdown"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:textAlignment="center"
-                android:text="Platform" />
+                android:text="@string/platform" />
 
             <com.example.universityjava.CustomDropdown
                 android:id="@+id/platformDropdown"
