@@ -28,6 +28,7 @@
     <string name="enter_username">įveskite slapyvardį</string>
     <string name="enter_password">įveskite slaptažodį</string>
     <string name="username">naudotojo vardas</string>
+    <string name="price">kaina</string>
     <string name="email">e-paštas</string>
     <string name="password">slaptažodis</string>
     <string name="repeat_password">pakartoti slaptažodį</string>
@@ -53,8 +54,26 @@
     <string name="navigation_wishlist">Norai</string>
     <string name="navigation_profile">Profilis</string>
     <string name="condition_description">Būklės aprašymas</string>
+    <string name="type">Tipas</string>
     <string name="platform">Platforma</string>
     <string name="order_reversed">Rikiavimo tvarka apversta</string>
     <string name="order_restored">Rikiavimo tvarka sugrąžinta</string>
     <string name="dynamic_brightness">Automatinis šviesumas</string>
+    <string name="type_digital">Skaitmeninė</string>
+    <string name="type_physical">Fizinė</string>
+    <string name="condition_used">Naudota</string>
+    <string name="confirm">Patvirtinti</string>
+    <string name="cancel">Atšaukti</string>
+    <string name="acc_username_taken">"Šis naudojo vardas jau egzistuoja "</string>
+    <string name="acc_email_taken">Šis el. paštas jau yra naudojamas</string>
+    <string name="acc_email_invalid">Netinkamas el. pašto formatas</string>
+    <string name="acc_password_short">Slaptažodis privalo turėti bent 4 simbolius</string>
+    <string name="sorting_order">Kainos rikiavimo tvarka</string>
+    <string name="sort_ascending">Didėjanti</string>
+    <string name="sort_descending">Mažėjanti</string>
+    <string name="any">Bet koks</string>
+    <string name="verification_enter_code">Įveskite patvirtinimo kodą</string>
+    <string name="verification_code_sent">Patvirtinimo kodas išsiųstas į</string>
+    <string name="verification_code_incorrect">Kodas neteisingas, bandykite dar kartą</string>
+    <string name="acc_new_username">Įveskite naująjį naudotojo vardą</string>
 </resources>

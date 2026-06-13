@@ -67,4 +67,21 @@
     <string name="order_reversed">Sorting order reversed</string>
     <string name="order_restored">Sorting order restored</string>
     <string name="dynamic_brightness">Dynamic brightness</string>
+    <string name="type_digital">Digital</string>
+    <string name="type_physical">Physical</string>
+    <string name="condition_used">Used</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="acc_username_taken">User with this username already exists</string>
+    <string name="acc_email_taken">User with this email already exists</string>
+    <string name="acc_email_invalid">Invalid email format</string>
+    <string name="acc_password_short">Password must be at least 4 characters long</string>
+    <string name="sorting_order">Price sorting order</string>
+    <string name="sort_ascending">Ascending</string>
+    <string name="sort_descending">Descending</string>
+    <string name="any">Any</string>
+    <string name="verification_enter_code">Enter verification code</string>
+    <string name="verification_code_sent">Verification code sent to</string>
+    <string name="verification_code_incorrect">Incorrect code, try again</string>
+    <string name="acc_new_username">Enter new username</string>
 </resources>
