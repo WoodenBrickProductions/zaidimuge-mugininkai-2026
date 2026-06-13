@@ -3,8 +3,11 @@ package com.example.universityjava;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.opengl.Visibility;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.LocaleListCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.universityjava.database.CartListing;
@@ -26,6 +31,7 @@ import com.example.universityjava.database.WishlistListing;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.OrderViewHolder> {
 
@@ -36,15 +42,14 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
     private List<Order> orders;
     //private List<Listing> listings;
     private static OrderRecyclerViewEvent listener;
+    private static Context context;
     public OrderMode listingMode;
-    public boolean showReview = true;
-    public boolean showEditReview = false;
-    //public boolean showWishlist = true;
     private final AppDatabase db = AppActivity.getDatabase();
 
-    public OrderItemAdapter(List<Order> list, OrderRecyclerViewEvent listener, OrderMode mode){
+    public OrderItemAdapter(List<Order> list, OrderRecyclerViewEvent listener, Context context, OrderMode mode){
         OrderItemAdapter.listener = listener;
         this.listingMode = mode;
+        OrderItemAdapter.context = context;
         if (list != null && !list.isEmpty()){
             this.orders = list;
         }
@@ -158,16 +163,20 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
         setImage(holder.getImage(), db.gameDAO().getGameByID(listing.getFk_gameid()).getImage());
         if(listingMode == OrderMode.PURCHASES)
         {
-            if(order.getOrderstate() != OrderState.Delivered) showReview = false;
-            holder.editButton.setVisibility(showEditReview ? ViewGroup.VISIBLE : View.GONE);
-            holder.reviewButton.setVisibility(showReview ? ViewGroup.VISIBLE : View.GONE);
+            if(order.getOrderstate() == OrderState.Delivered){
+                if(db.reviewDAO().getReviewByListingID(listing.getId()) == null){
+                    holder.reviewButton.setVisibility(View.VISIBLE);
+                }else{
+                    holder.editButton.setVisibility(View.VISIBLE);
+                }
+            }
             holder.orderState.setText(order.getOrderstate().getResourceId());
             holder.editButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(view.getContext(), "Editing review!", Toast.LENGTH_SHORT).show();
                     listener.onEditClick(listing);
-                    // TODO: Add listing edit
+                    // TODO: Add review edit
                 }
             });
             holder.reviewButton.setOnClickListener(new View.OnClickListener() {
@@ -175,12 +184,47 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
                 public void onClick(View view) {
                     Toast.makeText(view.getContext(), "Reviewing!", Toast.LENGTH_SHORT).show();
                     listener.onReviewClick(listing);
+                    // TODO: Add review
                 }
             });
         }
         else
         {
-            // TODO: Dropdown stuff
+            String[] labels = {context.getString(OrderState.Pending.getResourceId())
+                    ,context.getString(OrderState.Confirmed.getResourceId()),
+                    context.getString(OrderState.Shipped.getResourceId()),
+                    context.getString(OrderState.Delivered.getResourceId()),
+                    context.getString(OrderState.Cancelled.getResourceId())};
+            String[] values = {OrderState.Pending.name(),
+                    OrderState.Confirmed.name(),
+                    OrderState.Shipped.name(),
+                    OrderState.Delivered.name(),
+                    OrderState.Cancelled.name()};
+
+            holder.orderStateDropdown.setItems(labels, values);
+            holder.orderStateDropdown.setSelectedValue(order.getOrderstate().name());
+            holder.orderStateDropdown.setOnValueChanged(state -> {
+                switch (state){
+                    case "Pending":
+                        order.setOrderstate(OrderState.Pending);
+                        break;
+                    case "Confirmed":
+                        order.setOrderstate(OrderState.Confirmed);
+                        break;
+                    case "Shipped":
+                        order.setOrderstate(OrderState.Shipped);
+                        break;
+                    case "Delivered":
+                        order.setOrderstate(OrderState.Delivered);
+                        break;
+                    case "Cancelled":
+                        order.setOrderstate(OrderState.Cancelled);
+                        listing.setIssold(false);
+                        db.listingDAO().update(listing);
+                        break;
+                }
+                db.orderDAO().update(order);
+            });
         }
     }
 

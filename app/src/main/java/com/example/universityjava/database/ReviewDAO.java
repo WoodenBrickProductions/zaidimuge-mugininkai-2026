@@ -3,6 +3,7 @@ package com.example.universityjava.database;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -11,6 +12,9 @@ public interface ReviewDAO {
     @Insert
     void insert(Review user);
 
+    @Update
+    void update(Review user);
+
     @Query("DELETE FROM Review")
     void deleteAll();
 
@@ -18,7 +22,7 @@ public interface ReviewDAO {
     List<Review> getAllReviews();
 
     @Query("SELECT * FROM Review WHERE fk_listingid = :id")
-    Review getReviewByID(long id);
+    Review getReviewByListingID(long id);
 
     @Query("SELECT Review.* FROM Review " +
             "INNER JOIN Listing ON Review.fk_listingid = Listing.id " +

@@ -1,6 +1,5 @@
 package com.example.universityjava;
 
-import android.animation.ValueAnimator;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -154,7 +153,7 @@ public class AppActivity extends Application {
             db.listingDAO().insert(listing);
         }
 
-        if (db.reviewDAO().getReviewByID(review.getFk_listingid()) == null) {
+        if (db.reviewDAO().getReviewByListingID(review.getFk_listingid()) == null) {
             db.reviewDAO().insert(review);
         }
     }

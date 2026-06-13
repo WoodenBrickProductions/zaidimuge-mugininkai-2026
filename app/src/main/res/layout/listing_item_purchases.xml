@@ -49,7 +49,7 @@
             android:layout_height="@dimen/val_48"
             android:layout_marginTop="0dp"
             android:text="@string/leave_review"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/buttonEditReview"

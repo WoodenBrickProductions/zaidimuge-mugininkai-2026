@@ -84,7 +84,7 @@ public class HistoryFragment extends Fragment implements OrderRecyclerViewEvent 
         purchasesList = AppActivity.getDatabase().orderDAO().getOrdersByUserId(AppActivity.getCurrentUserID());
         salesList = AppActivity.getDatabase().orderDAO().getOrdersBySellerId(AppActivity.getCurrentUserID());
         if(!purchasesList.isEmpty()) {
-            var listingItemAdapter = new OrderItemAdapter(purchasesList, this, OrderItemAdapter.OrderMode.PURCHASES);
+            var listingItemAdapter = new OrderItemAdapter(purchasesList, this, this.getContext(),OrderItemAdapter.OrderMode.PURCHASES);
             //listingItemAdapter.showEdit = false;
             //listingItemAdapter.isInWishlistFragment = true;
             recyclerView.setAdapter(listingItemAdapter);
@@ -96,7 +96,9 @@ public class HistoryFragment extends Fragment implements OrderRecyclerViewEvent 
                 if(_buttonPurchases.isSelected()) return;
                 _buttonSales.setSelected(false);
                 _buttonPurchases.setSelected(true);
-                var listingItemAdapter = new OrderItemAdapter(purchasesList, HistoryFragment.this, OrderItemAdapter.OrderMode.PURCHASES);
+                purchasesList = AppActivity.getDatabase().orderDAO().getOrdersByUserId(AppActivity.getCurrentUserID());
+                var listingItemAdapter = new OrderItemAdapter(purchasesList, HistoryFragment.this,
+                        HistoryFragment.this.getContext(),OrderItemAdapter.OrderMode.PURCHASES);
                 //listingItemAdapter.showEdit = false;
                 //listingItemAdapter.isInWishlistFragment = true;
                 recyclerView.setAdapter(listingItemAdapter);
@@ -110,7 +112,8 @@ public class HistoryFragment extends Fragment implements OrderRecyclerViewEvent 
                 if(_buttonSales.isSelected()) return;
                 _buttonPurchases.setSelected(false);
                 _buttonSales.setSelected(true);
-                var listingItemAdapter = new OrderItemAdapter(salesList, HistoryFragment.this, OrderItemAdapter.OrderMode.SALES);
+                var listingItemAdapter = new OrderItemAdapter(salesList, HistoryFragment.this,
+                        HistoryFragment.this.getContext(), OrderItemAdapter.OrderMode.SALES);
                 //listingItemAdapter.showEdit = false;
                 //listingItemAdapter.isInWishlistFragment = true;
                 recyclerView.setAdapter(listingItemAdapter);
