@@ -7,10 +7,12 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -23,12 +25,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.io.File;
 
 public class ProfileFragment extends Fragment {
 
     private ImageView imageViewProfile;
     private long userID;
+    private User user;
     private ActivityResultLauncher<Uri> cameraLauncher;
     private ActivityResultLauncher<String> permissionLauncher;
 
@@ -82,15 +87,54 @@ public class ProfileFragment extends Fragment {
             startActivity(new Intent(requireActivity().getBaseContext(), LoginActivity.class));
         });
 
-        if (userID >= 0) {
-            User user = db.userDAO().getUserByID(userID);
-            textViewUsername.setText(user.getName());
-            textViewRating.setText("");
-            loadProfileImage(user);
-        }
+        user = db.userDAO().getUserByID(userID);
+        textViewUsername.setText(user.getName());
+        textViewRating.setText("");
+        loadProfileImage(user);
 
         ImageButton buttonCamera = view.findViewById(R.id.buttonCameraProfile);
         buttonCamera.setOnClickListener(v -> checkPermissionAndLaunchCamera());
+
+        ImageButton buttonUsername = view.findViewById(R.id.buttonUsernameProfile);
+        buttonUsername.setOnClickListener(v -> {
+//            EditText editText = new EditText(requireContext());
+//            editText.setText(user.getName());
+//            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(view.getContext());
+//
+//            builder.setTitle("Edit username")
+//                    .setView(editText)
+//                    .setPositiveButton("Save", (dialog, which) -> {
+//                        String newName = editText.getText().toString();
+//                        user.setName(newName);
+//                        db.userDAO().update(user);
+//                        textViewUsername.setText(newName);
+//                    })
+//                    .setNegativeButton("Cancel", null)
+//                    .show();
+            EditText editText = new EditText(requireContext());
+            editText.setText(user.getName());
+            AlertDialog dialog = new MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(getString(R.string.acc_new_username))
+                    .setView(editText)
+                    .setPositiveButton(getString(R.string.confirm), null)
+                    .setNegativeButton(getString(R.string.cancel), null)
+                    .create();
+            dialog.show();
+
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    .setOnClickListener(v1 -> {
+                        String newName = editText.getText().toString();
+                        if (db.userDAO().getUserByName(newName).isEmpty()) {
+                            dialog.dismiss();
+                            user.setName(newName);
+                            db.userDAO().update(user);
+                            textViewUsername.setText(newName);
+                        } else {
+                            editText.setError(getString(R.string.acc_username_taken));
+                            editText.requestFocus();
+                        }
+                    });
+        });
 
         return view;
     }
