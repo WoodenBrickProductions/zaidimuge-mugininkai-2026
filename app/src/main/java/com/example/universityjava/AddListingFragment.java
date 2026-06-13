@@ -46,8 +46,8 @@ public class AddListingFragment extends Fragment {
     ImageView imageView;
     EditText addListingGame;
     EditText addListingPrice;
-    Spinner spinnerCondition;
-
+    boolean _isDigital = true;
+    int _platform;
     private int photoSlot = 0; // 0-2 for photos 1-3
     private final String[] physicalPhotos = new String[3]; // names stored in cache
     private String photoPrefix;
@@ -85,7 +85,6 @@ public class AddListingFragment extends Fragment {
         addListingGame = view.findViewById(R.id.addListingGame);
         imageView = view.findViewById(R.id.gameImage);
         addListingPrice = view.findViewById(R.id.addListingPrice);
-        spinnerCondition = view.findViewById(R.id.spinnerCondition);
         Button buttonDelete = view.findViewById(R.id.buttonSecond);
         buttonDelete.setVisibility(GONE);
 
@@ -97,12 +96,64 @@ public class AddListingFragment extends Fragment {
         Animator anim = AnimatorInflater.loadAnimator(getContext(), R.animator.overshoot_bounce);
         anim.setTarget(buttonImage);
 
-        // Checkbox toggles between single image button and split icon/photo buttons
-        CheckBox checkboxPhysical = view.findViewById(R.id.checkboxPhysical);
-        checkboxPhysical.setOnCheckedChangeListener((cb, isChecked) -> {
-            buttonImage.setVisibility(isChecked ? GONE : VISIBLE);
-            physicalImageButtons.setVisibility(isChecked ? VISIBLE : GONE);
+        CustomDropdown typeDropdown = view.findViewById(R.id.dropdownType);
+        String[] typeLabels = {
+                getString(R.string.type_digital),
+                getString(R.string.type_physical)};
+        String[] typeValues = {"DIG", "PHY"};
+        typeDropdown.setItems(typeLabels, typeValues);
+        typeDropdown.setSelectedValue(typeValues[0]);
+        typeDropdown.setOnValueChanged(type -> {
+            switch (type) {
+                case "DIG":
+                    buttonImage.setVisibility(VISIBLE);
+                    physicalImageButtons.setVisibility(GONE);
+                    _isDigital = true;
+                    break;
+                case "PHY":
+                    buttonImage.setVisibility(GONE);
+                    physicalImageButtons.setVisibility(VISIBLE);
+                    _isDigital = false;
+                    break;
+            }
         });
+
+        CustomDropdown platformDropdown = view.findViewById(R.id.dropdownPlatform);
+        String[] platformLabels = {
+                "PC",
+                "Xbox",
+                "PlayStation"};
+        String[] platformValues = {"PC", "XBOX", "PS"};
+        platformDropdown.setItems(platformLabels, platformValues);
+        platformDropdown.setSelectedValue(platformValues[0]);
+        platformDropdown.setOnValueChanged(platform -> {
+            switch (platform) {
+                case "PC":
+                    _platform = 1;
+                    break;
+                case "XBOX":
+                    _platform = 2;
+                    break;
+                case "PS":
+                    _platform = 3;
+                    break;
+            }
+        });
+
+        CustomDropdown conditionDropdown = view.findViewById(R.id.dropdownCondition);
+        String[] conditionLabels = {
+                "New",
+                "Used"};
+        String[] conditionValues = {"NEW", "USED"};
+        conditionDropdown.setItems(conditionLabels, conditionValues);
+        conditionDropdown.setSelectedValue(conditionValues[0]);
+
+//        // Checkbox toggles between single image button and split icon/photo buttons
+//        CheckBox checkboxPhysical = view.findViewById(R.id.checkboxPhysical);
+//        checkboxPhysical.setOnCheckedChangeListener((cb, isChecked) -> {
+//            buttonImage.setVisibility(isChecked ? GONE : VISIBLE);
+//            physicalImageButtons.setVisibility(isChecked ? VISIBLE : GONE);
+//        });
 
         // Original gallery picker (now also used for Add Icon)
         View.OnClickListener iconPickerClick = v -> {
@@ -156,8 +207,8 @@ public class AddListingFragment extends Fragment {
             listing.setFk_gameid(game.getId());
             listing.setFk_seller(AppActivity.getCurrentUserID());
             listing.setPrice(Double.parseDouble(addListingPrice.getText().toString()));
-            listing.setFk_platform(1);
-            listing.setIsdigital(!checkboxPhysical.isChecked());
+            listing.setFk_platform(_platform);
+            listing.setIsdigital(_isDigital);
             listing.setPhysicalPhoto1(physicalPhotos[0]);
             listing.setPhysicalPhoto2(physicalPhotos[1]);
             listing.setPhysicalPhoto3(physicalPhotos[2]);
@@ -166,43 +217,6 @@ public class AddListingFragment extends Fragment {
             ((MainActivity) requireActivity()).replaceFragment(new HomeFragment());
         });
 
-        // Language / theme spinners (unchanged)
-        SharedPreferences prefs = requireContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        Spinner languageSpinner = view.findViewById(R.id.spinnerType);
-        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View v, int i, long l) {
-                if (TextUtils.equals(adapterView.getItemAtPosition(i).toString(), "Lietuvių")
-                        && !TextUtils.equals(prefs.getString("app_lang", "en-US"), "lt-LT")) {
-                    editor.putString("app_lang", "lt-LT"); editor.apply();
-                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("lt-LT"));
-                } else if (TextUtils.equals(adapterView.getItemAtPosition(i).toString(), "English")
-                        && !TextUtils.equals(prefs.getString("app_lang", "en-US"), "en-US")) {
-                    editor.putString("app_lang", "en-US"); editor.apply();
-                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("en-US"));
-                }
-            }
-            @Override public void onNothingSelected(AdapterView<?> adapterView) {}
-        });
-        ArrayAdapter<CharSequence> languageAdapter = ArrayAdapter.createFromResource(
-                view.getContext(), R.array.languages_array, android.R.layout.simple_spinner_item);
-        languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        languageSpinner.setAdapter(languageAdapter);
-
-        String selection;
-        switch (prefs.getString("app_lang", "en-US")) {
-            case "lt-LT": selection = "Lietuvių"; break;
-            default: selection = "English";
-        }
-        languageSpinner.setSelection(languageAdapter.getPosition(selection));
-
-        Spinner themeSpinner = view.findViewById(R.id.spinnerPlatform);
-        ArrayAdapter<CharSequence> themeAdapter = ArrayAdapter.createFromResource(
-                view.getContext(), R.array.themes_array, android.R.layout.simple_spinner_item);
-        themeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        themeSpinner.setAdapter(themeAdapter);
 
         return view;
     }

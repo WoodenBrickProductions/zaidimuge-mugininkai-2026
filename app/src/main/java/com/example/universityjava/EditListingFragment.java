@@ -49,9 +49,9 @@ public class EditListingFragment extends Fragment {
         Button buttonSubmit = view.findViewById(R.id.buttonSubmit);
         addListingGame = view.findViewById(R.id.addListingGame);
         addListingPrice = view.findViewById(R.id.addListingPrice);
-        spinnerType = view.findViewById(R.id.spinnerType);
-        spinnerPlatform = view.findViewById(R.id.spinnerPlatform);
-        spinnerCondition = view.findViewById(R.id.spinnerCondition);
+//        spinnerType = view.findViewById(R.id.spinnerType);
+//        spinnerPlatform = view.findViewById(R.id.spinnerPlatform);
+//        spinnerCondition = view.findViewById(R.id.spinnerCondition);
         LinearLayout conditionContainer = view.findViewById(R.id.condition_container);
         EditText conditionDescription = view.findViewById(R.id.condition_description);
         Button buttonImage = view.findViewById(R.id.buttonImage);

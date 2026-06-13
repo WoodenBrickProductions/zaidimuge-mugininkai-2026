@@ -64,9 +64,8 @@
                 android:layout_weight="1"
                 android:text="@string/type" />
 
-            <Spinner
-                android:id="@+id/spinnerType"
-                style="@style/MyButton"
+            <com.example.universityjava.CustomDropdown
+                android:id="@+id/dropdownType"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -83,9 +82,8 @@
                 android:layout_weight="1"
                 android:text="@string/platform" />
 
-            <Spinner
-                android:id="@+id/spinnerPlatform"
-                style="@style/MyButton"
+            <com.example.universityjava.CustomDropdown
+                android:id="@+id/dropdownPlatform"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content" />
 
@@ -104,9 +102,8 @@
                 android:layout_weight="1"
                 android:text="@string/condition_title" />
 
-            <Spinner
-                android:id="@+id/spinnerCondition"
-                style="@style/MyButton"
+            <com.example.universityjava.CustomDropdown
+                android:id="@+id/dropdownCondition"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -121,11 +118,11 @@
             android:inputType="textMultiLine"
             android:hint="@string/condition_description"/>
 
-        <CheckBox
-            android:id="@+id/checkboxPhysical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Is physical copy" />
+<!--        <CheckBox-->
+<!--            android:id="@+id/checkboxPhysical"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Is physical copy" />-->
 
         <Button
             android:id="@+id/buttonImage"
