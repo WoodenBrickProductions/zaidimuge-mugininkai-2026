@@ -7,5 +7,4 @@ public interface OrderRecyclerViewEvent {
     void onItemClick(Listing item);
     void onEditClick(Listing item);
     void onReviewClick(Listing item);
-    void onOrderStateDropdownClick(Listing item);
 }

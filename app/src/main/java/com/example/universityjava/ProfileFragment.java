@@ -86,7 +86,8 @@ public class ProfileFragment extends Fragment {
         if (userID >= 0) {
             User user = db.userDAO().getUserByID(userID);
             textViewUsername.setText(user.getName());
-            textViewRating.setText("");
+            double rating = db.reviewDAO().getAverageRatingBySellerID(userID);
+            textViewRating.setText(String.format("%,.2f / 5",rating));
             loadProfileImage(user);
         }
 

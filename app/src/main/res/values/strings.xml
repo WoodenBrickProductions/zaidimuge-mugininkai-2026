@@ -76,4 +76,7 @@
     <string name="orderstate_cancelled">Cancelled</string>
     <string name="leave_review">Leave review</string>
     <string name="view_review">View review</string>
+    <string name="seller">Seller</string>
+    <string name="review_rating">Rating</string>
+    <string name="review_the_product">Review the product</string>
 </resources>

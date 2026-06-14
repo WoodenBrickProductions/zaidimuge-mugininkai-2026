@@ -100,8 +100,9 @@ public class SellerFragment extends Fragment implements ReviewRecyclerViewEvent 
         if (userID >= 0) {
             User user = AppActivity.getDatabase().userDAO().getUserByID(userID);
             // todo(Woody): separate out textViews
+            double rating = AppActivity.getDatabase().reviewDAO().getAverageRatingBySellerID(userID);
             textViewUsername.setText(user.getName() + "\n" +
-                    "0.0 / 5");
+                    String.format("%,.2f / 5",rating));
 
             ImageView imageView = view.findViewById(R.id.imageView);
             if (user.getProfileImage() != null) {
@@ -129,6 +130,12 @@ public class SellerFragment extends Fragment implements ReviewRecyclerViewEvent 
                         (MainActivity)getActivity(), ListingItemAdapter.ListingMode.ADDABLE);
             }
             recyclerView.setAdapter(listingItemAdapter);
+        }
+
+        if(mParam2 == "reviews"){
+            recyclerView.setVisibility(View.GONE);
+            reviewsRecyclerView.setVisibility(View.VISIBLE);
+            isListings = false;
         }
         return view;
     }

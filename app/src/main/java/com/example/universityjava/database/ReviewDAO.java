@@ -28,4 +28,8 @@ public interface ReviewDAO {
             "INNER JOIN Listing ON Review.fk_listingid = Listing.id " +
             "WHERE Listing.fk_seller = :sellerId")
     List<Review> getReviewsBySellerID(long sellerId);
+    @Query("SELECT AVG(Review.rating) FROM Review " +
+            "INNER JOIN Listing ON Review.fk_listingid = Listing.id " +
+            "WHERE Listing.fk_seller = :sellerId")
+    double getAverageRatingBySellerID(long sellerId);
 }

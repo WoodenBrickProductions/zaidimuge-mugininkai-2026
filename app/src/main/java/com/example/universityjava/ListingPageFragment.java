@@ -139,7 +139,8 @@ public class ListingPageFragment extends Fragment {
                 conditionDescription.setText(physical.getCondition_description());
             }
             sellerName.setText(seller.getName());
-            sellerScore.setText("0");
+            double rating = AppActivity.getDatabase().reviewDAO().getAverageRatingBySellerID(seller.getId());
+            sellerScore.setText(String.format("%,.2f",rating));
 
             if (listing.getIssold() || AppActivity.getCurrentUserID() == listing.getFk_seller()) {
                 wishlistButton.setEnabled(false);

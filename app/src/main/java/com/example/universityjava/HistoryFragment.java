@@ -145,16 +145,13 @@ public class HistoryFragment extends Fragment implements OrderRecyclerViewEvent 
 
     @Override
     public void onEditClick(Listing item) {
-
+        ((MainActivity) requireActivity()).replaceFragment(
+                ReviewFragment.newInstance(item.getId()));
     }
 
     @Override
     public void onReviewClick(Listing item) {
-
-    }
-
-    @Override
-    public void onOrderStateDropdownClick(Listing item) {
-
+        ((MainActivity) requireActivity()).replaceFragment(
+                ReviewFragment.newInstance(item.getId()));
     }
 }

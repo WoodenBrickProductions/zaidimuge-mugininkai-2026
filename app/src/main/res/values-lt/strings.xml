@@ -28,6 +28,7 @@
     <string name="enter_username">įveskite slapyvardį</string>
     <string name="enter_password">įveskite slaptažodį</string>
     <string name="username">naudotojo vardas</string>
+    <string name="price">kaina</string>
     <string name="email">e-paštas</string>
     <string name="password">slaptažodis</string>
     <string name="repeat_password">pakartoti slaptažodį</string>
@@ -37,6 +38,7 @@
     <string name="login_name">Prisijungimas</string>
     <string name="about">Apie</string>
     <string name="language">Kalba</string>
+    <string name="type">Tipas</string>
     <string name="theme">Tema</string>
     <string name="NoListings">Skelbimų nėra</string>
     <string name="theme_light">Šviesi</string>
@@ -66,4 +68,7 @@
     <string name="orderstate_cancelled">Atšauktas</string>
     <string name="leave_review">Palikti atsiliepimą</string>
     <string name="view_review">Peržiūrėti atsiliepimą</string>
+    <string name="seller">Pardavėjas</string>
+    <string name="review_rating">Įvertinimas</string>
+    <string name="review_the_product">Įvertinkite produktą</string>
 </resources>
