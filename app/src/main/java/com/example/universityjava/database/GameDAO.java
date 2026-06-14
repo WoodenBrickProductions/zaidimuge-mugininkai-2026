@@ -21,6 +21,56 @@ public interface GameDAO {
     @Query("SELECT * FROM Game WHERE title LIKE '%' || :query || '%' ORDER BY title")
     List<Game> getGamesByTitle(String query);
 
+    @Query("""
+        SELECT g.*
+        FROM game g
+        INNER JOIN listing l ON l.fk_gameid = g.id
+        WHERE l.issold = 0
+        GROUP BY g.id
+        ORDER BY COUNT(l.id) DESC
+        LIMIT :limit
+    """)
+    List<Game> getMostPopularGames(int limit);
+
+    @Query("""
+        SELECT g.*
+        FROM game g
+        INNER JOIN listing l ON l.fk_gameid = g.id
+        WHERE l.issold = 0
+          AND l.isdigital = 0
+        GROUP BY g.id
+        ORDER BY COUNT(l.id) DESC
+        LIMIT :limit
+    """)
+    List<Game> getMostPopularPhysicalGames(int limit);
+
+    @Query("""
+    SELECT *
+    FROM game
+    ORDER BY id DESC
+    LIMIT :limit
+""")
+    List<Game> getNewestGames(int limit);
+
+    @Query("""
+    SELECT DISTINCT g.*
+    FROM game g
+    INNER JOIN listing l ON l.fk_gameid = g.id
+    WHERE l.issold = 0
+    ORDER BY g.id DESC
+    LIMIT :limit
+""")
+    List<Game> getNewestGamesWithActiveListings(int limit);
+
+    @Query("""
+    SELECT *
+    FROM listing
+    WHERE fk_gameid = :gameId
+      AND issold = 0
+    ORDER BY price ASC
+""")
+    List<Listing> getActiveListingsForGameSortedByPrice(long gameId);
+
     @Query("SELECT * FROM Game WHERE title LIKE :name")
     List<Game> getGameByName(String name);
 

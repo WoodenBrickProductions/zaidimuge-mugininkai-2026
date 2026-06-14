@@ -139,6 +139,7 @@ public class GameItemAdapter extends RecyclerView.Adapter<GameItemAdapter.GameVi
         holder.getImage().setImageResource(R.drawable.ic_launcher_background);
         double price = db.gameDAO().getGameMinPriceById(game.getId());
         if(price != 0) {
+            holder.getListingsFrom().setText("Listings from:");
             holder.getPrice().setText(price+" €");
         }
         else{
