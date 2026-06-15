@@ -65,13 +65,12 @@ public class SellerFragment extends Fragment implements ReviewRecyclerViewEvent 
         View view = inflater.inflate(R.layout.fragment_seller, container, false);
         // Inflate the layout for this fragment
         Button _buttonCreateListing = (Button) view.findViewById(R.id.createListing);
-        _buttonCreateListing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment fragment = new AddListingFragment();
-                ((MainActivity)getActivity()).replaceFragment(fragment);
-            }
-        });
+        if (userID == AppActivity.getCurrentUserID()) {
+            _buttonCreateListing.setOnClickListener(v ->
+                    ((MainActivity) getActivity()).replaceFragment(new AddListingFragment()));
+        } else {
+            _buttonCreateListing.setVisibility(View.GONE);
+        }
         SharedPreferences prefs = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         TextView textViewUsername = view.findViewById(R.id.textViewProfileUsername);
 

@@ -77,8 +77,12 @@ public class ProfileFragment extends Fragment {
                         SellerFragment.newInstance(prefs.getLong("user_id", -1), "")));
 
         Button _buttonAddListing = view.findViewById(R.id.buttonAddListing);
-        _buttonAddListing.setOnClickListener(v ->
-                ((MainActivity) requireActivity()).replaceFragment(new AddListingFragment()));
+        if (userID == AppActivity.getCurrentUserID()) {
+            _buttonAddListing.setOnClickListener(v ->
+                    ((MainActivity) requireActivity()).replaceFragment(new AddListingFragment()));
+        } else {
+            _buttonAddListing.setVisibility(View.GONE);
+        }
 
         Button _buttonMyHistory = view.findViewById(R.id.buttonMyHistory);
         _buttonMyHistory.setOnClickListener(v -> {});
