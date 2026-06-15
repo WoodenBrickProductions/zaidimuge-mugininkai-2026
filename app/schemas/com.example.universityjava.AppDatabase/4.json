@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "5ef3ecc03de25f3abac7bec835337384",
+    "identityHash": "3311e7caa2a59a2d87553cf5ac0b8333",
     "entities": [
       {
         "tableName": "User",
@@ -501,11 +501,51 @@
             "id"
           ]
         }
+      },
+      {
+        "tableName": "Order",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fk_userid` INTEGER NOT NULL, `fk_listingid` INTEGER NOT NULL, `fk_pickuppoint` TEXT, `orderstate` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fk_userid",
+            "columnName": "fk_userid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fk_listingid",
+            "columnName": "fk_listingid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fk_pickuppoint",
+            "columnName": "fk_pickuppoint",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "orderstate",
+            "columnName": "orderstate",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5ef3ecc03de25f3abac7bec835337384')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3311e7caa2a59a2d87553cf5ac0b8333')"
     ]
   }
 }

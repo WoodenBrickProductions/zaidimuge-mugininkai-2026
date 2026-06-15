@@ -38,7 +38,6 @@
     <string name="login_name">Prisijungimas</string>
     <string name="about">Apie</string>
     <string name="language">Kalba</string>
-    <string name="type">Tipas</string>
     <string name="theme">Tema</string>
     <string name="NoListings">Skelbimų nėra</string>
     <string name="theme_light">Šviesi</string>
@@ -89,4 +88,5 @@
     <string name="verification_code_sent">Patvirtinimo kodas išsiųstas į</string>
     <string name="verification_code_incorrect">Kodas neteisingas, bandykite dar kartą</string>
     <string name="acc_new_username">Įveskite naująjį naudotojo vardą</string>
+    <string name="add_listing">Pridėti skelbimą</string>
 </resources>

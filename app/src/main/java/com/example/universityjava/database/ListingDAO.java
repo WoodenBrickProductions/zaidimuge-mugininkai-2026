@@ -11,8 +11,6 @@ import java.util.List;
 public interface ListingDAO {
     @Insert
     long insert(Listing listing);
-    @Update
-    int update(Listing listing);
 
     @Update
     void update(Listing listing);
