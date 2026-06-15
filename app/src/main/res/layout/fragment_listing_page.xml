@@ -123,8 +123,19 @@
                     android:layout_marginStart="16dp"
                     android:text="Pardavėjas"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/buttonEditListing"
                     app:layout_constraintStart_toEndOf="@+id/out_of_five"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/buttonEditListing"
+                    style="@style/MyWhiteButton"
+                    android:layout_width="@dimen/val_48"
+                    android:layout_height="@dimen/val_48"
+                    android:src="@drawable/ic_edit_38"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -156,14 +157,19 @@ public class ListingPageFragment extends Fragment {
                 if (f != null) sellerImage.setImageURI(Uri.fromFile(f));
             }
 
-            if (listing.getIssold()) {
-                wishlistButton.setEnabled(false);
-                cartButton.setEnabled(false);
+            if (listing.getFk_seller() == AppActivity.getCurrentUserID()) {
+                wishlistButton.setVisibility(View.GONE);
+                cartButton.setVisibility(View.GONE);
+            } else {
+                if (listing.getIssold()) {
+                    wishlistButton.setEnabled(false);
+                    cartButton.setEnabled(false);
+                }
+                wishlistButton.setSelected(!AppActivity.getDatabase().wishlistListingDAO()
+                        .getWListingByListingAndUserID(listingID, AppActivity.getCurrentUserID()).isEmpty());
+                cartButton.setSelected(!AppActivity.getDatabase().cartListingDAO()
+                        .getCListingByListingAndUserID(listingID, AppActivity.getCurrentUserID()).isEmpty());
             }
-            wishlistButton.setSelected(!AppActivity.getDatabase().wishlistListingDAO()
-                    .getWListingByListingAndUserID(listingID, AppActivity.getCurrentUserID()).isEmpty());
-            cartButton.setSelected(!AppActivity.getDatabase().cartListingDAO()
-                    .getCListingByListingAndUserID(listingID, AppActivity.getCurrentUserID()).isEmpty());
         }
 
         view.findViewById(R.id.buttonSeller).setOnClickListener(v ->
@@ -171,6 +177,7 @@ public class ListingPageFragment extends Fragment {
                         SellerFragment.newInstance(listing.getFk_seller(), "")));
 
         Button deleteButton = view.findViewById(R.id.buttonDeleteListing);
+        ImageButton editButton = view.findViewById(R.id.buttonEditListing);
         if (listing != null && listing.getFk_seller() == AppActivity.getCurrentUserID()) {
             deleteButton.setVisibility(View.VISIBLE);
             deleteButton.setOnClickListener(v ->
@@ -182,6 +189,10 @@ public class ListingPageFragment extends Fragment {
                             })
                             .setNegativeButton("No", null)
                             .show());
+            editButton.setVisibility(View.VISIBLE);
+            editButton.setOnClickListener(v ->
+                    ((MainActivity) requireActivity()).replaceFragment(
+                            EditListingFragment.newInstance(listing.getId())));
         }
 
         cartButton.setOnClickListener(v -> cartButton.setSelected(!cartButton.isSelected()));

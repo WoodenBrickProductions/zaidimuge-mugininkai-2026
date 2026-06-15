@@ -226,8 +226,13 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
         }
         else
         {
-            holder.wishlistButton.setVisibility(showWishlist ? ViewGroup.VISIBLE : View.GONE);
-            holder.cartButton.setVisibility(showCart ? ViewGroup.VISIBLE : View.GONE);
+            if (listing.getFk_seller() == userId) {
+                holder.wishlistButton.setVisibility(View.GONE);
+                holder.cartButton.setVisibility(View.GONE);
+            } else {
+                holder.wishlistButton.setVisibility(showWishlist ? ViewGroup.VISIBLE : View.GONE);
+                holder.cartButton.setVisibility(showCart ? ViewGroup.VISIBLE : View.GONE);
+            }
             //holder.itemHolder.startAnimation(holder.slideInListing);
 
             if(!db.cartListingDAO().getCListingByListingAndUserID(listing.getId(),userId).isEmpty()){
