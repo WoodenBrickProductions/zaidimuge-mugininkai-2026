@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements ItemRecyclerViewE
 
     @Override
     public void onEditClick(Listing item) {
-        Toast.makeText(getBaseContext(), "Edit clicked: " + item.getId(), Toast.LENGTH_SHORT).show();
+        replaceFragment(EditListingFragment.newInstance(item.getId()));
     }
 
     public void updateOverlaySetting() {

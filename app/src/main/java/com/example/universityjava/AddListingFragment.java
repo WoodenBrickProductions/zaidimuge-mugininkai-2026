@@ -33,8 +33,10 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import com.example.universityjava.database.Condition;
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
+import com.example.universityjava.database.PhysicalListingAttributes;
 import com.example.universityjava.database.Platform;
 
 import java.io.File;
@@ -49,6 +51,7 @@ public class AddListingFragment extends Fragment {
     EditText addListingGame;
     boolean _isDigital = true;
     int _platform;
+    Condition _condition = Condition.New;
 
     private long selectedGameId = -1;
     private List<Game> gameList = new ArrayList<>();
@@ -137,6 +140,8 @@ public class AddListingFragment extends Fragment {
         });
 
         imageView = view.findViewById(R.id.gameImage);
+        EditText conditionDescription = view.findViewById(R.id.condition_description);
+        CustomDropdown conditionDropdown = view.findViewById(R.id.dropdownCondition);
         Button buttonImage = view.findViewById(R.id.buttonImage);
         LinearLayout physicalImageButtons = view.findViewById(R.id.physicalImageButtons);
         Button buttonAddIcon = view.findViewById(R.id.buttonAddIcon);
@@ -181,6 +186,8 @@ public class AddListingFragment extends Fragment {
             }
         });
 
+        LinearLayout conditionContainer = view.findViewById(R.id.condition_container);
+
         CustomDropdown typeDropdown = view.findViewById(R.id.dropdownType);
         typeDropdown.setItems(new String[]{getString(R.string.type_digital), getString(R.string.type_physical)},
                 new String[]{"DIG", "PHY"});
@@ -189,6 +196,9 @@ public class AddListingFragment extends Fragment {
             _isDigital = "DIG".equals(type);
             buttonImage.setVisibility(_isDigital ? VISIBLE : GONE);
             physicalImageButtons.setVisibility(_isDigital ? GONE : VISIBLE);
+            conditionContainer.setVisibility(_isDigital ? GONE : VISIBLE);
+            conditionDescription.setVisibility(_isDigital ? GONE : VISIBLE);
+            _condition = Condition.New;
         });
 
         List<Platform> platforms = AppActivity.getDatabase().platformDAO().getAllPlatforms();
@@ -205,12 +215,11 @@ public class AddListingFragment extends Fragment {
         if (platValues.length > 0) platformDropdown.setSelectedValue(platValues[0]);
         platformDropdown.setOnValueChanged(p -> _platform = Integer.parseInt(p));
 
-        EditText conditionDescription = view.findViewById(R.id.condition_description);
-        CustomDropdown conditionDropdown = view.findViewById(R.id.dropdownCondition);
         conditionDropdown.setItems(new String[]{"New", "Used"}, new String[]{"NEW", "USED"});
         conditionDropdown.setSelectedValue("NEW");
-        conditionDropdown.setOnValueChanged(c ->
-                conditionDescription.setVisibility("NEW".equals(c) ? GONE : VISIBLE));
+        conditionDropdown.setOnValueChanged(c -> {
+            _condition = "NEW".equals(c) ? Condition.New : Condition.Good;
+        });
 
         EditText addListingPrice = view.findViewById(R.id.addListingPrice);
         view.findViewById(R.id.buttonSubmit).setOnClickListener(v -> {
@@ -253,6 +262,15 @@ public class AddListingFragment extends Fragment {
             listing.setPhysicalPhoto3(physicalPhotos[2]);
 
             listing.setId(AppActivity.getDatabase().listingDAO().insert(listing));
+
+            if (!_isDigital) {
+                PhysicalListingAttributes attrs = new PhysicalListingAttributes();
+                attrs.setFk_listingid(listing.getId());
+                attrs.setFk_condition(_condition);
+                attrs.setCondition_description(conditionDescription.getText().toString());
+                AppActivity.getDatabase().physicalListingAttributesDAO().insert(attrs);
+            }
+
             Toast.makeText(requireContext(), "Listing added successfully!", Toast.LENGTH_SHORT).show();
 
             if (AppActivity.getCachedImageFile(requireContext(), game.getImage()) == null) {

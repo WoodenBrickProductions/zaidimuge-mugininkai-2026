@@ -2,6 +2,7 @@ package com.example.universityjava;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.universityjava.database.Condition;
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
 import com.example.universityjava.database.PhysicalListingAttributes;
@@ -128,20 +130,31 @@ public class ListingPageFragment extends Fragment {
 
             title.setText(game.getTitle());
             description.setText(game.getDescription());
-            listingPrice.setText(String.valueOf(listing.getPrice()));
+            listingPrice.setText(listing.getPrice() + " €");
             platforms.setText(AppActivity.getDatabase().listingDAO().getPlatformNameByListingId(listingID));
 
+            // Default: hide all condition views; show only when data is available
+            conditionStateTitle.setVisibility(View.GONE);
+            conditionState.setVisibility(View.GONE);
+            conditionDescription.setVisibility(View.GONE);
+
             Log.i("Listing: ", "IsDigital: " + listing.getIsdigital() + " physicalAttr:" + physical);
-            if (listing.getIsdigital()) {
-                conditionStateTitle.setVisibility(View.GONE);
-                conditionState.setVisibility(View.GONE);
-                conditionDescription.setVisibility(View.GONE);
-            } else if (physical != null) {
+            if (!listing.getIsdigital() && physical != null && physical.getFk_condition() != null) {
+                conditionStateTitle.setVisibility(View.VISIBLE);
+                conditionState.setVisibility(View.VISIBLE);
                 conditionState.setText(physical.getFk_condition().getResourceId());
-                conditionDescription.setText(physical.getCondition_description());
+                if (physical.getCondition_description() != null
+                        && !physical.getCondition_description().isEmpty()) {
+                    conditionDescription.setText(physical.getCondition_description());
+                    conditionDescription.setVisibility(View.VISIBLE);
+                }
             }
             sellerName.setText(seller.getName());
             sellerScore.setText("0");
+            if (seller.getProfileImage() != null) {
+                File f = AppActivity.getCachedImageFile(requireContext(), seller.getProfileImage());
+                if (f != null) sellerImage.setImageURI(Uri.fromFile(f));
+            }
 
             if (listing.getIssold()) {
                 wishlistButton.setEnabled(false);

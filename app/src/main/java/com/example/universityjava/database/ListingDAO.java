@@ -3,6 +3,7 @@ package com.example.universityjava.database;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -10,6 +11,12 @@ import java.util.List;
 public interface ListingDAO {
     @Insert
     long insert(Listing listing);
+
+    @Update
+    void update(Listing listing);
+
+    @Query("UPDATE Listing SET price = :price, physical_photo_1 = :p1, physical_photo_2 = :p2, physical_photo_3 = :p3 WHERE id = :id")
+    void updateFields(long id, double price, String p1, String p2, String p3);
 
     @Query("DELETE FROM Listing")
     void deleteAll();
