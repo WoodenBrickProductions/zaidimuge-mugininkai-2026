@@ -104,7 +104,7 @@
                 style="@style/MyButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kurti skelbimą" />
+                android:text="@string/add_listing" />
 
         </LinearLayout>
     </LinearLayout>

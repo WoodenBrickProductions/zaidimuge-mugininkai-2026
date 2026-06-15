@@ -108,6 +108,14 @@
                 android:text="@string/button_my_listings" />
 
             <Button
+                android:id="@+id/buttonAddListing"
+                style="@style/MyButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="@string/add_listing" />
+
+            <Button
                 android:id="@+id/buttonMyHistory"
                 style="@style/MyButton"
                 android:layout_width="match_parent"

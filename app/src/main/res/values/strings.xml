@@ -84,4 +84,5 @@
     <string name="verification_code_sent">Verification code sent to</string>
     <string name="verification_code_incorrect">Incorrect code, try again</string>
     <string name="acc_new_username">Enter new username</string>
+    <string name="add_listing">Add Listing</string>
 </resources>

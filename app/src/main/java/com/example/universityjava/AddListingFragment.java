@@ -8,48 +8,58 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatDelegate;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import androidx.core.os.LocaleListCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
+import com.example.universityjava.database.Platform;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddListingFragment extends Fragment {
 
+    private static final String ADD_NEW_GAME = "+ Add new game";
+
     ImageView imageView;
     EditText addListingGame;
-    EditText addListingPrice;
     boolean _isDigital = true;
     int _platform;
-    private int photoSlot = 0; // 0-2 for photos 1-3
-    private final String[] physicalPhotos = new String[3]; // names stored in cache
+
+    private long selectedGameId = -1;
+    private List<Game> gameList = new ArrayList<>();
+
+    private AutoCompleteTextView gameDropdown;
+    private ImageView selectedGameIcon;
+    private LinearLayout newGameSection;
+    private ArrayAdapter<String> gameAdapter;
+
+    private int photoSlot = 0;
+    private final String[] physicalPhotos = new String[3];
     private String photoPrefix;
 
     private ActivityResultLauncher<String> permissionLauncher;
@@ -81,96 +91,75 @@ public class AddListingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_listing, container, false);
 
-        Button buttonSubmit = view.findViewById(R.id.buttonSubmit);
-        addListingGame = view.findViewById(R.id.addListingGame);
-        imageView = view.findViewById(R.id.gameImage);
-        addListingPrice = view.findViewById(R.id.addListingPrice);
-        Button buttonDelete = view.findViewById(R.id.buttonSecond);
-        buttonDelete.setVisibility(GONE);
+        gameList = AppActivity.getDatabase().gameDAO().getAllGames();
 
+        gameDropdown = view.findViewById(R.id.gameDropdown);
+        selectedGameIcon = view.findViewById(R.id.selectedGameIcon);
+        newGameSection = view.findViewById(R.id.newGameSection);
+        addListingGame = view.findViewById(R.id.addListingGame);
+        Button buttonFindGame = view.findViewById(R.id.buttonFindGame);
+
+        gameAdapter = buildGameAdapter();
+        gameDropdown.setAdapter(gameAdapter);
+        gameDropdown.setThreshold(0);
+        gameDropdown.setOnTouchListener((v, e) -> { gameDropdown.showDropDown(); return false; });
+
+        gameDropdown.setOnItemClickListener((parent, v, position, id) -> {
+            String selected = (String) parent.getItemAtPosition(position);
+            if (ADD_NEW_GAME.equals(selected)) {
+                selectedGameId = -1;
+                gameDropdown.setText("", false);
+                gameDropdown.setVisibility(GONE);
+                selectedGameIcon.setVisibility(GONE);
+                newGameSection.setVisibility(VISIBLE);
+            } else {
+                for (Game g : gameList) {
+                    if (g.getTitle().equals(selected)) {
+                        selectedGameId = g.getId();
+                        showGameIcon(selectedGameIcon, g);
+                        break;
+                    }
+                }
+            }
+        });
+
+        buttonFindGame.setOnClickListener(v -> {
+            addListingGame.setText("");
+            selectedGameId = -1;
+            gameDropdown.setText("", false);
+            gameAdapter.clear();
+            for (Game g : gameList) gameAdapter.add(g.getTitle());
+            gameAdapter.add(ADD_NEW_GAME);
+            gameAdapter.notifyDataSetChanged();
+            gameDropdown.setVisibility(VISIBLE);
+            selectedGameIcon.setVisibility(GONE);
+            newGameSection.setVisibility(GONE);
+        });
+
+        imageView = view.findViewById(R.id.gameImage);
         Button buttonImage = view.findViewById(R.id.buttonImage);
         LinearLayout physicalImageButtons = view.findViewById(R.id.physicalImageButtons);
         Button buttonAddIcon = view.findViewById(R.id.buttonAddIcon);
         buttonAddPhoto = view.findViewById(R.id.buttonAddPhoto);
+        view.findViewById(R.id.buttonSecond).setVisibility(GONE);
 
         Animator anim = AnimatorInflater.loadAnimator(getContext(), R.animator.overshoot_bounce);
         anim.setTarget(buttonImage);
 
-        CustomDropdown typeDropdown = view.findViewById(R.id.dropdownType);
-        String[] typeLabels = {
-                getString(R.string.type_digital),
-                getString(R.string.type_physical)};
-        String[] typeValues = {"DIG", "PHY"};
-        typeDropdown.setItems(typeLabels, typeValues);
-        typeDropdown.setSelectedValue(typeValues[0]);
-        typeDropdown.setOnValueChanged(type -> {
-            switch (type) {
-                case "DIG":
-                    buttonImage.setVisibility(VISIBLE);
-                    physicalImageButtons.setVisibility(GONE);
-                    _isDigital = true;
-                    break;
-                case "PHY":
-                    buttonImage.setVisibility(GONE);
-                    physicalImageButtons.setVisibility(VISIBLE);
-                    _isDigital = false;
-                    break;
-            }
-        });
-
-        CustomDropdown platformDropdown = view.findViewById(R.id.dropdownPlatform);
-        String[] platformLabels = {
-                "PC",
-                "Xbox",
-                "PlayStation"};
-        String[] platformValues = {"PC", "XBOX", "PS"};
-        platformDropdown.setItems(platformLabels, platformValues);
-        platformDropdown.setSelectedValue(platformValues[0]);
-        platformDropdown.setOnValueChanged(platform -> {
-            switch (platform) {
-                case "PC":
-                    _platform = 1;
-                    break;
-                case "XBOX":
-                    _platform = 2;
-                    break;
-                case "PS":
-                    _platform = 3;
-                    break;
-            }
-        });
-
-        CustomDropdown conditionDropdown = view.findViewById(R.id.dropdownCondition);
-        String[] conditionLabels = {
-                "New",
-                "Used"};
-        String[] conditionValues = {"NEW", "USED"};
-        conditionDropdown.setItems(conditionLabels, conditionValues);
-        conditionDropdown.setSelectedValue(conditionValues[0]);
-
-//        // Checkbox toggles between single image button and split icon/photo buttons
-//        CheckBox checkboxPhysical = view.findViewById(R.id.checkboxPhysical);
-//        checkboxPhysical.setOnCheckedChangeListener((cb, isChecked) -> {
-//            buttonImage.setVisibility(isChecked ? GONE : VISIBLE);
-//            physicalImageButtons.setVisibility(isChecked ? VISIBLE : GONE);
-//        });
-
-        // Original gallery picker (now also used for Add Icon)
         View.OnClickListener iconPickerClick = v -> {
             anim.start();
             MainActivity.gotFileCallback = file -> {
-                buttonImage.setText(addListingGame.getText().toString());
-                buttonAddIcon.setText(addListingGame.getText().toString());
-                AppActivity.savePickedImageToCache(getContext(), Uri.fromFile(file), addListingGame.getText().toString());
+                String title = getCurrentGameTitle();
+                AppActivity.savePickedImageToCache(getContext(), Uri.fromFile(file), title);
                 var bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 imageView.setImageBitmap(bitmap);
                 ObjectAnimator scaleX = ObjectAnimator.ofFloat(imageView, "scaleX", 0f, 1f);
                 scaleX.setDuration(500);
                 ObjectAnimator scaleY = ObjectAnimator.ofFloat(imageView, "scaleY", 0f, 1f);
                 scaleY.setDuration(500);
-                AnimatorSet sequence = new AnimatorSet();
-                sequence.playTogether(scaleX, scaleY);
-                sequence.start();
+                AnimatorSet seq = new AnimatorSet();
+                seq.playTogether(scaleX, scaleY);
+                seq.start();
             };
             MainActivity.imageLauncher.launch("image/*");
         };
@@ -190,23 +179,71 @@ public class AddListingFragment extends Fragment {
             }
         });
 
-        buttonSubmit.setOnClickListener(v -> {
-            var dao = AppActivity.getDatabase().gameDAO();
+        CustomDropdown typeDropdown = view.findViewById(R.id.dropdownType);
+        typeDropdown.setItems(new String[]{getString(R.string.type_digital), getString(R.string.type_physical)},
+                new String[]{"DIG", "PHY"});
+        typeDropdown.setSelectedValue("DIG");
+        typeDropdown.setOnValueChanged(type -> {
+            _isDigital = "DIG".equals(type);
+            buttonImage.setVisibility(_isDigital ? VISIBLE : GONE);
+            physicalImageButtons.setVisibility(_isDigital ? GONE : VISIBLE);
+        });
+
+        List<Platform> platforms = AppActivity.getDatabase().platformDAO().getAllPlatforms();
+        String[] platLabels = new String[platforms.size()];
+        String[] platValues = new String[platforms.size()];
+        for (int i = 0; i < platforms.size(); i++) {
+            platLabels[i] = platforms.get(i).getName();
+            platValues[i] = String.valueOf(platforms.get(i).getId());
+        }
+        if (!platforms.isEmpty()) _platform = platforms.get(0).getId();
+
+        CustomDropdown platformDropdown = view.findViewById(R.id.dropdownPlatform);
+        platformDropdown.setItems(platLabels, platValues);
+        if (platValues.length > 0) platformDropdown.setSelectedValue(platValues[0]);
+        platformDropdown.setOnValueChanged(p -> _platform = Integer.parseInt(p));
+
+        EditText conditionDescription = view.findViewById(R.id.condition_description);
+        CustomDropdown conditionDropdown = view.findViewById(R.id.dropdownCondition);
+        conditionDropdown.setItems(new String[]{"New", "Used"}, new String[]{"NEW", "USED"});
+        conditionDropdown.setSelectedValue("NEW");
+        conditionDropdown.setOnValueChanged(c ->
+                conditionDescription.setVisibility("NEW".equals(c) ? GONE : VISIBLE));
+
+        EditText addListingPrice = view.findViewById(R.id.addListingPrice);
+        view.findViewById(R.id.buttonSubmit).setOnClickListener(v -> {
+            // Validate game selection
             Game game;
-            var gameList = dao.getGameByName(addListingGame.getText().toString());
-            if (gameList.size() > 0) {
-                game = gameList.get(0);
+            if (selectedGameId >= 0) {
+                game = AppActivity.getDatabase().gameDAO().getGameByID(selectedGameId);
             } else {
+                String title = addListingGame.getText().toString().trim();
+                if (title.isEmpty()) {
+                    Toast.makeText(requireContext(), "Please enter a game name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 game = new Game();
-                game.setImage(buttonImage.getText().toString());
-                game.setTitle(addListingGame.getText().toString());
+                game.setTitle(title);
+                game.setImage(title);
                 game.setId(AppActivity.getDatabase().gameDAO().insert(game));
+            }
+
+            String priceStr = addListingPrice.getText().toString().trim().replace(',', '.');
+            double price;
+            try {
+                price = Double.parseDouble(priceStr);
+                price = Math.round(price * 100.0) / 100.0;
+            } catch (NumberFormatException e) {
+                Toast.makeText(requireContext(),
+                        "Invalid price — use digits with an optional . or , for decimals",
+                        Toast.LENGTH_SHORT).show();
+                return;
             }
 
             var listing = new Listing();
             listing.setFk_gameid(game.getId());
             listing.setFk_seller(AppActivity.getCurrentUserID());
-            listing.setPrice(Double.parseDouble(addListingPrice.getText().toString()));
+            listing.setPrice(price);
             listing.setFk_platform(_platform);
             listing.setIsdigital(_isDigital);
             listing.setPhysicalPhoto1(physicalPhotos[0]);
@@ -217,8 +254,98 @@ public class AddListingFragment extends Fragment {
             ((MainActivity) requireActivity()).replaceFragment(new HomeFragment());
         });
 
-
         return view;
+    }
+
+    private String getCurrentGameTitle() {
+        if (selectedGameId >= 0) {
+            for (Game g : gameList) {
+                if (g.getId() == selectedGameId) return g.getTitle();
+            }
+        }
+        return addListingGame.getText().toString().trim();
+    }
+
+    private ArrayAdapter<String> buildGameAdapter() {
+        List<String> titles = new ArrayList<>();
+        for (Game g : gameList) titles.add(g.getTitle());
+
+        List<String> initialList = new ArrayList<>(titles);
+        initialList.add(ADD_NEW_GAME);
+
+        return new ArrayAdapter<String>(requireContext(),
+                R.layout.dropdown_game_item, R.id.game_title, initialList) {
+
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View row = super.getView(position, convertView, parent);
+                String title = getItem(position);
+                ImageView icon = row.findViewById(R.id.game_icon);
+                // Find the matching game to load its icon
+                Game matched = null;
+                for (Game g : gameList) {
+                    if (g.getTitle().equals(title)) { matched = g; break; }
+                }
+                if (matched != null) {
+                    File f = AppActivity.getCachedImageFile(requireContext(), matched.getImage());
+                    if (f != null) {
+                        Bitmap bm = BitmapFactory.decodeFile(f.getAbsolutePath());
+                        icon.setImageBitmap(bm);
+                    } else {
+                        icon.setImageResource(R.drawable.ic_launcher_background);
+                    }
+                } else {
+                    icon.setImageDrawable(null);
+                }
+                return row;
+            }
+
+            @Override
+            public Filter getFilter() {
+                return new Filter() {
+                    @Override
+                    protected FilterResults performFiltering(CharSequence constraint) {
+                        FilterResults results = new FilterResults();
+                        List<String> filtered = new ArrayList<>();
+                        if (constraint == null || constraint.length() == 0) {
+                            filtered.addAll(titles);
+                        } else {
+                            String q = constraint.toString().toLowerCase();
+                            for (String t : titles) {
+                                if (t.toLowerCase().contains(q)) filtered.add(t);
+                            }
+                        }
+                        filtered.add(ADD_NEW_GAME);
+                        results.values = filtered;
+                        results.count = filtered.size();
+                        return results;
+                    }
+
+                    @Override
+                    protected void publishResults(CharSequence constraint, FilterResults results) {
+                        clear();
+                        addAll((List<String>) results.values);
+                        notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public CharSequence convertResultToString(Object resultValue) {
+                        return (String) resultValue;
+                    }
+                };
+            }
+        };
+    }
+
+    private void showGameIcon(ImageView iconView, Game game) {
+        File f = AppActivity.getCachedImageFile(requireContext(), game.getImage());
+        if (f != null) {
+            iconView.setImageBitmap(BitmapFactory.decodeFile(f.getAbsolutePath()));
+        } else {
+            iconView.setImageResource(R.drawable.ic_launcher_background);
+        }
+        iconView.setVisibility(VISIBLE);
     }
 
     private void launchCamera() {
