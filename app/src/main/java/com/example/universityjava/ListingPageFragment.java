@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -154,6 +156,20 @@ public class ListingPageFragment extends Fragment {
         view.findViewById(R.id.buttonSeller).setOnClickListener(v ->
                 ((MainActivity) requireActivity()).replaceFragment(
                         SellerFragment.newInstance(listing.getFk_seller(), "")));
+
+        Button deleteButton = view.findViewById(R.id.buttonDeleteListing);
+        if (listing != null && listing.getFk_seller() == AppActivity.getCurrentUserID()) {
+            deleteButton.setVisibility(View.VISIBLE);
+            deleteButton.setOnClickListener(v ->
+                    new AlertDialog.Builder(requireContext())
+                            .setMessage("Remove this listing?")
+                            .setPositiveButton("Yes", (d, w) -> {
+                                AppActivity.deleteListing(listing.getId());
+                                requireActivity().getSupportFragmentManager().popBackStack();
+                            })
+                            .setNegativeButton("No", null)
+                            .show());
+        }
 
         cartButton.setOnClickListener(v -> cartButton.setSelected(!cartButton.isSelected()));
         wishlistButton.setOnClickListener(v -> wishlistButton.setSelected(!wishlistButton.isSelected()));

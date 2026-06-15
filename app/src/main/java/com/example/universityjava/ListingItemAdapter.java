@@ -3,6 +3,7 @@ package com.example.universityjava;
 import static android.app.PendingIntent.getActivity;
 
 import android.animation.AnimatorListenerAdapter;
+import androidx.appcompat.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -42,6 +43,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
     public ListingMode listingMode;
     public boolean showDelete = true;
     public boolean showEdit = true;
+    public boolean deleteListingMode = false; // true = delete the listing itself; false = remove from cart/wishlist
     public boolean showWishlist = true;
     public boolean showCart = true;
     public boolean isInWishlistFragment;
@@ -185,21 +187,35 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
                     // TODO: Add listing edit
                 }
             });
-            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(view.getContext(), "Deleting!", Toast.LENGTH_SHORT).show();
-                    holder.deleteBounce.start();
-                    if(isInWishlistFragment){
-                        db.wishlistListingDAO().removeWListingByListingAndUserID(listing.getId(),userId);
-                    }else{
-                        db.cartListingDAO().removeCListingByListingAndUserID(listing.getId(),userId);
+            holder.deleteButton.setOnClickListener(view -> {
+                holder.deleteBounce.start();
+                if (deleteListingMode) {
+                    new AlertDialog.Builder(view.getContext())
+                            .setMessage("Remove this listing?")
+                            .setPositiveButton("Yes", (d, w) -> {
+                                AppActivity.deleteListing(listing.getId());
+                                holder.fadeOutListing.start();
+                                holder.fadeOutListing.addListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        listings.remove(listing);
+                                        notifyItemRemoved(holder.getBindingAdapterPosition());
+                                        notifyItemRangeChanged(holder.getBindingAdapterPosition(), listings.size());
+                                    }
+                                });
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
+                } else {
+                    if (isInWishlistFragment) {
+                        db.wishlistListingDAO().removeWListingByListingAndUserID(listing.getId(), userId);
+                    } else {
+                        db.cartListingDAO().removeCListingByListingAndUserID(listing.getId(), userId);
                     }
                     holder.fadeOutListing.start();
                     holder.fadeOutListing.addListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
                             listings.remove(listing);
                             notifyItemRemoved(holder.getBindingAdapterPosition());
                             notifyItemRangeChanged(holder.getBindingAdapterPosition(), listings.size());

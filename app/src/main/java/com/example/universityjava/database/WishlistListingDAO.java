@@ -14,6 +14,9 @@ public interface WishlistListingDAO {
     @Query("DELETE FROM WishlistListing")
     void deleteAll();
 
+    @Query("DELETE FROM WishlistListing WHERE fk_listingid = :listingId")
+    void deleteByListingId(long listingId);
+
     @Query("DELETE FROM WishlistListing WHERE fk_userid = :userid AND" +
             " fk_listingid = :listid")
     void removeWListingByListingAndUserID(long listid, long userid);

@@ -14,6 +14,9 @@ public interface ListingDAO {
     @Query("DELETE FROM Listing")
     void deleteAll();
 
+    @Query("DELETE FROM Listing WHERE id = :id")
+    void deleteById(long id);
+
     @Query("SELECT * FROM Listing")
     List<Listing> getAllListings();
 

@@ -122,7 +122,7 @@ public class SellerFragment extends Fragment implements ReviewRecyclerViewEvent 
             if(userID == AppActivity.getCurrentUserID()) {
                 listingItemAdapter = new ListingItemAdapter(list,
                         (MainActivity)getActivity(), ListingItemAdapter.ListingMode.EDITABLE);
-                listingItemAdapter.showDelete = false;
+                listingItemAdapter.deleteListingMode = true;
             }
             else{
                 listingItemAdapter = new ListingItemAdapter(list,

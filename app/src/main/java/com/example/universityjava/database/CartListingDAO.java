@@ -13,6 +13,9 @@ public interface CartListingDAO {
     @Query("DELETE FROM CartListing")
     void deleteAll();
 
+    @Query("DELETE FROM CartListing WHERE fk_listingid = :listingId")
+    void deleteByListingId(long listingId);
+
     @Query("SELECT * FROM CartListing")
     List<CartListing> getAllCListings();
 

@@ -13,6 +13,9 @@ public interface PhysicalListingAttributesDAO {
     @Query("DELETE FROM PhysicalListingAttributes")
     void deleteAll();
 
+    @Query("DELETE FROM PhysicalListingAttributes WHERE fk_listingid = :listingId")
+    void deleteByListingId(long listingId);
+
     @Query("SELECT * FROM PhysicalListingAttributes")
     List<PhysicalListingAttributes> getAllListingsPhysAttr();
 

@@ -16,8 +16,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
@@ -39,29 +37,6 @@ public class AppActivity extends Application {
     static SharedPreferences prefs;
     private PowerManager powerManager;
 
-
-    static final Migration MIGRATION_3_4 = new Migration(3, 4) {
-        @Override
-        public void migrate(@androidx.annotation.NonNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE Listing ADD COLUMN physical_photo_1 TEXT");
-        }
-    };
-
-    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
-        @Override
-        public void migrate(@androidx.annotation.NonNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE Listing ADD COLUMN physical_photo_1 TEXT");
-            database.execSQL("ALTER TABLE Listing ADD COLUMN physical_photo_2 TEXT");
-            database.execSQL("ALTER TABLE Listing ADD COLUMN physical_photo_3 TEXT");
-        }
-    };
-
-    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
-        @Override
-        public void migrate(@androidx.annotation.NonNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE User ADD COLUMN profile_image TEXT");
-        }
-    };
 
     @Override
     public void onCreate() {
@@ -87,6 +62,15 @@ public class AppActivity extends Application {
     }
 
     public static AppDatabase getDatabase() { return db; }
+
+    /** Deletes a listing and all child rows that reference it. */
+    public static void deleteListing(long listingId) {
+        db.cartListingDAO().deleteByListingId(listingId);
+        db.wishlistListingDAO().deleteByListingId(listingId);
+        db.reviewDAO().deleteByListingId(listingId);
+        db.physicalListingAttributesDAO().deleteByListingId(listingId);
+        db.listingDAO().deleteById(listingId);
+    }
 
     public static long getCurrentUserID() {
         return prefs.getLong("user_id", -1);

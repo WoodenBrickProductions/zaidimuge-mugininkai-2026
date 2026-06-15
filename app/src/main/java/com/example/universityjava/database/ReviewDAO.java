@@ -14,6 +14,9 @@ public interface ReviewDAO {
     @Query("DELETE FROM Review")
     void deleteAll();
 
+    @Query("DELETE FROM Review WHERE fk_listingid = :listingId")
+    void deleteByListingId(long listingId);
+
     @Query("SELECT * FROM Review")
     List<Review> getAllReviews();
 
