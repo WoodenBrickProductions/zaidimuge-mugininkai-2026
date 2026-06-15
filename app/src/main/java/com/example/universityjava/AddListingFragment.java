@@ -151,8 +151,10 @@ public class AddListingFragment extends Fragment {
             MainActivity.gotFileCallback = file -> {
                 String title = getCurrentGameTitle();
                 AppActivity.savePickedImageToCache(getContext(), Uri.fromFile(file), title);
-                var bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 imageView.setImageBitmap(bitmap);
+                selectedGameIcon.setImageBitmap(bitmap);
+                selectedGameIcon.setVisibility(VISIBLE);
                 ObjectAnimator scaleX = ObjectAnimator.ofFloat(imageView, "scaleX", 0f, 1f);
                 scaleX.setDuration(500);
                 ObjectAnimator scaleY = ObjectAnimator.ofFloat(imageView, "scaleY", 0f, 1f);
@@ -251,6 +253,19 @@ public class AddListingFragment extends Fragment {
             listing.setPhysicalPhoto3(physicalPhotos[2]);
 
             listing.setId(AppActivity.getDatabase().listingDAO().insert(listing));
+            Toast.makeText(requireContext(), "Listing added successfully!", Toast.LENGTH_SHORT).show();
+
+            if (AppActivity.getCachedImageFile(requireContext(), game.getImage()) == null) {
+                String firstPhoto = null;
+                for (String p : physicalPhotos) {
+                    if (p != null) { firstPhoto = p; break; }
+                }
+                if (firstPhoto != null) {
+                    game.setImage(firstPhoto);
+                    AppActivity.getDatabase().gameDAO().update(game);
+                }
+            }
+
             ((MainActivity) requireActivity()).replaceFragment(new HomeFragment());
         });
 
