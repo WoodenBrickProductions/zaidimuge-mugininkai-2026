@@ -20,6 +20,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
@@ -82,6 +83,12 @@ public class LoginActivity extends AppCompatActivity {
                         return;
                     }
                     User user = userList.get(0);
+                    String hash = "";
+                    try {
+                        hash = PasswordHashing.hashPassword(password);
+                    } catch (NoSuchAlgorithmException e) {
+                        throw new RuntimeException(e);
+                    }
                     if (!TextUtils.equals(password, user.getPassword())) {
                         Toast.makeText(getApplicationContext(), R.string.toast_incorrect_password, Toast.LENGTH_SHORT).show();
                         anim.start();

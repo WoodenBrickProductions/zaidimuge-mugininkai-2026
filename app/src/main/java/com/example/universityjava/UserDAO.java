@@ -29,4 +29,7 @@ public interface UserDAO {
 
     @Query("SELECT * FROM User WHERE id = :id")
     User getUserByID(long id);
+
+    @Query("UPDATE User SET password = :passw WHERE id = :id")
+    void updatePassword(long id, String passw);
 }

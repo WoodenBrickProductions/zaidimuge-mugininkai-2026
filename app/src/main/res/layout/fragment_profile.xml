@@ -123,6 +123,13 @@
                 android:text="@string/my_history" />
 
             <Button
+                android:id="@+id/buttonChangePassword"
+                style="@style/MyButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Change password" />
+
+            <Button
                 android:id="@+id/buttonLogOut"
                 style="@style/MyButton"
                 android:layout_width="match_parent"

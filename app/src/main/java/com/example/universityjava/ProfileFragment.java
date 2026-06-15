@@ -96,8 +96,16 @@ public class ProfileFragment extends Fragment {
             startActivity(new Intent(requireActivity().getBaseContext(), LoginActivity.class));
         });
 
+        Button buttonChangePassword = view.findViewById(R.id.buttonChangePassword);
+        buttonChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).replaceFragment(new PasswordChangeFragment());
+            }
+        });
+
         if (userID >= 0) {
-            User user = db.userDAO().getUserByID(userID);
+            user = db.userDAO().getUserByID(userID);
             textViewUsername.setText(user.getName());
             double rating = db.reviewDAO().getAverageRatingBySellerID(userID);
             textViewRating.setText(String.format("%,.2f / 5",rating));
