@@ -167,14 +167,19 @@ public class MainActivity extends AppCompatActivity implements ItemRecyclerViewE
     public void onItemClick(Listing item) {
         Fragment page = ListingPageFragment.newInstance(item.getId(), "");
         replaceFragment(page);
-        Toast.makeText(getBaseContext(), "Listing clicked ID: " + item.getId(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getBaseContext(), "Listing clicked ID: " + item.getId(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onItemClick(Game item) {
         //Fragment page = ListingPageFragment.newInstance(item.getId(), "");
         //replaceFragment(page);
-        Toast.makeText(getBaseContext(), "Game clicked ID: " + item.getId(), Toast.LENGTH_SHORT).show();
+        Fragment fragment = new MainCategoriesFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("name", item.getTitle());
+        bundle.putLong("game_id", item.getId());
+        fragment.setArguments(bundle);
+        replaceFragment(fragment);
     }
 
     @Override

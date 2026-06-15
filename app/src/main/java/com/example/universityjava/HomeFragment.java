@@ -21,6 +21,8 @@ import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.example.universityjava.database.Game;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,9 @@ public class HomeFragment extends Fragment {
     ImageButton star2;
     ImageButton star3;
     ObjectAnimator rotation;
+    List<Game> _popularGames;
+    List<Game> _newestGames;
+    List<Game> _physicalGames;
 
     public HomeFragment() {
 
@@ -159,6 +164,7 @@ public class HomeFragment extends Fragment {
                 Fragment fragment = new MainCategoriesFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("name", getResources().getString(R.string.popular_items));
+                bundle.putInt("category_type", 1);
                 fragment.setArguments(bundle);
                 ((MainActivity)getActivity()).replaceFragment(fragment);
             }
@@ -171,6 +177,7 @@ public class HomeFragment extends Fragment {
                 Fragment fragment = new MainCategoriesFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("name", getResources().getString(R.string.newest_items));
+                bundle.putInt("category_type", 2);
                 fragment.setArguments(bundle);
                 ((MainActivity)getActivity()).replaceFragment(fragment);
             }
@@ -183,6 +190,7 @@ public class HomeFragment extends Fragment {
                 Fragment fragment = new MainCategoriesFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("name", getResources().getString(R.string.physical_items));
+                bundle.putInt("category_type", 3);
                 fragment.setArguments(bundle);
                 ((MainActivity)getActivity()).replaceFragment(fragment);
             }
@@ -226,9 +234,16 @@ public class HomeFragment extends Fragment {
         ImageAdapter newestAdapter = new ImageAdapter(getContext(), images);
         ImageAdapter physicalAdapter = new ImageAdapter(getContext(), images);
 
-        popularRW.setAdapter(popularAdapter);
-        newestRW.setAdapter(newestAdapter);
-        physicalRW.setAdapter(physicalAdapter);
+        _popularGames = AppActivity.getDatabase().gameDAO().getMostPopularGames(10);
+        _newestGames = AppActivity.getDatabase().gameDAO().getNewestGames(10);
+        _physicalGames = AppActivity.getDatabase().gameDAO().getMostPopularPhysicalGames(10);
+        GameImageAdapter popularGameAdapter = new GameImageAdapter(_popularGames, (MainActivity)getActivity());
+        GameImageAdapter newestGameAdapter = new GameImageAdapter(_newestGames, (MainActivity)getActivity());
+        GameImageAdapter physicalGameAdapter = new GameImageAdapter(_physicalGames, (MainActivity)getActivity());
+
+        popularRW.setAdapter(popularGameAdapter);
+        newestRW.setAdapter(newestGameAdapter);
+        physicalRW.setAdapter(physicalGameAdapter);
 
         rotation = ObjectAnimator.ofFloat(_decoration,"rotationY", 360);
         rotation.setInterpolator(new LinearInterpolator());

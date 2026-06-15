@@ -151,7 +151,9 @@ public class ListingPageFragment extends Fragment {
                 }
             }
             sellerName.setText(seller.getName());
-            sellerScore.setText("0");
+            double rating = AppActivity.getDatabase().reviewDAO().getAverageRatingBySellerID(seller.getId());
+            sellerScore.setText(String.format("%,.2f",rating));
+
             if (seller.getProfileImage() != null) {
                 File f = AppActivity.getCachedImageFile(requireContext(), seller.getProfileImage());
                 if (f != null) sellerImage.setImageURI(Uri.fromFile(f));

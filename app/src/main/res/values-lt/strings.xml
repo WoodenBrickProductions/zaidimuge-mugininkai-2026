@@ -38,6 +38,7 @@
     <string name="login_name">Prisijungimas</string>
     <string name="about">Apie</string>
     <string name="language">Kalba</string>
+    <string name="type">Tipas</string>
     <string name="theme">Tema</string>
     <string name="NoListings">Skelbimų nėra</string>
     <string name="theme_light">Šviesi</string>
@@ -59,6 +60,18 @@
     <string name="order_reversed">Rikiavimo tvarka apversta</string>
     <string name="order_restored">Rikiavimo tvarka sugrąžinta</string>
     <string name="dynamic_brightness">Automatinis šviesumas</string>
+    <string name="purchases_button">Pirkimai</string>
+    <string name="sales_button">Pardavimai</string>
+    <string name="orderstate_pending">Laukiama patvirtinimo</string>
+    <string name="orderstate_confirmed">Patvirtintas</string>
+    <string name="orderstate_shipped">Išsiųstas</string>
+    <string name="orderstate_delivered">Pristatytas</string>
+    <string name="orderstate_cancelled">Atšauktas</string>
+    <string name="leave_review">Palikti atsiliepimą</string>
+    <string name="view_review">Peržiūrėti atsiliepimą</string>
+    <string name="seller">Pardavėjas</string>
+    <string name="review_rating">Įvertinimas</string>
+    <string name="review_the_product">Įvertinkite produktą</string>
     <string name="type_digital">Skaitmeninė</string>
     <string name="type_physical">Fizinė</string>
     <string name="condition_used">Naudota</string>

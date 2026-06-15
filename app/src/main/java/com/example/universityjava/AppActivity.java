@@ -1,6 +1,5 @@
 package com.example.universityjava;
 
-import android.animation.ValueAnimator;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -42,6 +41,7 @@ public class AppActivity extends Application {
     public void onCreate() {
         super.onCreate();
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "my_app_db")
+                .createFromAsset("my_app_db.db")
                 .setQueryCallback((sqlQuery, bindArgs) -> {
                     Log.d("RoomQueryLog", "SQL Query: " + sqlQuery + " SQL Args: " + bindArgs);
                 }, Executors.newSingleThreadExecutor())
@@ -137,7 +137,7 @@ public class AppActivity extends Application {
             db.listingDAO().insert(listing);
         }
 
-        if (db.reviewDAO().getReviewByID(review.getFk_listingid()) == null) {
+        if (db.reviewDAO().getReviewByListingID(review.getFk_listingid()) == null) {
             db.reviewDAO().insert(review);
         }
     }

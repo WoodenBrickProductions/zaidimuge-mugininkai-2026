@@ -85,7 +85,8 @@ public class ProfileFragment extends Fragment {
         }
 
         Button _buttonMyHistory = view.findViewById(R.id.buttonMyHistory);
-        _buttonMyHistory.setOnClickListener(v -> {});
+        _buttonMyHistory.setOnClickListener(v -> ((MainActivity) requireActivity()).replaceFragment(
+                HistoryFragment.newInstance(prefs.getLong("user_id", -1))));
 
         Button _buttonLogOut = view.findViewById(R.id.buttonLogOut);
         _buttonLogOut.setOnClickListener(v -> {
@@ -95,10 +96,13 @@ public class ProfileFragment extends Fragment {
             startActivity(new Intent(requireActivity().getBaseContext(), LoginActivity.class));
         });
 
-        user = db.userDAO().getUserByID(userID);
-        textViewUsername.setText(user.getName());
-        textViewRating.setText("");
-        loadProfileImage(user);
+        if (userID >= 0) {
+            User user = db.userDAO().getUserByID(userID);
+            textViewUsername.setText(user.getName());
+            double rating = db.reviewDAO().getAverageRatingBySellerID(userID);
+            textViewRating.setText(String.format("%,.2f / 5",rating));
+            loadProfileImage(user);
+        }
 
         ImageButton buttonCamera = view.findViewById(R.id.buttonCameraProfile);
         buttonCamera.setOnClickListener(v -> checkPermissionAndLaunchCamera());

@@ -241,7 +241,7 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
             if(!db.wishlistListingDAO().getWListingByListingAndUserID(listing.getId(),userId).isEmpty()){
                 holder.wishlistButton.setSelected(true);
             }
-            if(listing.getIssold()){
+            if(listing.getIssold() || AppActivity.getCurrentUserID() == listing.getFk_seller()){
                 holder.wishlistButton.setEnabled(false);
                 holder.cartButton.setEnabled(false);
             }

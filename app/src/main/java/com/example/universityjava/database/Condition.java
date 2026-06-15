@@ -10,10 +10,10 @@ import com.example.universityjava.R;
 
 public enum Condition {
     New(R.string.condition_new),
-    Like_new(R.string.condition_new),
-    Very_good(R.string.condition_new),
-    Good(R.string.condition_new),
-    Acceptable(R.string.condition_new);
+    Like_new(R.string.condition_like_new),
+    Very_good(R.string.condition_very_good),
+    Good(R.string.condition_good),
+    Acceptable(R.string.condition_acceptable);
 
     private int mResourceId;
 
