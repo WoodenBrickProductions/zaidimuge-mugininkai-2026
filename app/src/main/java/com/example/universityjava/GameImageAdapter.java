@@ -2,6 +2,8 @@ package com.example.universityjava;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.WishlistGame;
 
+import java.io.File;
 import java.util.List;
 
 public class GameImageAdapter extends RecyclerView.Adapter<GameImageAdapter.GameImageViewHolder> {
@@ -66,7 +69,7 @@ public class GameImageAdapter extends RecyclerView.Adapter<GameImageAdapter.Game
     public void onBindViewHolder(@NonNull GameImageViewHolder holder, int position) {
         Game game = games.get(position);
         holder.SetItem(game);
-        holder.getImage().setImageResource(R.drawable.ic_launcher_background);
+        setImage(holder.getImage() ,db.gameDAO().getGameByID(game.getId()).getImage());
     }
 
     @Override
@@ -74,5 +77,18 @@ public class GameImageAdapter extends RecyclerView.Adapter<GameImageAdapter.Game
         if(games != null)
             return games.size();
         return -1;
+    }
+
+    private void setImage(ImageView imageView, String imageName) {
+        Bitmap bitmap;
+        File imageFile = AppActivity.getCachedImageFile(
+                imageView.getContext(), imageName);
+
+        if(imageFile != null) {
+            bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+            imageView.setImageBitmap(bitmap);
+        } else {
+            imageView.setImageResource(R.drawable.ic_launcher_background);
+        }
     }
 }
