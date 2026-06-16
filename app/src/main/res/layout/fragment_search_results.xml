@@ -44,7 +44,7 @@
                 android:text="@string/sorting_order" />
 
             <com.example.universityjava.CustomDropdown
-                android:id="@+id/sortingDropdown"
+                android:id="@+id/sortingFDropdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -56,7 +56,7 @@
                 android:text="@string/type" />
 
             <com.example.universityjava.CustomDropdown
-                android:id="@+id/typeDropdown"
+                android:id="@+id/typeFDropdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -68,7 +68,7 @@
                 android:text="@string/platform" />
 
             <com.example.universityjava.CustomDropdown
-                android:id="@+id/platformDropdown"
+                android:id="@+id/platformFDropdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -85,7 +85,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewSearchResults"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent" />
     </LinearLayout>
 </FrameLayout>

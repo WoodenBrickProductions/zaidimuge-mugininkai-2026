@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.universityjava.database.Listing;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SearchResultsFragment extends Fragment{
@@ -24,6 +25,7 @@ public class SearchResultsFragment extends Fragment{
     Integer _platform;
     private List<Listing> list;
     private RecyclerView recyclerView;
+    ListingItemAdapter listingItemAdapter;
     ShakeDetector shakeDetector;
 
     public SearchResultsFragment() {
@@ -79,7 +81,7 @@ public class SearchResultsFragment extends Fragment{
 
 //        recyclerView.setAdapter(new ListingItemAdapter(list, this));
         if(!list.isEmpty()) {
-            var listingItemAdapter = new ListingItemAdapter(list, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.ADDABLE);
+            listingItemAdapter = new ListingItemAdapter(list, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.ADDABLE);
             recyclerView.setAdapter(listingItemAdapter);
         }
 
@@ -95,7 +97,9 @@ public class SearchResultsFragment extends Fragment{
                 layout.setVisibility(View.GONE);
                 _filtersShown = false;
                 list = AppActivity.getDatabase().listingDAO().searchListings(_query, _isDigital, _platform);
-                var listingItemAdapter = new ListingItemAdapter(list, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.ADDABLE);
+                if (_reversed)
+                    Collections.reverse(list);
+                listingItemAdapter = new ListingItemAdapter(list, (MainActivity)getActivity(), ListingItemAdapter.ListingMode.ADDABLE);
                 recyclerView.setAdapter(listingItemAdapter);
             }
         });
@@ -124,13 +128,16 @@ public class SearchResultsFragment extends Fragment{
 
     private void reverseList(RecyclerView recyclerView, boolean notify) {
         _reversed = !_reversed;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, !_reversed));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, _reversed));
+        Collections.reverse(list);
+        listingItemAdapter.notifyDataSetChanged();
 
-        Toast.makeText(requireContext(), _reversed ? R.string.order_reversed : R.string.order_restored, Toast.LENGTH_SHORT).show();
+        if (notify)
+            Toast.makeText(requireContext(), _reversed ? R.string.order_reversed : R.string.order_restored, Toast.LENGTH_SHORT).show();
     }
 
     private void setupDropdowns(View view, RecyclerView recyclerView) {
-        CustomDropdown sortingDropdown = view.findViewById(R.id.sortingDropdown);
+        CustomDropdown sortingDropdown = view.findViewById(R.id.sortingFDropdown);
         String[] sortingLabels = {
                 getString(R.string.sort_ascending),
                 getString(R.string.sort_descending)};
@@ -144,7 +151,7 @@ public class SearchResultsFragment extends Fragment{
                 reverseList(recyclerView, false);
         });
 
-        CustomDropdown typeDropdown = view.findViewById(R.id.typeDropdown);
+        CustomDropdown typeDropdown = view.findViewById(R.id.typeFDropdown);
         String[] typeLabels = {
                 getString(R.string.any),
                 getString(R.string.type_digital),
@@ -168,7 +175,7 @@ public class SearchResultsFragment extends Fragment{
             }
         });
 
-        CustomDropdown platformDropdown = view.findViewById(R.id.platformDropdown);
+        CustomDropdown platformDropdown = view.findViewById(R.id.platformFDropdown);
         String[] platformLabels = {
                 getString(R.string.any),
                 "PC",
