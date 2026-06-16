@@ -27,6 +27,7 @@ import com.example.universityjava.database.CartListing;
 import com.example.universityjava.database.Listing;
 import com.example.universityjava.database.Order;
 import com.example.universityjava.database.OrderState;
+import com.example.universityjava.database.PickupPoint;
 import com.example.universityjava.database.WishlistListing;
 
 import java.io.File;
@@ -63,6 +64,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
         private final TextView price;
         private final ImageView image;
         private final TextView orderState;
+        private final TextView orderLocation;
         private final Button editButton;
         private final Button reviewButton;
 
@@ -78,6 +80,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
             price = (TextView) view.findViewById(R.id.listing_price);
             image = (ImageView) view.findViewById(R.id.listing_image);
             orderState = (TextView) view.findViewById(R.id.order_state);
+            orderLocation = (TextView) view.findViewById(R.id.order_location);
             editButton = view.findViewById(R.id.buttonEditReview);
             reviewButton = view.findViewById(R.id.buttonLeaveReview);
             orderStateDropdown = view.findViewById(R.id.order_state_dropdown);
@@ -159,6 +162,8 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
         holder.SetListing(listing);
         holder.getTitle().setText(db.listingDAO().getGameNameByListingId(listing.getId()));
         holder.getPrice().setText(listing.getPrice() + " €");
+        PickupPoint point = db.pickupPointDAO().getPickupPointById(order.getFk_pickuppoint());
+        holder.orderLocation.setText(point.getName()+"\n"+point.getAddress());
         long userId = AppActivity.getCurrentUserID();
         setImage(holder.getImage(), db.gameDAO().getGameByID(listing.getFk_gameid()).getImage());
         if(listingMode == OrderMode.PURCHASES)
