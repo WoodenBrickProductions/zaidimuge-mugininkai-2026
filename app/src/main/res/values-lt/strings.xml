@@ -97,4 +97,7 @@
     <string name="pick_image">Pasirinkti nuotrauką</string>
     <string name="clear_image_cache">Išvalyti nuotraukų talpyklą</string>
     <string name="image_cache_cleared">Nuotraukų talpykla išvalyta</string>
+    <string name="back">Atgal</string>
+    <string name="delete">Trinti</string>
+    <string name="find_closest_pickup_point">Rasti artimiausią atsiėmimo vietą</string>
 </resources>

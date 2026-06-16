@@ -9,9 +9,11 @@
 
     <Button
         android:id="@+id/button"
+        style="@style/MyButton"
+        android:layout_margin="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Find closest pickup point" />
+        android:text="@string/find_closest_pickup_point" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
