@@ -42,11 +42,12 @@
 
             <Button
                 android:id="@+id/buttonBack"
-                android:layout_height="wrap_content"
+                style="@style/MyButton"
+                android:layout_margin="0dp"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="12sp"
-                android:text="Back"></Button>
+                android:text="@string/back"/>
         </LinearLayout>
 
         <LinearLayout

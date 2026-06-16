@@ -105,6 +105,9 @@
     <string name="pick_image">Pick Image</string>
     <string name="clear_image_cache">Clear Image Cache</string>
     <string name="image_cache_cleared">Image cache cleared</string>
+    <string name="back">Back</string>
+    <string name="delete">Delete</string>
+    <string name="find_closest_pickup_point">Find closest pickup point</string>
     <string name="find_on_steam">Find on Steam</string>
     <string name="search">Search</string>
     <string name="no_results">No results found</string>
