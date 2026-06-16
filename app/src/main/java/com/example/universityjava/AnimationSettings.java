@@ -2,13 +2,17 @@ package com.example.universityjava;
 
 public class AnimationSettings {
 
-    private static boolean enableAnimations = true;
+    private static boolean enableAnimationsPower = true;
+    private static boolean enableAnimationsSettings = true;
 
     public static boolean areAnimationsEnabled() {
-        return enableAnimations;
+        return enableAnimationsPower && enableAnimationsSettings;
     }
 
     public static void setEnableAnimations(boolean enabled) {
-        enableAnimations = enabled;
+        enableAnimationsPower = enabled;
+    }
+    public static void setEnableAnimationsSettings(boolean enabled) {
+        enableAnimationsSettings = enabled;
     }
 }

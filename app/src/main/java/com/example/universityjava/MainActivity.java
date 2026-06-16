@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements ItemRecyclerViewE
                     }
                 });
 
+        updateAnimationSetting();
+
         long userID = AppActivity.getCurrentUserID();
 
         _bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -200,5 +202,11 @@ public class MainActivity extends AppCompatActivity implements ItemRecyclerViewE
     public boolean getOverlaySetting() {
         SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
         return prefs.getBoolean("auto_brightness", false);
+    }
+
+    public void updateAnimationSetting() {
+        SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
+        boolean disabledSetting = prefs.getBoolean("disable_animations", false);
+        AnimationSettings.setEnableAnimationsSettings(!disabledSetting);
     }
 }

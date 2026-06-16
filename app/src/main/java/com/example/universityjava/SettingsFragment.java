@@ -108,11 +108,22 @@ public class SettingsFragment extends Fragment {
         });
 
         Switch brightnessSwitch = view.findViewById(R.id.switchBrightness);
+        brightnessSwitch.setChecked(prefs.getBoolean("auto_brightness", false));
         brightnessSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(@NonNull CompoundButton compoundButton, boolean b) {
                 prefs.edit().putBoolean("auto_brightness", b).apply();
                 ((MainActivity) requireActivity()).updateOverlaySetting();
+            }
+        });
+
+        Switch animSwitch = view.findViewById(R.id.switchAnimations);
+        animSwitch.setChecked(prefs.getBoolean("disable_animations", false));
+        animSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(@NonNull CompoundButton compoundButton, boolean b) {
+                prefs.edit().putBoolean("disable_animations", b).apply();
+                AnimationSettings.setEnableAnimationsSettings(!b);
             }
         });
 
