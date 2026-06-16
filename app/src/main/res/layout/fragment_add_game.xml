@@ -50,13 +50,16 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher_background" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/buttonFindOnSteam"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginStart="16dp"
-                android:text="@string/find_on_steam"
-                android:textSize="9sp" />
+                android:src="@drawable/ic_search_steam"
+                android:backgroundTint="?attr/colorPrimary"
+                android:padding="14dp"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/find_on_steam" />
 
         </LinearLayout>
 
