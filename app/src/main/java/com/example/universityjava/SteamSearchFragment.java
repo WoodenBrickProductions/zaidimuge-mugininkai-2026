@@ -212,12 +212,15 @@ public class SteamSearchFragment extends Fragment {
             JSONObject data = appEntry.optJSONObject("data");
             if (data == null) return;
 
-            int requiredAge = 0;
-            try {
-                requiredAge = Integer.parseInt(data.optString("required_age", "0").trim());
-            } catch (NumberFormatException ignored) {}
+            if (!"game".equals(data.optString("type", ""))) return; // DLC, soundtrack, video, etc.
 
-            if (requiredAge >= 18) return; // leave fields null to signal adult content
+            JSONArray genres = data.optJSONArray("genres");
+            if (genres != null) {
+                for (int i = 0; i < genres.length(); i++) {
+                    String g = genres.getJSONObject(i).optString("description", "");
+                    if ("Game Development".equalsIgnoreCase(g)) return; // editor / creation kit / SDK
+                }
+            }
 
             game.shortDescription = data.optString("short_description", "");
             game.headerImageUrl   = data.optString("header_image", "");
