@@ -120,4 +120,9 @@
     <string name="passw_new_password">new password</string>
     <string name="passw_repeat_new_password">repeat new password</string>
     <string name="passw_change_password">Change password</string>
+    <string name="select_a_game">Select a game</string>
+    <string name="add_image">Add image</string>
+    <string name="add_icon">Add icon</string>
+    <string name="submit">Submit</string>
+    <string name="add_photo_0_3">Add photo (0/3)</string>
 </resources>

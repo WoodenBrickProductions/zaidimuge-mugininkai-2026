@@ -112,4 +112,9 @@
     <string name="passw_new_password">naujas slaptažodis</string>
     <string name="passw_repeat_new_password">pakartoti naują slaptažodį</string>
     <string name="passw_change_password">Keisti slaptažodį</string>
+    <string name="select_a_game">Pasirinkite žaidimą</string>
+    <string name="add_image">Pridėti nuotrauką</string>
+    <string name="add_icon">Pridėti ikoną</string>
+    <string name="submit">Įkelti</string>
+    <string name="add_photo_0_3">Pridėti nuotrauką (0/3)</string>
 </resources>
