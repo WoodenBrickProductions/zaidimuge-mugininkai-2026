@@ -71,6 +71,9 @@ public class SellerFragment extends Fragment implements ReviewRecyclerViewEvent 
         } else {
             _buttonCreateListing.setVisibility(View.GONE);
         }
+        view.findViewById(R.id.buttonBack).setOnClickListener(v ->
+                requireActivity().getSupportFragmentManager().popBackStack());
+
         SharedPreferences prefs = getContext().getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         TextView textViewUsername = view.findViewById(R.id.textViewProfileUsername);
 

@@ -174,6 +174,9 @@ public class ListingPageFragment extends Fragment {
             }
         }
 
+        view.findViewById(R.id.back_button).setOnClickListener(v ->
+                requireActivity().getSupportFragmentManager().popBackStack());
+
         view.findViewById(R.id.buttonSeller).setOnClickListener(v ->
                 ((MainActivity) requireActivity()).replaceFragment(
                         SellerFragment.newInstance(listing.getFk_seller(), "")));
