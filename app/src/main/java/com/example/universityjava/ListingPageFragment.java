@@ -111,30 +111,11 @@ public class ListingPageFragment extends Fragment {
             seller = AppActivity.getDatabase().userDAO().getUserByID(listing.getFk_seller());
             game = AppActivity.getDatabase().gameDAO().getGameByID(listing.getFk_gameid());
 
-            // Build image list: game icon first, then physical photos
-            List<String> imagePaths = new ArrayList<>();
-            File iconFile = AppActivity.getCachedImageFile(requireContext(), game.getImage());
-            imagePaths.add(iconFile != null ? iconFile.getAbsolutePath() : null);
-
-            if (!listing.getIsdigital()) {
-                String[] photos = {listing.getPhysicalPhoto1(), listing.getPhysicalPhoto2(), listing.getPhysicalPhoto3()};
-                for (String photoName : photos) {
-                    if (photoName != null) {
-                        File f = AppActivity.getCachedImageFile(requireContext(), photoName);
-                        if (f != null) imagePaths.add(f.getAbsolutePath());
-                    }
-                }
-            }
-
-            imagePager.setAdapter(new ImagePagerAdapter(imagePaths));
-            imagePager.setUserInputEnabled(imagePaths.size() > 1);
-
             title.setText(game.getTitle());
             description.setText(game.getDescription());
             listingPrice.setText(listing.getPrice() + " €");
             platforms.setText(AppActivity.getDatabase().listingDAO().getPlatformNameByListingId(listingID));
 
-            // Default: hide all condition views; show only when data is available
             conditionStateTitle.setVisibility(View.GONE);
             conditionState.setVisibility(View.GONE);
             conditionDescription.setVisibility(View.GONE);
@@ -154,11 +135,6 @@ public class ListingPageFragment extends Fragment {
             double rating = AppActivity.getDatabase().reviewDAO().getAverageRatingBySellerID(seller.getId());
             sellerScore.setText(String.format("%,.2f",rating));
 
-            if (seller.getProfileImage() != null) {
-                File f = AppActivity.getCachedImageFile(requireContext(), seller.getProfileImage());
-                if (f != null) sellerImage.setImageURI(Uri.fromFile(f));
-            }
-
             if (listing.getFk_seller() == AppActivity.getCurrentUserID()) {
                 wishlistButton.setVisibility(View.GONE);
                 cartButton.setVisibility(View.GONE);
@@ -172,6 +148,21 @@ public class ListingPageFragment extends Fragment {
                 cartButton.setSelected(!AppActivity.getDatabase().cartListingDAO()
                         .getCListingByListingAndUserID(listingID, AppActivity.getCurrentUserID()).isEmpty());
             }
+
+            loadImages();
+
+            List<String> downloadNames = new ArrayList<>();
+            if (game.getImage() != null) downloadNames.add(game.getImage());
+            if (!listing.getIsdigital()) {
+                if (listing.getPhysicalPhoto1() != null) downloadNames.add(listing.getPhysicalPhoto1());
+                if (listing.getPhysicalPhoto2() != null) downloadNames.add(listing.getPhysicalPhoto2());
+                if (listing.getPhysicalPhoto3() != null) downloadNames.add(listing.getPhysicalPhoto3());
+            }
+            if (seller.getProfileImage() != null) downloadNames.add(seller.getProfileImage());
+
+            ImageManager.downloadBatch(requireContext(), downloadNames, () -> {
+                if (isAdded()) loadImages();
+            });
         }
 
         view.findViewById(R.id.back_button).setOnClickListener(v ->
@@ -204,6 +195,32 @@ public class ListingPageFragment extends Fragment {
         wishlistButton.setOnClickListener(v -> wishlistButton.setSelected(!wishlistButton.isSelected()));
 
         return view;
+    }
+
+    private void loadImages() {
+        List<String> imagePaths = new ArrayList<>();
+        if (game != null) {
+            File iconFile = AppActivity.getCachedImageFile(requireContext(), game.getImage());
+            imagePaths.add(iconFile != null ? iconFile.getAbsolutePath() : null);
+        }
+
+        if (listing != null && !listing.getIsdigital()) {
+            String[] photos = {listing.getPhysicalPhoto1(), listing.getPhysicalPhoto2(), listing.getPhysicalPhoto3()};
+            for (String photoName : photos) {
+                if (photoName != null) {
+                    File f = AppActivity.getCachedImageFile(requireContext(), photoName);
+                    if (f != null) imagePaths.add(f.getAbsolutePath());
+                }
+            }
+        }
+
+        imagePager.setAdapter(new ImagePagerAdapter(imagePaths));
+        imagePager.setUserInputEnabled(imagePaths.size() > 1);
+
+        if (seller != null && seller.getProfileImage() != null) {
+            File f = AppActivity.getCachedImageFile(requireContext(), seller.getProfileImage());
+            if (f != null) sellerImage.setImageURI(Uri.fromFile(f));
+        }
     }
 
     // Minimal ViewPager2 adapter — creates ImageViews programmatically, no separate layout needed

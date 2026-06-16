@@ -40,6 +40,7 @@ import com.example.universityjava.database.PhysicalListingAttributes;
 import com.example.universityjava.database.Platform;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,6 +99,16 @@ public class AddListingFragment extends Fragment {
         cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), success -> {
             if (!success) return;
             String name = photoPrefix + "_" + (photoSlot + 1);
+            File cacheSource = new File(requireContext().getCacheDir(), "game_icons/" + name + ".jpg");
+            if (cacheSource.exists()) {
+                File persistDir = new File(requireContext().getFilesDir(), "game_icons");
+                persistDir.mkdirs();
+                try {
+                    ImageManager.copyFile(cacheSource, new File(persistDir, name + ".jpg"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             physicalPhotos[photoSlot] = name;
             if (photoSlot < 2) photoSlot++;
             buttonAddPhoto.setText("Add photo (" + countPhotos() + "/3)");
@@ -109,6 +120,9 @@ public class AddListingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_listing, container, false);
 
         gameList = AppActivity.getDatabase().gameDAO().getAllGames();
+
+        view.findViewById(R.id.buttonBackAddListing).setOnClickListener(v ->
+                requireActivity().getSupportFragmentManager().popBackStack());
 
         gameDropdown = view.findViewById(R.id.gameDropdown);
         selectedGameIcon = view.findViewById(R.id.selectedGameIcon);

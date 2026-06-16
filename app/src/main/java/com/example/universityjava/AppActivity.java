@@ -86,13 +86,14 @@ public class AppActivity extends Application {
         user1.generateTestData(DUMMY_ID);
         user2.generateTestData(DUMMY_ID + 1);
 
-        var gameIconsDir = new File(getApplicationContext().getCacheDir(), "game_icons");
+        var gameIconsDir = new File(getApplicationContext().getFilesDir(), "game_icons");
 
         if(!gameIconsDir.exists()) {
             System.out.println("game_icons dir does not exist");
         }
 
         var gameIcons = gameIconsDir.listFiles();
+        if (gameIcons == null) gameIcons = new File[0];
 
         for(int i = 0; i < 10; i++)
         {
@@ -145,7 +146,7 @@ public class AppActivity extends Application {
     private static final String GAME_ASSETS_FOLDER = "game_icons";
 
     public static void prepopulateGameIconCache(Context context) {
-        File iconsDir = getOrCreateCacheFolder(context, GAME_ASSETS_FOLDER);
+        File iconsDir = getOrCreatePersistentFolder(context, GAME_ASSETS_FOLDER);
 
         try {
             String[] assetFiles = context.getAssets().list(GAME_ASSETS_FOLDER);
@@ -175,6 +176,12 @@ public class AppActivity extends Application {
 
     private static File getOrCreateCacheFolder(Context context, String folderName) {
         File folder = new File(context.getCacheDir(), folderName);
+        folder.mkdirs();
+        return folder;
+    }
+
+    private static File getOrCreatePersistentFolder(Context context, String folderName) {
+        File folder = new File(context.getFilesDir(), folderName);
         folder.mkdirs();
         return folder;
     }
@@ -212,20 +219,7 @@ public class AppActivity extends Application {
 
     @Nullable
     public static File savePickedImageToCache(Context context, Uri uri, String saveName) {
-        File dest = new File(context.getCacheDir(), "game_icons/" + saveName + ".png"); // ← swap to getFilesDir() for permanence
-        try (InputStream in = context.getContentResolver().openInputStream(uri);
-             FileOutputStream out = new FileOutputStream(dest)) {
-            if (in == null) return null;
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-            while ((bytesRead = in.read(buffer)) != -1) {
-                out.write(buffer, 0, bytesRead);
-            }
-            return dest;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return ImageManager.saveImage(context, uri, saveName);
     }
 
     @Nullable

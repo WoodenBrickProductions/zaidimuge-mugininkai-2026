@@ -109,6 +109,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/about" />
+
+        <Button
+            style="@style/MyButton"
+            android:id="@+id/buttonClearCache"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/clear_image_cache" />
     </LinearLayout>
 
 </LinearLayout>

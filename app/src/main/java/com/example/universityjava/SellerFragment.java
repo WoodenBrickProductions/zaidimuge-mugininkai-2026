@@ -99,18 +99,15 @@ public class SellerFragment extends Fragment implements ReviewRecyclerViewEvent 
             isListings = false;
         });
 
+        User user = null;
+        ImageView imageView = view.findViewById(R.id.imageView);
+
         if (userID >= 0) {
-            User user = AppActivity.getDatabase().userDAO().getUserByID(userID);
+            user = AppActivity.getDatabase().userDAO().getUserByID(userID);
             // todo(Woody): separate out textViews
             double rating = AppActivity.getDatabase().reviewDAO().getAverageRatingBySellerID(userID);
             textViewUsername.setText(user.getName() + "\n" +
                     String.format("%,.2f / 5",rating));
-
-            ImageView imageView = view.findViewById(R.id.imageView);
-            if (user.getProfileImage() != null) {
-                File f = AppActivity.getCachedImageFile(requireContext(), user.getProfileImage());
-                if (f != null) imageView.setImageURI(Uri.fromFile(f));
-            }
 
             List<Review> reviews = AppActivity.getDatabase().reviewDAO().getReviewsBySellerID(userID);
             if (!reviews.isEmpty())
@@ -132,6 +129,15 @@ public class SellerFragment extends Fragment implements ReviewRecyclerViewEvent 
                         (MainActivity)getActivity(), ListingItemAdapter.ListingMode.ADDABLE);
             }
             recyclerView.setAdapter(listingItemAdapter);
+        }
+
+        if (user != null && user.getProfileImage() != null) {
+            final String profileImage = user.getProfileImage();
+            ImageManager.requestImage(requireContext(), profileImage, () -> {
+                if (!isAdded()) return;
+                File f = AppActivity.getCachedImageFile(requireContext(), profileImage);
+                if (f != null) imageView.setImageURI(Uri.fromFile(f));
+            });
         }
 
         if(mParam2 == "reviews"){

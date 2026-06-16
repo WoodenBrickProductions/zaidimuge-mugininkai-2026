@@ -97,9 +97,12 @@
     <string name="verification_code_incorrect">Incorrect code, try again</string>
     <string name="acc_new_username">Enter new username</string>
     <string name="add_listing">Add Listing</string>
+    <string name="new_listing">New Listing</string>
     <string name="game_added_success">New game added successfully</string>
     <string name="add_game_title">Add Game</string>
     <string name="hint_game_name">Game name</string>
     <string name="hint_game_description">Game description</string>
     <string name="pick_image">Pick Image</string>
+    <string name="clear_image_cache">Clear Image Cache</string>
+    <string name="image_cache_cleared">Image cache cleared</string>
 </resources>

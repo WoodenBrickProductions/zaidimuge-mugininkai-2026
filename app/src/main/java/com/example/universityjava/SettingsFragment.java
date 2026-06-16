@@ -31,6 +31,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+
 public class SettingsFragment extends Fragment {
     public SettingsFragment() {
         // Required empty public constructor
@@ -112,6 +114,21 @@ public class SettingsFragment extends Fragment {
                 prefs.edit().putBoolean("auto_brightness", b).apply();
                 ((MainActivity) requireActivity()).updateOverlaySetting();
             }
+        });
+
+        Button buttonClearCache = view.findViewById(R.id.buttonClearCache);
+        buttonClearCache.setOnClickListener(v -> {
+            File cacheDir = new File(requireContext().getCacheDir(), "game_icons");
+            int deleted = 0;
+            if (cacheDir.exists()) {
+                File[] files = cacheDir.listFiles();
+                if (files != null) {
+                    for (File f : files) {
+                        if (f.delete()) deleted++;
+                    }
+                }
+            }
+            Toast.makeText(requireContext(), getString(R.string.image_cache_cleared), Toast.LENGTH_SHORT).show();
         });
 
         TextView banner = view.findViewById(R.id.bannerSettings);

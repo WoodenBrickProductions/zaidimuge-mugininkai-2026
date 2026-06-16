@@ -80,15 +80,22 @@ public class GameImageAdapter extends RecyclerView.Adapter<GameImageAdapter.Game
     }
 
     private void setImage(ImageView imageView, String imageName) {
-        Bitmap bitmap;
-        File imageFile = AppActivity.getCachedImageFile(
-                imageView.getContext(), imageName);
+        // Tag the view so we can detect recycling before the callback fires
+        imageView.setTag(imageName);
 
-        if(imageFile != null) {
-            bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-            imageView.setImageBitmap(bitmap);
-        } else {
-            imageView.setImageResource(R.drawable.ic_launcher_background);
+        File imageFile = AppActivity.getCachedImageFile(imageView.getContext(), imageName);
+        if (imageFile != null) {
+            imageView.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
+            return;
         }
+
+        // Not cached yet — show placeholder and request a download
+        imageView.setImageResource(R.drawable.ic_launcher_background);
+        ImageManager.requestImage(imageView.getContext(), imageName, () -> {
+            // Guard against the view being recycled for a different item
+            if (!imageName.equals(imageView.getTag())) return;
+            File f = AppActivity.getCachedImageFile(imageView.getContext(), imageName);
+            if (f != null) imageView.setImageBitmap(BitmapFactory.decodeFile(f.getAbsolutePath()));
+        });
     }
 }

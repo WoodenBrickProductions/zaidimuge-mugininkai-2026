@@ -7,11 +7,26 @@
     android:background="@color/main_background"
     tools:context=".AddListingFragment" >
 
-    <TextView
-        style="@style/MyBanner"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/settings" />
+        android:background="@drawable/bg_banner">
+
+        <TextView
+            style="@style/MyBanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/new_listing" />
+
+        <Button
+            android:id="@+id/buttonBackAddListing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:text="Back" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="310dp"

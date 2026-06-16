@@ -290,15 +290,19 @@ public class ListingItemAdapter extends RecyclerView.Adapter<ListingItemAdapter.
     }
 
     private void setImage(ImageView imageView, String imageName) {
-        Bitmap bitmap;
-        File imageFile = AppActivity.getCachedImageFile(
-                imageView.getContext(), imageName);
+        imageView.setTag(imageName);
 
-        if(imageFile != null) {
-            bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-            imageView.setImageBitmap(bitmap);
-        } else {
-            imageView.setImageResource(R.drawable.ic_launcher_background);
+        File imageFile = AppActivity.getCachedImageFile(imageView.getContext(), imageName);
+        if (imageFile != null) {
+            imageView.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
+            return;
         }
+
+        imageView.setImageResource(R.drawable.ic_launcher_background);
+        ImageManager.requestImage(imageView.getContext(), imageName, () -> {
+            if (!imageName.equals(imageView.getTag())) return;
+            File f = AppActivity.getCachedImageFile(imageView.getContext(), imageName);
+            if (f != null) imageView.setImageBitmap(BitmapFactory.decodeFile(f.getAbsolutePath()));
+        });
     }
 }

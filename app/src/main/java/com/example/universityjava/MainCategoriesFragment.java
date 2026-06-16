@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
