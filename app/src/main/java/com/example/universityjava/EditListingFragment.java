@@ -79,6 +79,9 @@ public class EditListingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_listing, container, false);
 
+        view.findViewById(R.id.buttonBackEditListing).setOnClickListener(v ->
+                requireActivity().getSupportFragmentManager().popBackStack());
+
         listing = AppActivity.getDatabase().listingDAO().getListingByID(listingId);
         game = AppActivity.getDatabase().gameDAO().getGameByID(listing.getFk_gameid());
 

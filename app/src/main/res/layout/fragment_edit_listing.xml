@@ -5,12 +5,26 @@
     android:background="@color/main_background"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/editBannerTitle"
-        style="@style/MyBanner"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit Listing" />
+        android:background="@drawable/bg_banner">
+
+        <TextView
+            style="@style/MyBanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Edit Listing" />
+
+        <Button
+            android:id="@+id/buttonBackEditListing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:text="Back" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="310dp"
