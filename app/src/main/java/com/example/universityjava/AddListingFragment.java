@@ -113,7 +113,7 @@ public class AddListingFragment extends Fragment {
             }
             physicalPhotos[photoSlot] = name;
             if (photoSlot < 2) photoSlot++;
-            buttonAddPhoto.setText("Add photo (" + countPhotos() + "/3)");
+            buttonAddPhoto.setText(getString(R.string.add_image) +" (" + countPhotos() + "/3)");
         });
     }
 

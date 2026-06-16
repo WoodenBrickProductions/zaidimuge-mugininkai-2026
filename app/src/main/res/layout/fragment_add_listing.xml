@@ -65,7 +65,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Select a game"
+                android:hint="@string/select_a_game"
                 android:completionThreshold="0"
                 android:inputType="text"
                 android:minHeight="48dp" />
@@ -158,7 +158,7 @@
             style="@style/MyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add image" />
+            android:text="@string/add_image" />
 
         <LinearLayout
             android:id="@+id/physicalImageButtons"
@@ -173,7 +173,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Add icon" />
+                android:text="@string/add_icon" />
 
             <Button
                 android:id="@+id/buttonAddPhoto"
@@ -181,7 +181,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Add photo (0/3)" />
+                android:text="@string/add_photo_0_3" />
 
         </LinearLayout>
 
@@ -190,14 +190,14 @@
             style="@style/MyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Submit" />
+            android:text="@string/submit" />
 
         <Button
             android:id="@+id/buttonSecond"
             style="@style/MyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Delete" />
+            android:text="@string/delete" />
 
     </LinearLayout>
 
