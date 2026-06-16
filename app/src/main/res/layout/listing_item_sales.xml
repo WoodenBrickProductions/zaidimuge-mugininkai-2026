@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_holder"
     android:layout_width="365dp"
-    android:layout_height="165dp"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
     android:background="@color/secondary_background"
-    android:padding="12dp"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:padding="12dp">
 
     <ImageView
         android:id="@+id/listing_image"
@@ -21,54 +21,48 @@
         android:layout_width="8dp"
         android:layout_height="wrap_content" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/listing_name"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Pavadinimas lorem ipsum lalalalal"
-            android:textSize="@dimen/text_16"
-            app:layout_constraintBottom_toTopOf="@+id/listing_price"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="@dimen/text_16" />
 
         <TextView
             android:id="@+id/listing_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="52dp"
             android:text="Eurai time"
-            android:textSize="@dimen/text_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:textSize="@dimen/text_24" />
 
         <com.example.universityjava.CustomDropdown
             android:id="@+id/order_state_dropdown"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.example.universityjava.CustomDropdown>
+
+        <TextView
+            android:id="@+id/order_location"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listing_price"
-            tools:layout_editor_absoluteX="0dp" />
+            android:layout_weight="1"
+            android:text="Pavadinimas lorem ipsum"
+            android:textSize="@dimen/text_16" />
 
         <Button
             android:id="@+id/buttonEditReview"
-            style="@style/MyButton"
             android:layout_width="0dp"
             android:layout_height="@dimen/val_48"
             android:text="Peržiūrėti atsiliepimą"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listing_price"
-            app:layout_constraintVertical_bias="0.864" />
+            android:visibility="gone" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </LinearLayout>
