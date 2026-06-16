@@ -23,6 +23,7 @@ import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -215,10 +216,16 @@ public class MapsFragment extends Fragment {
                 if(locationResult==null){
                     return;
                 }
-                for (Location location : locationResult.getLocations()){
+                Location location = locationResult.getLastLocation();
+                lastLocation = new LatLng(location.getLatitude(),location.getLongitude());
                     //update ui
-                    if(marker == null && map != null){
-                    AddMarker();}
+                    if(map != null){
+                        if(marker == null){
+                            AddMarker();
+                        }else{
+                            ReplaceMarker(marker);
+
+                    }
                 }
             }
         };
@@ -320,6 +327,13 @@ public class MapsFragment extends Fragment {
         map.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(lastLocation, 12f)
         );
+    }
+    private void ReplaceMarker(Marker marker){
+        if(lastLocation == null || lastLocation == marker.getPosition()) return;
+        marker.setPosition(lastLocation);
+        /*map.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(lastLocation, 12f)
+        );*/
     }
 
     private void AddOrders(PickupPoint pickupPoint){
