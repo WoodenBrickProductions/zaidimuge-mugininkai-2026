@@ -59,8 +59,8 @@
     <string name="navigation_settings">Settings</string>
     <string name="condition_title">Condition</string>
     <string name="condition_new">New</string>
-    <string name="condition_like_new">Like_new</string>
-    <string name="condition_very_good">Very_good</string>
+    <string name="condition_like_new">Like new</string>
+    <string name="condition_very_good">Very good</string>
     <string name="condition_good">Good</string>
     <string name="condition_acceptable">Acceptable</string>
     <string name="condition_description">Condition description</string>

@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -36,6 +37,7 @@ import androidx.fragment.app.Fragment;
 import com.example.universityjava.database.Condition;
 import com.example.universityjava.database.Game;
 import com.example.universityjava.database.Listing;
+import com.example.universityjava.database.OrderState;
 import com.example.universityjava.database.PhysicalListingAttributes;
 import com.example.universityjava.database.Platform;
 
@@ -224,10 +226,37 @@ public class AddListingFragment extends Fragment {
         if (platValues.length > 0) platformDropdown.setSelectedValue(platValues[0]);
         platformDropdown.setOnValueChanged(p -> _platform = Integer.parseInt(p));
 
-        conditionDropdown.setItems(new String[]{"New", "Used"}, new String[]{"NEW", "USED"});
-        conditionDropdown.setSelectedValue("NEW");
+        String[] conditionLabels = {
+                getContext().getString(Condition.New.getResourceId()),
+                getContext().getString(Condition.Like_new.getResourceId()),
+                getContext().getString(Condition.Very_good.getResourceId()),
+                getContext().getString(Condition.Good.getResourceId()),
+                getContext().getString(Condition.Acceptable.getResourceId())};
+        String[] values = {Condition.New.name(),
+                Condition.Like_new.name(),
+                Condition.Very_good.name(),
+                Condition.Good.name(),
+                Condition.Acceptable.name()};
+        conditionDropdown.setItems(conditionLabels, values);
+        conditionDropdown.setSelectedValue("New");
         conditionDropdown.setOnValueChanged(c -> {
-            _condition = "NEW".equals(c) ? Condition.New : Condition.Good;
+            switch (c){
+                case "New":
+                    _condition = Condition.New;
+                    break;
+                case "Like_new":
+                    _condition = Condition.Like_new;
+                    break;
+                case "Very_good":
+                    _condition = Condition.Very_good;
+                    break;
+                case "Good":
+                    _condition = Condition.Good;
+                    break;
+                case "Acceptable":
+                    _condition = Condition.Acceptable;
+                    break;
+            }
         });
 
         EditText addListingPrice = view.findViewById(R.id.addListingPrice);
