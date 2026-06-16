@@ -27,7 +27,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:text="Filters"/>
+                android:text="@string/filters"/>
 
         <LinearLayout
             android:id="@+id/filterView"
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_large"
-                android:text="Refresh" />
+                android:text="@string/refresh" />
 
         </LinearLayout>
 

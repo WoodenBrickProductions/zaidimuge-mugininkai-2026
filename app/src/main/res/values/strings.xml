@@ -111,4 +111,13 @@
     <string name="find_on_steam">Find on Steam</string>
     <string name="search">Search</string>
     <string name="no_results">No results found</string>
+    <string name="settings_disable_animations">Disable decorative animations</string>
+    <string name="change_password">Change password</string>
+    <string name="filters">Filters</string>
+    <string name="refresh">Refresh</string>
+    <string name="passw_create_new_password">Create a new password</string>
+    <string name="passw_old_password">old password</string>
+    <string name="passw_new_password">new password</string>
+    <string name="passw_repeat_new_password">repeat new password</string>
+    <string name="passw_change_password">Change password</string>
 </resources>

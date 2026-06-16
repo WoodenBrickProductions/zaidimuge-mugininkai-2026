@@ -127,7 +127,7 @@
                 style="@style/MyButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Change password" />
+                android:text="@string/change_password" />
 
             <Button
                 android:id="@+id/buttonLogOut"

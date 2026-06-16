@@ -103,4 +103,13 @@
     <string name="find_on_steam">Rasti Steam platformoje</string>
     <string name="search">Ieškoti</string>
     <string name="no_results">Rezultatų nerasta</string>
+    <string name="settings_disable_animations">Išjungti dekoratyvines animacijas</string>
+    <string name="change_password">Keisti slaptažodį</string>
+    <string name="filters">Filtravimas</string>
+    <string name="refresh">Atnaujinti</string>
+    <string name="passw_create_new_password">Slaptažodžio keitimas</string>
+    <string name="passw_old_password">senas slaptažodis</string>
+    <string name="passw_new_password">naujas slaptažodis</string>
+    <string name="passw_repeat_new_password">pakartoti naują slaptažodį</string>
+    <string name="passw_change_password">Keisti slaptažodį</string>
 </resources>

@@ -98,23 +98,23 @@ public class PasswordChangeFragment extends Fragment {
                 String newPass2 = editTextNewPass2.getText().toString().trim();
                 String message;
                 if (TextUtils.isEmpty(oldPass) || TextUtils.isEmpty(newPass) || TextUtils.isEmpty(newPass2)) {
-                    message = "All fields must be filled";
+                    message = getString(R.string.toast_missing_fields);
                     Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
                 }
                 else if(!TextUtils.equals(oldPass, user.getPassword())) {
-                    message = "Incorrect password";
+                    message = getString(R.string.toast_incorrect_password);
                     Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
                     editTextOldPass.setError(message);
                     anim1.start();
                 }
                 else if(newPass.length() < 4) {
-                    message = "Password must be at least 4 characters";
+                    message = getString(R.string.acc_password_short);
                     Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
                     editTextNewPass.setError(message);
                     anim2.start();
                 }
                 else if (!TextUtils.equals(newPass, newPass2)) {
-                    message = "Repeated password does not match";
+                    message = getString(R.string.toast_password_mismatch);
                     Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
                     editTextNewPass2.setError(message);
                     anim2.start();
