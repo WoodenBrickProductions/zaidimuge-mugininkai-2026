@@ -105,4 +105,7 @@
     <string name="pick_image">Pick Image</string>
     <string name="clear_image_cache">Clear Image Cache</string>
     <string name="image_cache_cleared">Image cache cleared</string>
+    <string name="find_on_steam">Find on Steam</string>
+    <string name="search">Search</string>
+    <string name="no_results">No results found</string>
 </resources>

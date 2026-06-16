@@ -97,4 +97,7 @@
     <string name="pick_image">Pasirinkti nuotrauką</string>
     <string name="clear_image_cache">Išvalyti nuotraukų talpyklą</string>
     <string name="image_cache_cleared">Nuotraukų talpykla išvalyta</string>
+    <string name="find_on_steam">Rasti Steam platformoje</string>
+    <string name="search">Ieškoti</string>
+    <string name="no_results">Rezultatų nerasta</string>
 </resources>

@@ -1,15 +1,20 @@
 package com.example.universityjava;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -143,6 +148,46 @@ public class ImageManager {
             });
         }
         executor.shutdown();
+    }
+
+    public static void loadFromUrl(String url, ImageView view) {
+        view.setTag(url);
+        view.setImageResource(R.drawable.ic_launcher_background);
+        if (url == null || url.isEmpty()) return;
+        Executors.newSingleThreadExecutor().execute(() -> {
+            try {
+                HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                conn.setConnectTimeout(5000);
+                conn.setReadTimeout(10000);
+                Bitmap bm = BitmapFactory.decodeStream(conn.getInputStream());
+                conn.disconnect();
+                sMain.post(() -> { if (url.equals(view.getTag())) view.setImageBitmap(bm); });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public static void downloadUrlToFile(String url, File dest, Runnable onComplete) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            try {
+                HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                conn.setConnectTimeout(8000);
+                conn.setReadTimeout(15000);
+                File parent = dest.getParentFile();
+                if (parent != null) parent.mkdirs();
+                try (InputStream in = conn.getInputStream();
+                     FileOutputStream out = new FileOutputStream(dest)) {
+                    byte[] buf = new byte[4096];
+                    int n;
+                    while ((n = in.read(buf)) != -1) out.write(buf, 0, n);
+                }
+                conn.disconnect();
+                if (onComplete != null) sMain.post(onComplete);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public static void copyFile(File src, File dst) throws IOException {
