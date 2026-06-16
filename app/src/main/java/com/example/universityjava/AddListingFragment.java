@@ -48,7 +48,6 @@ public class AddListingFragment extends Fragment {
     private static final String ADD_NEW_GAME = "+ Add new game";
 
     ImageView imageView;
-    EditText addListingGame;
     boolean _isDigital = true;
     int _platform;
     Condition _condition = Condition.New;
@@ -58,7 +57,6 @@ public class AddListingFragment extends Fragment {
 
     private AutoCompleteTextView gameDropdown;
     private ImageView selectedGameIcon;
-    private LinearLayout newGameSection;
     private ArrayAdapter<String> gameAdapter;
 
     private int photoSlot = 0;
@@ -75,6 +73,22 @@ public class AddListingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         photoPrefix = "phys_" + System.currentTimeMillis();
+
+        // Receive the newly created game back from AddGameFragment
+        getParentFragmentManager().setFragmentResultListener(
+                AddGameFragment.REQUEST_KEY, this, (requestKey, result) -> {
+                    long newGameId = result.getLong(AddGameFragment.RESULT_GAME_ID);
+                    Game newGame = AppActivity.getDatabase().gameDAO().getGameByID(newGameId);
+                    if (newGame == null) return;
+                    gameList.add(newGame);
+                    selectedGameId = newGameId;
+                    // Rebuild adapter so the filter's title list stays in sync
+                    gameAdapter = buildGameAdapter();
+                    gameDropdown.setAdapter(gameAdapter);
+                    gameDropdown.setText(newGame.getTitle(), false);
+                    gameDropdown.setVisibility(VISIBLE);
+                    showGameIcon(selectedGameIcon, newGame);
+                });
 
         permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
             if (granted) launchCamera();
@@ -98,9 +112,6 @@ public class AddListingFragment extends Fragment {
 
         gameDropdown = view.findViewById(R.id.gameDropdown);
         selectedGameIcon = view.findViewById(R.id.selectedGameIcon);
-        newGameSection = view.findViewById(R.id.newGameSection);
-        addListingGame = view.findViewById(R.id.addListingGame);
-        Button buttonFindGame = view.findViewById(R.id.buttonFindGame);
 
         gameAdapter = buildGameAdapter();
         gameDropdown.setAdapter(gameAdapter);
@@ -110,11 +121,8 @@ public class AddListingFragment extends Fragment {
         gameDropdown.setOnItemClickListener((parent, v, position, id) -> {
             String selected = (String) parent.getItemAtPosition(position);
             if (ADD_NEW_GAME.equals(selected)) {
-                selectedGameId = -1;
                 gameDropdown.setText("", false);
-                gameDropdown.setVisibility(GONE);
-                selectedGameIcon.setVisibility(GONE);
-                newGameSection.setVisibility(VISIBLE);
+                ((MainActivity) requireActivity()).replaceFragment(new AddGameFragment());
             } else {
                 for (Game g : gameList) {
                     if (g.getTitle().equals(selected)) {
@@ -124,19 +132,6 @@ public class AddListingFragment extends Fragment {
                     }
                 }
             }
-        });
-
-        buttonFindGame.setOnClickListener(v -> {
-            addListingGame.setText("");
-            selectedGameId = -1;
-            gameDropdown.setText("", false);
-            gameAdapter.clear();
-            for (Game g : gameList) gameAdapter.add(g.getTitle());
-            gameAdapter.add(ADD_NEW_GAME);
-            gameAdapter.notifyDataSetChanged();
-            gameDropdown.setVisibility(VISIBLE);
-            selectedGameIcon.setVisibility(GONE);
-            newGameSection.setVisibility(GONE);
         });
 
         imageView = view.findViewById(R.id.gameImage);
@@ -224,20 +219,11 @@ public class AddListingFragment extends Fragment {
         EditText addListingPrice = view.findViewById(R.id.addListingPrice);
         view.findViewById(R.id.buttonSubmit).setOnClickListener(v -> {
             // Validate game selection
-            Game game;
-            if (selectedGameId >= 0) {
-                game = AppActivity.getDatabase().gameDAO().getGameByID(selectedGameId);
-            } else {
-                String title = addListingGame.getText().toString().trim();
-                if (title.isEmpty()) {
-                    Toast.makeText(requireContext(), "Please enter a game name", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                game = new Game();
-                game.setTitle(title);
-                game.setImage(title);
-                game.setId(AppActivity.getDatabase().gameDAO().insert(game));
+            if (selectedGameId < 0) {
+                Toast.makeText(requireContext(), "Please select a game", Toast.LENGTH_SHORT).show();
+                return;
             }
+            Game game = AppActivity.getDatabase().gameDAO().getGameByID(selectedGameId);
 
             String priceStr = addListingPrice.getText().toString().trim().replace(',', '.');
             double price;
@@ -291,12 +277,10 @@ public class AddListingFragment extends Fragment {
     }
 
     private String getCurrentGameTitle() {
-        if (selectedGameId >= 0) {
-            for (Game g : gameList) {
-                if (g.getId() == selectedGameId) return g.getTitle();
-            }
+        for (Game g : gameList) {
+            if (g.getId() == selectedGameId) return g.getTitle();
         }
-        return addListingGame.getText().toString().trim();
+        return "";
     }
 
     private ArrayAdapter<String> buildGameAdapter() {

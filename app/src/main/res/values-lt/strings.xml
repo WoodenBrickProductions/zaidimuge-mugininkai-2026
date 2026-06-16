@@ -89,4 +89,9 @@
     <string name="verification_code_incorrect">Kodas neteisingas, bandykite dar kartą</string>
     <string name="acc_new_username">Įveskite naująjį naudotojo vardą</string>
     <string name="add_listing">Pridėti skelbimą</string>
+    <string name="game_added_success">Naujas žaidimas pridėtas sėkmingai</string>
+    <string name="add_game_title">Pridėti žaidimą</string>
+    <string name="hint_game_name">Žaidimo pavadinimas</string>
+    <string name="hint_game_description">Žaidimo aprašymas</string>
+    <string name="pick_image">Pasirinkti nuotrauką</string>
 </resources>

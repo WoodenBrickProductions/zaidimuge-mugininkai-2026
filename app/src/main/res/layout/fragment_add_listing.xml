@@ -55,32 +55,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/newGameSection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:visibility="gone">
-
-            <EditText
-                android:id="@+id/addListingGame"
-                style="@style/MyEditTextField"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="game name"
-                android:inputType="text"
-                android:minHeight="48dp" />
-
-            <Button
-                android:id="@+id/buttonFindGame"
-                style="@style/MyButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Find Game" />
-
-        </LinearLayout>
 
         <EditText
             android:id="@+id/addListingPrice"
